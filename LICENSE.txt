@@ -1,4 +1,4 @@
-#MIT License Adapted for Non-Commercial Use
+# MIT License Adapted for Non-Commercial Use
 
 Copyright (c) 2024 Jônatas da Silva Gonçalves
 
