@@ -69,6 +69,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GameSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +94,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="app_icon.ico" />
+    <Resource Include="Assets\app_icon.ico" />
+    <Resource Include="Assets\app_icon.png" />
+    <Resource Include="Assets\app_icon_image.png" />
+    <Content Include="Assets\close.svg" />
+    <Content Include="Assets\cloud-off.svg" />
+    <Content Include="Assets\cloud.svg" />
+    <Content Include="Assets\maximize.svg" />
+    <Content Include="Assets\minimize.svg" />
+    <Content Include="Assets\minus.svg" />
+    <Content Include="Assets\upload-cloud.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
