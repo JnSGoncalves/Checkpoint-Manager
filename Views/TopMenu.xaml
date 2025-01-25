@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="45" d:DesignWidth="800"
+      d:DesignHeight="50" d:DesignWidth="800"
       Title="TopMenu">
 
     <Page.Resources>
@@ -17,7 +17,7 @@
                 </Setter.Value>
             </Setter>
 
-            <Setter Property="Width" Value="80" />
+            <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="{Binding Height, ElementName=grid}" />
             <Setter Property="Background" Value="{Binding Background, ElementName=grid}" />
             <Setter Property="BorderThickness" Value="0" />
@@ -26,14 +26,12 @@
             <Style.Triggers>
                 <!-- Quando o mouse estiver sobre o botão -->
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="LightBlue" />
-                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="White" />
                 </Trigger>
 
                 <!-- Quando o botão estiver pressionado -->
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="DarkBlue" />
-                    <Setter Property="Foreground" Value="White" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -45,33 +43,43 @@
         </Style>
     </Page.Resources>
 
-    <DockPanel x:Name="grid" Background="#1a1919" Height="45">
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-            <!-- Botão Menu Config -->
-            <Button x:Name="menu" Style="{StaticResource ButtonStyle}">
-                <Image Source="/Assets/gear-six.png" 
-                       Style="{StaticResource ImageStyle}"></Image>
-            </Button>
-
-            <!-- Import -->
-            <Button x:Name="import" Style="{StaticResource ButtonStyle}">
-                <Image Source="/Assets/import.png" 
+    <Border BorderBrush="#383636" BorderThickness="0,0,0,2">
+        <DockPanel x:Name="grid" Background="#1a1919" Height="50">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <!-- List -->
+                <Button x:Name="list" Style="{StaticResource ButtonStyle}"
+                        BorderThickness="0,0,2,0"
+                        BorderBrush="#383636">
+                    <Image Source="/Assets/list.png" 
                         Style="{StaticResource ImageStyle}"></Image>
-            </Button>
+                </Button>
 
-            <!-- Export -->
-            <Button x:Name="export" Style="{StaticResource ButtonStyle}">
-                <Image Source="/Assets/export.png" 
-                       Style="{StaticResource ImageStyle}"></Image>
-            </Button>
-        </StackPanel>
-        
-        <Grid DockPanel.Dock="Right">
-            <Button HorizontalAlignment="Right" x:Name="cloud" 
-                    Style="{StaticResource ButtonStyle}">
-                <Image Source="/Assets/cloud-slash.png" 
-                       Style="{StaticResource ImageStyle}"></Image>
-            </Button>
-        </Grid>
-    </DockPanel>
+                <!-- Botão Menu Config -->
+                <Button x:Name="menu" Style="{StaticResource ButtonStyle}">
+                    <Image Source="/Assets/gear-six.png" 
+                           Style="{StaticResource ImageStyle}"></Image>
+                </Button>
+
+                <!-- Import -->
+                <Button x:Name="import" Style="{StaticResource ButtonStyle}">
+                    <Image Source="/Assets/import.png" 
+                            Style="{StaticResource ImageStyle}"></Image>
+                </Button>
+
+                <!-- Export -->
+                <Button x:Name="export" Style="{StaticResource ButtonStyle}">
+                    <Image Source="/Assets/export.png" 
+                           Style="{StaticResource ImageStyle}"></Image>
+                </Button>
+            </StackPanel>
+
+            <Grid DockPanel.Dock="Right">
+                <Button HorizontalAlignment="Right" x:Name="cloud" 
+                        Style="{StaticResource ButtonStyle}">
+                    <Image Source="/Assets/cloud-slash.png" 
+                           Style="{StaticResource ImageStyle}"></Image>
+                </Button>
+            </Grid>
+        </DockPanel>
+    </Border>
 </Page>

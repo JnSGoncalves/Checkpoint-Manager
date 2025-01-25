@@ -111,6 +111,7 @@
     <Resource Include="Assets\cloud.png" />
     <Resource Include="Assets\export.png" />
     <Resource Include="Assets\import.png" />
+    <Resource Include="Assets\list.png" />
     <Content Include="Views\close.svg" />
     <Resource Include="app_icon.ico" />
     <Resource Include="Assets\app_icon.ico" />
