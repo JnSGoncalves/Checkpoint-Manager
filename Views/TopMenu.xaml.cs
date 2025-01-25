@@ -20,6 +20,11 @@ namespace Checkpoint_Manager.Views {
     public partial class TopMenu : Page {
         public TopMenu() {
             InitializeComponent();
+            this.Loaded += TopMenu_Loaded;
+        }
+
+        private void TopMenu_Loaded(object sender, RoutedEventArgs e) {
+
         }
     }
 }

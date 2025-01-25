@@ -1,14 +1,77 @@
-﻿<Page x:Class="Checkpoint_Manager.Views.TopMenu"
+﻿<Page x:Name="page" x:Class="Checkpoint_Manager.Views.TopMenu"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="45" d:DesignWidth="800"
       Title="TopMenu">
 
-    <Grid>
+    <Page.Resources>
+        <!-- Botões -->
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush/>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="{Binding Height, ElementName=grid}" />
+            <Setter Property="Background" Value="{Binding Background, ElementName=grid}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+
+            <Style.Triggers>
+                <!-- Quando o mouse estiver sobre o botão -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+
+                <!-- Quando o botão estiver pressionado -->
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="DarkBlue" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Imagens Botões -->
+        <Style x:Key="ImageStyle" TargetType="Image">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+        </Style>
+    </Page.Resources>
+
+    <DockPanel x:Name="grid" Background="#1a1919" Height="45">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+            <!-- Botão Menu Config -->
+            <Button x:Name="menu" Style="{StaticResource ButtonStyle}">
+                <Image Source="/Assets/gear-six.png" 
+                       Style="{StaticResource ImageStyle}"></Image>
+            </Button>
+
+            <!-- Import -->
+            <Button x:Name="import" Style="{StaticResource ButtonStyle}">
+                <Image Source="/Assets/import.png" 
+                        Style="{StaticResource ImageStyle}"></Image>
+            </Button>
+
+            <!-- Export -->
+            <Button x:Name="export" Style="{StaticResource ButtonStyle}">
+                <Image Source="/Assets/export.png" 
+                       Style="{StaticResource ImageStyle}"></Image>
+            </Button>
+        </StackPanel>
         
-    </Grid>
+        <Grid DockPanel.Dock="Right">
+            <Button HorizontalAlignment="Right" x:Name="cloud" 
+                    Style="{StaticResource ButtonStyle}">
+                <Image Source="/Assets/cloud-slash.png" 
+                       Style="{StaticResource ImageStyle}"></Image>
+            </Button>
+        </Grid>
+    </DockPanel>
 </Page>

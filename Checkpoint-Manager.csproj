@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\TopMenu.xaml.cs">
+      <DependentUpon>TopMenu.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,6 +71,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\TopMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\GameSave.cs" />
@@ -96,17 +104,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\gear-six.png" />
+    <Resource Include="Assets\cloud-arrow-up.png" />
+    <Resource Include="Assets\cloud-check.png" />
+    <Resource Include="Assets\cloud-slash.png" />
+    <Resource Include="Assets\cloud.png" />
+    <Resource Include="Assets\export.png" />
+    <Resource Include="Assets\import.png" />
+    <Content Include="Views\close.svg" />
     <Resource Include="app_icon.ico" />
     <Resource Include="Assets\app_icon.ico" />
     <Resource Include="Assets\app_icon.png" />
     <Resource Include="Assets\app_icon_image.png" />
-    <Content Include="Assets\close.svg" />
-    <Content Include="Assets\cloud-off.svg" />
-    <Content Include="Assets\cloud.svg" />
-    <Content Include="Assets\maximize.svg" />
-    <Content Include="Assets\minimize.svg" />
-    <Content Include="Assets\minus.svg" />
-    <Content Include="Assets\upload-cloud.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

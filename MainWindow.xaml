@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Checkpoint Maneger" Height="450" Width="800"
         Icon="app_icon.ico"
-        MinHeight="250" MinWidth="400">
+        MinHeight="250" MinWidth="400"
+        WindowStartupLocation="CenterScreen">
     <StackPanel Background="#242222">
         <Frame x:Name="main" NavigationUIVisibility="Hidden">
             
