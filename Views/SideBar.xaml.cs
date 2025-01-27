@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,6 +25,14 @@ namespace Checkpoint_Manager.Views {
 
         private void mainGrid_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
 
+        }
+
+        private void GameClick(object sender, RoutedEventArgs e) {
+            foreach(var child in list.Children) {
+                if(child is ToggleButton toggleButton && child != sender) {
+                    toggleButton.IsChecked = false;
+                }
+            }
         }
     }
 }
