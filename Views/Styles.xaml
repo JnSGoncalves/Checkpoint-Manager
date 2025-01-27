@@ -3,6 +3,8 @@
     
     <SolidColorBrush x:Key="TopMenuBackgroud"
                      Color="#1a1919"/>
+    <SolidColorBrush x:Key="DownBarBackground"
+                     Color="#1b1a1a"/>
     <SolidColorBrush x:Key="BorderColor"
                      Color="#383636"/>
     <SolidColorBrush x:Key="ForegroundColor"
@@ -15,6 +17,14 @@
                      Color="DarkGreen"/>
     <SolidColorBrush x:Key="Button" 
                  Color="DarkGreen"/>
+
+    <Style x:Key="LabelStyle" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
 
     <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>

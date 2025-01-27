@@ -5,8 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views" xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="200"
-      Title="SideBar">
+      d:DesignHeight="450" d:DesignWidth="200">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -16,6 +15,7 @@
 
             <SolidColorBrush x:Key="BackgroudColor"
                  Color="#282828"/>
+
 
             <!-- Botões Laterais / Seleção dos jogos -->
             <Style x:Key="ButtonStyle" TargetType="ToggleButton">
@@ -58,7 +58,7 @@
             <Style x:Key="DownButton" TargetType="Button">
                 <Setter Property="Background" Value="#0e0c1c"/>
                 <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
-                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderThickness" Value="1,1,1,0"/>
                 <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
                 
                 <Setter Property="Template">

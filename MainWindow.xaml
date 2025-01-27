@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Checkpoint_Manager"
         mc:Ignorable="d"
-        Title="Checkpoint Maneger" Height="450" Width="800"
+        Title="Checkpoint Maneger" Height="600" Width="1100"
         Icon="app_icon.ico"
         MinHeight="250" MinWidth="400"
         WindowStartupLocation="CenterScreen">
@@ -31,8 +31,12 @@
                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"></Frame>
         
         <!-- Side Bar -->
-        <Frame Source="Views/SideBar.xaml" NavigationUIVisibility="Hidden"
-               Grid.Column="0" Grid.Row="1"></Frame>
+        <Frame x:Name="sideBarFrame" Source="Views/SideBar.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.Row="1">
+            <Frame.RenderTransform>
+                <TranslateTransform x:Name="sideBarTranslateTransform" X="0" />
+            </Frame.RenderTransform>
+        </Frame>
 
         <!-- Conteúdo Principal -->
         <Frame x:Name="mainContent" NavigationUIVisibility="Hidden" 
