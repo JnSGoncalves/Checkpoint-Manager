@@ -9,54 +9,115 @@
       Title="TopMenu">
 
     <Page.Resources>
-        <!-- Botões -->
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <ImageBrush/>
-                </Setter.Value>
-            </Setter>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-            <Setter Property="Width" Value="50" />
-            <Setter Property="Height" Value="{Binding Height, ElementName=grid}" />
-            <Setter Property="Background" Value="{Binding Background, ElementName=grid}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Cursor" Value="Hand" />
 
-            <Style.Triggers>
-                <!-- Quando o mouse estiver sobre o botão -->
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="White" />
-                </Trigger>
+            <!-- Botões -->
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="{Binding Height, ElementName=grid}" />
+                <Setter Property="Background" Value="{Binding Background, ElementName=grid}"/>
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
 
-                <!-- Quando o botão estiver pressionado -->
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="DarkBlue" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
 
-        <!-- Imagens Botões -->
-        <Style x:Key="ImageStyle" TargetType="Image">
-            <Setter Property="Width" Value="30" />
-            <Setter Property="Height" Value="30" />
-        </Style>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource HoverButtonColor}" />
+                    </Trigger>
+
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ButtonPressedColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ListStyle" TargetType="ToggleButton">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="{Binding Height, ElementName=grid}" />
+                <Setter Property="Background" Value="{Binding Background, ElementName=grid}"/>
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="IsChecked" Value="True"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource HoverButtonColor}" />
+                    </Trigger>
+
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ButtonPressedColor}"/>
+                    </Trigger>
+
+                    <!-- Alterando o conteúdo (imagem) quando o botão está desmarcado -->
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Image Source="/Assets/x.png" Width="30" Height="30"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <!-- Alterando o conteúdo (imagem) quando o botão está marcado -->
+                    <Trigger Property="IsChecked" Value="False">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Image Source="/Assets/list.png" Width="30" Height="30"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Imagens Botões -->
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="Width" Value="30" />
+                <Setter Property="Height" Value="30" />
+            </Style>
+        </ResourceDictionary>
     </Page.Resources>
 
-    <Border BorderBrush="#383636" BorderThickness="0,0,0,2">
-        <DockPanel x:Name="grid" Background="#1a1919" Height="50">
+    <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,2">
+        <DockPanel x:Name="grid" Background="{StaticResource TopMenuBackgroud}" Height="50">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                 <!-- List -->
-                <Button x:Name="list" Style="{StaticResource ButtonStyle}"
+                <ToggleButton x:Name="list" Style="{StaticResource ListStyle}"
                         BorderThickness="0,0,2,0"
-                        BorderBrush="#383636">
-                    <Image Source="/Assets/list.png" 
-                        Style="{StaticResource ImageStyle}"></Image>
-                </Button>
+                        BorderBrush="{StaticResource BorderColor}">
+                    
+                </ToggleButton>
 
                 <!-- Botão Menu Config -->
                 <Button x:Name="menu" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/gear-six.png" 
+                    <Image Source="/Assets/gear-six.png" x:Name="gear"
                            Style="{StaticResource ImageStyle}"></Image>
                 </Button>
 

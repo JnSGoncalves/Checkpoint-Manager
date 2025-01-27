@@ -12,18 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Checkpoint_Manager.Views;
 
-namespace Checkpoint_Manager
-{
+namespace Checkpoint_Manager.Views {
     /// <summary>
-    /// Interação lógica para MainWindow.xam
+    /// Interação lógica para SideBar.xam
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
+    public partial class SideBar : Page {
+        public SideBar() {
             InitializeComponent();
+        }
+
+        private void mainGrid_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
+
         }
     }
 }

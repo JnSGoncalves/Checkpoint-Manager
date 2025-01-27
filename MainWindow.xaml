@@ -9,9 +9,38 @@
         Icon="app_icon.ico"
         MinHeight="250" MinWidth="400"
         WindowStartupLocation="CenterScreen">
-    <StackPanel Background="#242222">
-        <Frame x:Name="main" NavigationUIVisibility="Hidden">
-            
-        </Frame>
-    </StackPanel>
+    <Grid Background="#242222">
+        <Grid.RowDefinitions>
+            <!-- Top Menu -->
+            <RowDefinition Height="50"/>
+            <!-- Conteúdo principal -->
+            <RowDefinition Height="*"/>
+            <!-- Barra Inferior -->
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <!-- Side Bar -->
+            <ColumnDefinition Width="200"/>
+            <!-- Conteúdo principal -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Top Menu -->
+        <Frame Source="Views/TopMenu.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"></Frame>
+        
+        <!-- Side Bar -->
+        <Frame Source="Views/SideBar.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.Row="1"></Frame>
+
+        <!-- Conteúdo Principal -->
+        <Frame x:Name="mainContent" NavigationUIVisibility="Hidden" 
+               Grid.Column="0" Grid.Row="1"></Frame>
+
+        <!-- Barra Inferior -->
+        <Frame Source="Views/DownBar.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"></Frame>
+
+    </Grid>
 </Window>

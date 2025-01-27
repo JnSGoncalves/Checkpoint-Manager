@@ -7,10 +7,12 @@ using Checkpoint_Manager.Models;
 
 namespace Checkpoint_Manager.ViewModels {
     internal class MainViewModel {
-        public List<Game> GameSaves { get; set; }
-        
-        public void StartApp() {
+        public List<Game> Games { get; set; }
 
+        public void StartApp() {
+            Games = FileManeger.FindGames();
+
+                
         }
     }
 }
