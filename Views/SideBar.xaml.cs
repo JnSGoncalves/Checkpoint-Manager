@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Checkpoint_Manager.ViewModels;
 
 namespace Checkpoint_Manager.Views {
     /// <summary>
@@ -21,18 +22,60 @@ namespace Checkpoint_Manager.Views {
     public partial class SideBar : Page {
         public SideBar() {
             InitializeComponent();
-        }
 
-        private void mainGrid_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
-
+            UpdateToggleButtons();
         }
 
         private void GameClick(object sender, RoutedEventArgs e) {
-            foreach(var child in list.Children) {
-                if(child is ToggleButton toggleButton && child != sender) {
-                    toggleButton.IsChecked = false;
+            if (list != null) {
+                foreach (var child in list.Children) {
+                    // Verifica se o item é um ToggleButton e não é o sender
+                    if (child is ToggleButton toggleButton && !ReferenceEquals(child, sender)) {
+                        toggleButton.IsChecked = false; // Desmarca o ToggleButton
+                    }
                 }
             }
+
+            if (sender is ToggleButton gameButton) {
+                String idString = gameButton.Name;
+                if (idString != null) {
+                    int index = idString.IndexOf("_");
+                    string result = idString.Substring(index + 1);
+                    int id = int.Parse(result);
+
+                    Console.WriteLine(id);
+                }
+            }
+
+            var mainWindow = (Application.Current.MainWindow as MainWindow);
+            if(mainWindow != null) {
+                mainWindow.teste();
+            }
+        }
+
+        private void UpdateToggleButtons() {
+            list.Children.Clear();
+
+            // Adiciona novos ToggleButtons para cada item na lista de jogos
+            foreach (var game in App.mainViewModel.Games) {
+                var toggleButton = new ToggleButton {
+                    Name = "GameId_" + game.Id.ToString(),
+                    Content = game.Name,
+                    Style = (Style)FindResource("ButtonStyle")
+                };
+
+                // Adiciona o ToggleButton no StackPanel
+                list.Children.Add(toggleButton);
+            }
+        }
+
+        private void ReturnToDefaultContent(object sender, RoutedEventArgs e) {
+            // Preferencialmente seria bom para a aplicação a adição de um timer
+            // para impedir de clicar muito rápido no botão
+            var mainWindow = (Application.Current.MainWindow as MainWindow);
+            if (mainWindow != null) {
+                mainWindow.viewDefaultPage();
+            } 
         }
     }
 }

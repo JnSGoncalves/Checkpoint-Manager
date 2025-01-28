@@ -18,8 +18,17 @@ namespace Checkpoint_Manager.Views {
     /// Interação lógica para DefaultPage.xam
     /// </summary>
     public partial class DefaultPage : Page {
-        public DefaultPage() {
+        private static DefaultPage defaultPage;
+
+        private DefaultPage() {
             InitializeComponent();
+        }
+
+        public static DefaultPage getDefaultPage() {
+            if (defaultPage == null) {
+                defaultPage = new DefaultPage();
+            }
+            return defaultPage;
         }
     }
 }

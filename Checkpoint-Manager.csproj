@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ConfigInfo.cs" />
     <Compile Include="Models\FileManeger.cs" />
     <Compile Include="Models\Save.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -66,8 +67,8 @@
     <Compile Include="Views\DownBar.xaml.cs">
       <DependentUpon>DownBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GamePage.xaml.cs">
-      <DependentUpon>GamePage.xaml</DependentUpon>
+    <Compile Include="Views\SavesPage.xaml.cs">
+      <DependentUpon>SavesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SideBar.xaml.cs">
       <DependentUpon>SideBar.xaml</DependentUpon>
@@ -95,7 +96,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GamePage.xaml">
+    <Page Include="Views\SavesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

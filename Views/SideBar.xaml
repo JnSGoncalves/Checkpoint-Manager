@@ -3,9 +3,16 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Checkpoint_Manager.Views" xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:local="clr-namespace:Checkpoint_Manager.Views"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:vm="clr-namespace:Checkpoint_Manager.ViewModels"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="200">
+
+    <Page.DataContext>
+        <Binding Source="{x:Static app:App.mainViewModel}" />
+    </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
@@ -29,6 +36,7 @@
                 <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
 
                 <EventSetter Event="Checked" Handler="GameClick"/>
+                <EventSetter Event="Unchecked" Handler="ReturnToDefaultContent"/>
 
                 <Setter Property="Template">
                     <Setter.Value>
@@ -90,61 +98,38 @@
     </Page.Resources>
 
     
-        <Border BorderThickness="0,0,2,0" BorderBrush="#383636">
-            <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
+    <Border BorderThickness="0,0,2,0" BorderBrush="#383636">
+        <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
                 
-                <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                              HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel x:Name="list" Grid.Row="0" Background="{StaticResource BackgroudColor}">
-                        <!-- Somente para espaçamento -->
-                        <TextBlock Height="3"/>
-                        
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 1
-                        </ToggleButton>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                            HorizontalScrollBarVisibility="Disabled">
 
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 2
-                        </ToggleButton>
-
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 3
-                        </ToggleButton>
-
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 4
-                        </ToggleButton>
-                        
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 5
-                        </ToggleButton>
-
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 6
-                        </ToggleButton>
+                <StackPanel x:Name="list" Grid.Row="0" Background="{StaticResource BackgroudColor}">
+                    <!-- Somente para espaçamento -->
+                    <TextBlock Height="3"/>
                 </StackPanel>
-                </ScrollViewer>
+            </ScrollViewer>
                 
-                <Grid Background="{StaticResource BackgroudColor}"
-                      Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                    </Grid.ColumnDefinitions>
+            <Grid Background="{StaticResource BackgroudColor}"
+                    Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Style="{StaticResource DownButton}">
-                        Add Game
-                    </Button>
+                <Button Grid.Column="0" Style="{StaticResource DownButton}">
+                    Add Game
+                </Button>
 
-                    <Button Grid.Column="1" Style="{StaticResource DownButton}">
-                        Remove Game
-                    </Button>
-                </Grid>
+                <Button Grid.Column="1" Style="{StaticResource DownButton}">
+                    Remove Game
+                </Button>
             </Grid>
-        </Border>
+        </Grid>
+    </Border>
 
 </Page>

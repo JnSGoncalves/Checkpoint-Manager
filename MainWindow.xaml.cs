@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Checkpoint_Manager.Models;
+using Checkpoint_Manager.ViewModels;
 using Checkpoint_Manager.Views;
 
 namespace Checkpoint_Manager
@@ -21,10 +10,17 @@ namespace Checkpoint_Manager
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
-            mainContent.Content = new DefaultPage();
+            viewDefaultPage();
+        }
+
+        public void viewDefaultPage() {
+            mainContent.Content = DefaultPage.getDefaultPage();
+        }
+
+        public void teste() {
+            mainContent.Content = new SavesPage();
         }
     }
 }
