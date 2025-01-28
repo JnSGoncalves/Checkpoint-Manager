@@ -20,13 +20,12 @@
             <!-- Botões Laterais / Seleção dos jogos -->
             <Style x:Key="ButtonStyle" TargetType="ToggleButton">
                 <Setter Property="Width" Value="200"/>
-                <Setter Property="Height" Value="40"/>
+                <Setter Property="Height" Value="45"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="FontFamily" Value="{StaticResource NunitoSans}"/>
-                <Setter Property="FontSize" Value="13"/>
-                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="FontSize" Value="15"/>
                 <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
 
                 <EventSetter Event="Checked" Handler="GameClick"/>
@@ -38,7 +37,7 @@
                                     BorderBrush="{TemplateBinding BorderBrush}" 
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Margin="12, 2, 12, 2"
-                                    CornerRadius="5">
+                                    CornerRadius="8">
                                 <ContentPresenter HorizontalAlignment="Center" 
                         VerticalAlignment="Center"/>
                             </Border>
@@ -95,48 +94,39 @@
             <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 
                 <ScrollViewer VerticalScrollBarVisibility="Auto" 
                               HorizontalScrollBarVisibility="Disabled">
                     <StackPanel x:Name="list" Grid.Row="0" Background="{StaticResource BackgroudColor}">
+                        <!-- Somente para espaçamento -->
+                        <TextBlock Height="3"/>
+                        
                         <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Hollow Knight
+                            Game test 1
                         </ToggleButton>
 
                         <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Dark Souls III
-                        </ToggleButton>
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Hollow Knight
+                            Game test 2
                         </ToggleButton>
 
                         <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Dark Souls III
-                        </ToggleButton>
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Hollow Knight
+                            Game test 3
                         </ToggleButton>
 
                         <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Dark Souls III
+                            Game test 4
                         </ToggleButton>
+                        
                         <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Hollow Knight
+                            Game test 5
                         </ToggleButton>
 
                         <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Dark Souls III
+                            Game test 6
                         </ToggleButton>
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Hollow Knight
-                        </ToggleButton>
-
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Dark Souls III
-                        </ToggleButton>
-                    </StackPanel>
+                </StackPanel>
                 </ScrollViewer>
                 
                 <Grid Background="{StaticResource BackgroudColor}"

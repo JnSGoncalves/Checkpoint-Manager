@@ -15,24 +15,28 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition MaxHeight="150"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        
-        <Image Source="/Assets/app_icon.png"
-               MaxHeight="250"
-               Grid.Row="0" VerticalAlignment="Bottom"
-               Margin="0,20,0,20"/>
 
-        <Label Style="{StaticResource LabelStyle}" 
-               Grid.Row="1" FontSize="40"
-               VerticalAlignment="Top"
-               Margin="0,50,0,0"
-               FontWeight="DemiBold">
+        <Image Source="/Assets/app_icon.png"
+           MaxHeight="300"
+           MinHeight="80"
+           Grid.Row="0" VerticalAlignment="Bottom"
+           Margin="0,20,0,10"/>
+
+        <Viewbox Grid.Row="1">
+            <TextBlock FontFamily="{StaticResource Roboto}" 
+                   FontSize="20"
+                   Foreground="White"
+                   VerticalAlignment="Top"
+                   Margin="30,20,30,50"
+                   FontWeight="DemiBold">
             Checkpoint Maneger
-        </Label>
+            </TextBlock>
+        </Viewbox>
     </Grid>
 </Page>
