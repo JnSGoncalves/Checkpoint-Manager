@@ -40,7 +40,7 @@
 
         <!-- Conteúdo Principal -->
         <Frame x:Name="mainContent" NavigationUIVisibility="Hidden" 
-               Grid.Column="0" Grid.Row="1"></Frame>
+               Grid.Column="1" Grid.Row="1"></Frame>
 
         <!-- Barra Inferior -->
         <Frame Source="Views/DownBar.xaml" NavigationUIVisibility="Hidden"

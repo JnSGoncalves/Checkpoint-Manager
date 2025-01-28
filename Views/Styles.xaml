@@ -18,10 +18,17 @@
     <SolidColorBrush x:Key="Button" 
                  Color="DarkGreen"/>
 
+    <FontFamily x:Key="NunitoSans">
+        /Checkpoint-Maneger;component/resources/fonts/nunito_sans/nunitosans-italic-variablefont_ytlc,opsz,wdth,wght.ttf
+    </FontFamily> 
+    <FontFamily x:Key="Roboto">
+        /Checkpoint-Maneger;component/resources/fonts/nunito_sans/Roboto-VariableFont_wdth,wght.ttf
+    </FontFamily>
+    
     <Style x:Key="LabelStyle" TargetType="Label">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>

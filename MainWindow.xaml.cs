@@ -24,6 +24,7 @@ namespace Checkpoint_Manager
         public MainWindow()
         {
             InitializeComponent();
+            mainContent.Content = new DefaultPage();
         }
     }
 }

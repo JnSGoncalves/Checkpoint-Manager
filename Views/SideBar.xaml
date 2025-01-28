@@ -20,10 +20,13 @@
             <!-- Botões Laterais / Seleção dos jogos -->
             <Style x:Key="ButtonStyle" TargetType="ToggleButton">
                 <Setter Property="Width" Value="200"/>
-                <Setter Property="Height" Value="35"/>
+                <Setter Property="Height" Value="40"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontFamily" Value="{StaticResource NunitoSans}"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
                 <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
 
                 <EventSetter Event="Checked" Handler="GameClick"/>

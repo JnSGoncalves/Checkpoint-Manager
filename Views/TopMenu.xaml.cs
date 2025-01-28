@@ -25,6 +25,7 @@ namespace Checkpoint_Manager.Views {
 
         private void CloseSideBar(object sender, RoutedEventArgs e) {
             var sideBarFrame = (Application.Current.MainWindow as MainWindow).FindName("sideBarFrame") as Frame;
+            var mainContent = (Application.Current.MainWindow as MainWindow).FindName("mainContent") as Frame;
             if (sideBarFrame != null) {
                 var translateTransform = sideBarFrame.RenderTransform as TranslateTransform;
                 if (translateTransform != null) {
@@ -34,12 +35,18 @@ namespace Checkpoint_Manager.Views {
                         Duration = new Duration(TimeSpan.FromSeconds(0.3))
                     };
                     translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+
+                    if (mainContent != null) {
+                        Grid.SetColumn(mainContent, 0);
+                        Grid.SetColumnSpan(mainContent, 2);
+                    }
                 }
             }
         }
 
         private void OpenSideBar(object sender, RoutedEventArgs e) {
             var sideBarFrame = (Application.Current.MainWindow as MainWindow).FindName("sideBarFrame") as Frame;
+            var mainContent = (Application.Current.MainWindow as MainWindow).FindName("mainContent") as Frame;
             if (sideBarFrame != null) {
                 var translateTransform = sideBarFrame.RenderTransform as TranslateTransform;
                 if (translateTransform != null) {
@@ -49,6 +56,11 @@ namespace Checkpoint_Manager.Views {
                         Duration = new Duration(TimeSpan.FromSeconds(0.3))
                     };
                     translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+
+                    if (mainContent != null) {
+                        Grid.SetColumn(mainContent, 1);
+                        Grid.SetColumnSpan(mainContent, 1);
+                    }
                 }
             }
         }
