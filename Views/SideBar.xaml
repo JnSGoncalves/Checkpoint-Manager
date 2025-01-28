@@ -1,0 +1,150 @@
+﻿<Page x:Class="Checkpoint_Manager.Views.SideBar"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Checkpoint_Manager.Views" xmlns:system="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="200">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="BackgroudColor"
+                 Color="#282828"/>
+
+
+            <!-- Botões Laterais / Seleção dos jogos -->
+            <Style x:Key="ButtonStyle" TargetType="ToggleButton">
+                <Setter Property="Width" Value="200"/>
+                <Setter Property="Height" Value="45"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontFamily" Value="{StaticResource NunitoSans}"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
+
+                <EventSetter Event="Checked" Handler="GameClick"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Margin="12, 2, 12, 2"
+                                    CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ListHoverButtonColor}"/>
+                    </Trigger>
+
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Background" Value="#424141"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
+            <!-- Botões de gerenciamento -->
+            <Style x:Key="DownButton" TargetType="Button">
+                <Setter Property="Background" Value="#0e0c1c"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
+                <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MenuHoverButtonColor}"/>
+                    </Trigger>
+
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ButtonPressedColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    
+        <Border BorderThickness="0,0,2,0" BorderBrush="#383636">
+            <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                
+                <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="list" Grid.Row="0" Background="{StaticResource BackgroudColor}">
+                        <!-- Somente para espaçamento -->
+                        <TextBlock Height="3"/>
+                        
+                        <ToggleButton Style="{StaticResource ButtonStyle}">
+                            Game test 1
+                        </ToggleButton>
+
+                        <ToggleButton Style="{StaticResource ButtonStyle}">
+                            Game test 2
+                        </ToggleButton>
+
+                        <ToggleButton Style="{StaticResource ButtonStyle}">
+                            Game test 3
+                        </ToggleButton>
+
+                        <ToggleButton Style="{StaticResource ButtonStyle}">
+                            Game test 4
+                        </ToggleButton>
+                        
+                        <ToggleButton Style="{StaticResource ButtonStyle}">
+                            Game test 5
+                        </ToggleButton>
+
+                        <ToggleButton Style="{StaticResource ButtonStyle}">
+                            Game test 6
+                        </ToggleButton>
+                </StackPanel>
+                </ScrollViewer>
+                
+                <Grid Background="{StaticResource BackgroudColor}"
+                      Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{StaticResource DownButton}">
+                        Add Game
+                    </Button>
+
+                    <Button Grid.Column="1" Style="{StaticResource DownButton}">
+                        Remove Game
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+
+</Page>

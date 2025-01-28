@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Checkpoint_Manager.Views;
 
 namespace Checkpoint_Manager
 {
@@ -23,6 +24,7 @@ namespace Checkpoint_Manager
         public MainWindow()
         {
             InitializeComponent();
+            mainContent.Content = new DefaultPage();
         }
     }
 }
