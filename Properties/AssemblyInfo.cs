@@ -7,11 +7,7 @@ using System.Windows;
 // As informações gerais sobre um assembly são controladas por
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associada a um assembly.
-[assembly: AssemblyTitle("Checkpoint-Manager")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Checkpoint-Manager")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,14 +27,14 @@ using System.Windows;
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
-[assembly: ThemeInfo(
-    ResourceDictionaryLocation.None, //onde os dicionários de recursos de temas específicos estão localizados
-                                     //(usado se algum recurso não for encontrado na página,
-                                     // ou dicionários de recursos do aplicativo)
-    ResourceDictionaryLocation.SourceAssembly //onde o dicionário de recursos genéricos está localizado
-                                              //(usado se algum recurso não for encontrado na página,
-                                              // app, ou qualquer outro dicionário de recursos de tema específico)
-)]
+//[assembly: ThemeInfo(
+//    ResourceDictionaryLocation.None, //onde os dicionários de recursos de temas específicos estão localizados
+//                                     //(usado se algum recurso não for encontrado na página,
+//                                     // ou dicionários de recursos do aplicativo)
+//    ResourceDictionaryLocation.SourceAssembly //onde o dicionário de recursos genéricos está localizado
+//                                              //(usado se algum recurso não for encontrado na página,
+//                                              // app, ou qualquer outro dicionário de recursos de tema específico)
+//)]
 
 
 // As informações da versão de um assembly consistem nos quatro valores a seguir:
@@ -48,5 +44,3 @@ using System.Windows;
 //      Número da Versão
 //      Revisão
 //
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

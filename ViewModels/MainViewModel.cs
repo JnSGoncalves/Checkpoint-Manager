@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Checkpoint_Manager.Models;
 
 namespace Checkpoint_Manager.ViewModels {
@@ -21,8 +15,7 @@ namespace Checkpoint_Manager.ViewModels {
             }
         }
 
-        public MainViewModel() {
-        }
+        public MainViewModel() { }
 
         public void StartApp() {
             Games = FileManeger.FindGames();

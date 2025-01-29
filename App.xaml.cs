@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using Checkpoint_Manager.ViewModels;
 
-namespace Checkpoint_Manager
-{
-    /// <summary>
-    /// Interação lógica para App.xaml
-    /// </summary>
-    public partial class App : Application {
-        public static MainViewModel mainViewModel { get; } = new MainViewModel();
+namespace Checkpoint_Manager;
 
-        protected override void OnStartup(StartupEventArgs e) {
-            base.OnStartup(e);
+/// <summary>
+/// Interação lógica para App.xaml
+/// </summary>
+public partial class App : Application {
+    public static MainViewModel mainViewModel { get; } = new MainViewModel();
 
-            // Inicializa os dados da ViewModel
-            mainViewModel.StartApp();
-        }
+    protected override void OnStartup(StartupEventArgs e) {
+        base.OnStartup(e);
+        // Inicializa os dados da ViewModel
+        mainViewModel.StartApp();
     }
 }

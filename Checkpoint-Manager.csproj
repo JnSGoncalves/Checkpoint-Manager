@@ -1,385 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{511304D3-63F9-45BE-8145-5E814525B1CE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Checkpoint_Manager</RootNamespace>
-    <AssemblyName>Checkpoint-Manager</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>app_icon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Compile Remove="AssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Models\ConfigInfo.cs" />
-    <Compile Include="Models\FileManeger.cs" />
-    <Compile Include="Models\Save.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\DefaultPage.xaml.cs">
-      <DependentUpon>DefaultPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DownBar.xaml.cs">
-      <DependentUpon>DownBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SavesPage.xaml.cs">
-      <DependentUpon>SavesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SideBar.xaml.cs">
-      <DependentUpon>SideBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TopMenu.xaml.cs">
-      <DependentUpon>TopMenu.xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\DefaultPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DownBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SavesPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SideBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TopMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <None Remove="Assets\app_icon.ico" />
+    <None Remove="Assets\app_icon.png" />
+    <None Remove="Assets\app_icon_image.png" />
+    <None Remove="Assets\cloud-arrow-up.png" />
+    <None Remove="Assets\cloud-check.png" />
+    <None Remove="Assets\cloud-slash.png" />
+    <None Remove="Assets\cloud.png" />
+    <None Remove="Assets\export.png" />
+    <None Remove="Assets\gear-six.png" />
+    <None Remove="Assets\import.png" />
+    <None Remove="Assets\list.png" />
+    <None Remove="Assets\x.png" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Models\Game.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Resource Include="Resources\Fonts\Nunito_Sans\NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Condensed-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_Expanded-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiCondensed-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_10pt_SemiExpanded-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_Expanded-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiCondensed-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-Black.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-Light.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\static\NunitoSans_7pt_SemiExpanded-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\Roboto-Italic-VariableFont_wdth,wght.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\Roboto-VariableFont_wdth,wght.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Black.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Light.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-Thin.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto-ThinItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Black.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Light.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-Thin.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_Condensed-ThinItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Black.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-ExtraBold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-ExtraBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Light.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-Thin.ttf" />
-    <Resource Include="Resources\Fonts\Roboto\static\Roboto_SemiCondensed-ThinItalic.ttf" />
+    <Resource Include="app_icon.ico" />
+    <Resource Include="AssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\gear-six.png" />
+    <Resource Include="Assets\app_icon.ico" />
+    <Resource Include="Assets\app_icon.png" />
+    <Resource Include="Assets\app_icon_image.png" />
     <Resource Include="Assets\cloud-arrow-up.png" />
     <Resource Include="Assets\cloud-check.png" />
     <Resource Include="Assets\cloud-slash.png" />
     <Resource Include="Assets\cloud.png" />
     <Resource Include="Assets\export.png" />
+    <Resource Include="Assets\gear-six.png" />
     <Resource Include="Assets\import.png" />
     <Resource Include="Assets\list.png" />
-    <Resource Include="app_icon.ico" />
-    <Resource Include="Assets\app_icon.ico" />
-    <Resource Include="Assets\app_icon.png" />
-    <Resource Include="Assets\app_icon_image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\x.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Fonts\Nunito_Sans\OFL.txt" />
-    <Resource Include="Resources\Fonts\Nunito_Sans\README.txt" />
-    <Resource Include="Resources\Fonts\Roboto\OFL.txt" />
-    <Resource Include="Resources\Fonts\Roboto\README.txt" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

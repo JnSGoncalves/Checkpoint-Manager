@@ -6,16 +6,14 @@
         xmlns:local="clr-namespace:Checkpoint_Manager"
         xmlns:vm="clr-namespace:Checkpoint_Manager.ViewModels"
         mc:Ignorable="d"
-        Title="Checkpoint Maneger" Height="600" Width="1100"
-        Icon="app_icon.ico"
+        Title="Checkpoint Manager" Height="600" Width="1100"
         MinHeight="350" MinWidth="550"
         WindowStartupLocation="CenterScreen">
-
     <Window.DataContext>
         <!-- Acessa a instância da MainViewModel diretamente do código -->
         <Binding Source="{x:Static local:App.mainViewModel}" />
     </Window.DataContext>
-    
+
     <Grid Background="#242222">
         <Grid.RowDefinitions>
             <!-- Top Menu -->
@@ -25,7 +23,6 @@
             <!-- Barra Inferior -->
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <!-- Side Bar -->
             <ColumnDefinition Width="200"/>
@@ -34,12 +31,12 @@
         </Grid.ColumnDefinitions>
 
         <!-- Top Menu -->
-        <Frame Source="Views/TopMenu.xaml" NavigationUIVisibility="Hidden"
-               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"></Frame>
-        
+        <Frame Source="/Views/TopMenu.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
+
         <!-- Side Bar -->
-        <Frame x:Name="sideBarFrame" Source="Views/SideBar.xaml" NavigationUIVisibility="Hidden"
-               Grid.Column="0" Grid.Row="1" >
+        <Frame x:Name="sideBarFrame" Source="/Views/SideBar.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.Row="1">
             <Frame.RenderTransform>
                 <TranslateTransform x:Name="sideBarTranslateTransform" X="0" />
             </Frame.RenderTransform>
@@ -47,11 +44,10 @@
 
         <!-- Conteúdo Principal -->
         <Frame x:Name="mainContent" NavigationUIVisibility="Hidden" 
-               Grid.Column="1" Grid.Row="1"></Frame>
+               Grid.Column="1" Grid.Row="1"/>
 
         <!-- Barra Inferior -->
-        <Frame Source="Views/DownBar.xaml" NavigationUIVisibility="Hidden"
-               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"></Frame>
-
+        <Frame Source="/Views/DownBar.xaml" NavigationUIVisibility="Hidden"
+               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"/>
     </Grid>
 </Window>

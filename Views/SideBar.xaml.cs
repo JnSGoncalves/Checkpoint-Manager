@@ -5,132 +5,106 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Checkpoint_Manager.ViewModels;
 
-namespace Checkpoint_Manager.Views {
-    /// <summary>
-    /// Interação lógica para SideBar.xam
-    /// </summary>
-    public partial class SideBar : Page {
-        public SideBar() {
-            InitializeComponent();
-            UpdateToggleButtons();
+namespace Checkpoint_Manager.Views;
 
-            var viewModel = (MainViewModel)this.DataContext;
+/// <summary>
+/// Interação lógica para SideBar.xam
+/// </summary>
+public partial class SideBar : Page {
+    public SideBar() {
+        InitializeComponent();
+        UpdateToggleButtons();
+
+        if (DataContext is MainViewModel viewModel) {
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
+    }
 
-        private void GameClick(object sender, RoutedEventArgs e) {
-            if (list != null) {
-                foreach (var child in list.Children) {
-                    // Verifica se o item é um ToggleButton e não é o sender
-                    if (child is ToggleButton toggleButton && !ReferenceEquals(child, sender)) {
-                        toggleButton.IsChecked = false; // Desmarca o ToggleButton
-                    }
-                }
-            }
+    private void GameClick(object sender, RoutedEventArgs e) {
+        if (list == null)
+            return;
 
-            Console.WriteLine("Game id = " + GetSenderId(sender));
-
-            var mainWindow = (Application.Current.MainWindow as MainWindow);
-            if(mainWindow != null) {
-                mainWindow.teste();
+        foreach (var child in list.Children) {
+            if (child is ToggleButton toggleButton && !ReferenceEquals(child, sender)) {
+                toggleButton.IsChecked = false;
             }
         }
 
-        private void RemoveGame(object sender, RoutedEventArgs e) {
-            ToggleButton gameButton = new ToggleButton();
-            gameButton.Name = "_1";
+        Console.WriteLine($"Game id = {GetSenderId(sender)}");
 
-            bool noGameSelected = true;
+        if (Application.Current.MainWindow is MainWindow mainWindow) {
+            mainWindow.Teste();
+        }
+    }
 
-            if (list != null) {
-                foreach (var child in list.Children) {
-                    // Verifica se o item é um ToggleButton e não é o sender
-                    if (child is ToggleButton toggleButton) {
-                        if ((bool)toggleButton.IsChecked) {
-                            noGameSelected = false;
-                            gameButton = toggleButton;
-                            break;
-                        }
-                    }
-                }
-            }
+    private void RemoveGame(object sender, RoutedEventArgs e) {
+        var selectedGame = list?.Children.OfType<ToggleButton>()
+            .FirstOrDefault(tb => tb.IsChecked == true);
 
-            if (noGameSelected) {
-                MessageBox.Show("Nenhum jogo selecionado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+        if (selectedGame == null) {
+            MessageBox.Show("Nenhum jogo selecionado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
 
-            int id = GetSenderId(gameButton);
-            if (id == -1) {
-                MessageBox.Show("Erro ao buscar jogo", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+        int id = GetSenderId(selectedGame);
+        if (id == -1) {
+            MessageBox.Show("Erro ao buscar jogo", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
 
-            MessageBoxResult result = MessageBox.Show("Deseja realmente remover o jogo " + gameButton.Content + 
-                "?\nEssa ação não pode ser desfeita.", "Remover Jogo", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+        var result = MessageBox.Show(
+            $"Deseja realmente remover {selectedGame.Content} da lista?\nEssa ação não pode ser desfeita.",
+            "Remover Jogo",
+            MessageBoxButton.OKCancel,
+            MessageBoxImage.Question);
 
-            if (result == MessageBoxResult.OK) { 
-                ((MainViewModel)this.DataContext).DelGame(id);
-
-                Console.WriteLine("Game " + id + " Removido");
-            
+        if (result == MessageBoxResult.OK) {
+            if (DataContext is MainViewModel viewModel) {
+                viewModel.DelGame(id);
+                Console.WriteLine($"Game {selectedGame.Content} Id: {id} Removido");
                 ViewDefaultContent();
             }
         }
+    }
 
-        // Retorna o Id do jogo relacionado ao Toggle Button
-        private int GetSenderId(object sender) {
-            if (sender is ToggleButton gameButton) {
-                String idString = gameButton.Name;
-                if (idString != null && idString != "_1") {
-                    int index = idString.IndexOf("_");
-                    string result = idString.Substring(index + 1);
-                    int id = int.Parse(result);
+    private int GetSenderId(object sender) {
+        if (sender is not ToggleButton gameButton)
+            return -1;
 
-                    return id;
-                } else
-                    return -1;
-            } else
-                return -1;
+        if (string.IsNullOrEmpty(gameButton.Name) || gameButton.Name == "_1")
+            return -1;
+
+        int index = gameButton.Name.IndexOf('_');
+        return int.Parse(gameButton.Name[(index + 1)..]);
+    }
+
+    private void UpdateToggleButtons() {
+        list.Children.Clear();
+
+        foreach (var game in App.mainViewModel.Games) {
+            var toggleButton = new ToggleButton {
+                Name = $"GameId_{game.Id}",
+                Content = game.Name,
+                Style = (Style)FindResource("ButtonStyle")
+            };
+
+            list.Children.Add(toggleButton);
         }
+    }
 
-        private void UpdateToggleButtons() {
-            list.Children.Clear();
-
-            // Adiciona novos ToggleButtons para cada item na lista de jogos
-            foreach (var game in App.mainViewModel.Games) {
-                var toggleButton = new ToggleButton {
-                    Name = "GameId_" + game.Id.ToString(),
-                    Content = game.Name,
-                    Style = (Style)FindResource("ButtonStyle")
-                };
-
-                // Adiciona o ToggleButton no StackPanel
-                list.Children.Add(toggleButton);
-            }
+    private void ViewDefaultContent() {
+        if (Application.Current.MainWindow is MainWindow mainWindow) {
+            mainWindow.ViewDefaultPage();
         }
+    }
 
-        // Reseta a visualização do conteudo da página principal
-        private void ViewDefaultContent() {
-            var mainWindow = (Application.Current.MainWindow as MainWindow);
-            if (mainWindow != null) {
-                mainWindow.viewDefaultPage();
-            }
-        }
+    private void UncheckedGame(object sender, RoutedEventArgs e) {
+        ViewDefaultContent();
+    }
 
-
-        private void UncheckedGame(object sender, RoutedEventArgs e) {
-            // Preferencialmente seria bom para a aplicação a adição de um timer
-            // para impedir de clicar muito rápido no botão
-            ViewDefaultContent();
-        }
-
-        // Evento criado para verificar se os itens da ViewModel foram modificados
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e.PropertyName == nameof(MainViewModel.Games)) {
-                // Chamar a função sempre que a propriedade modificada for a lista de Jogos
-                UpdateToggleButtons();
-            }
+    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+        if (e.PropertyName == nameof(MainViewModel.Games)) {
+            UpdateToggleButtons();
         }
     }
 }

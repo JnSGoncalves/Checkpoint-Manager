@@ -3,24 +3,22 @@ using Checkpoint_Manager.Models;
 using Checkpoint_Manager.ViewModels;
 using Checkpoint_Manager.Views;
 
-namespace Checkpoint_Manager
-{
-    /// <summary>
-    /// Interação lógica para MainWindow.xam
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow() {
-            InitializeComponent();
-            viewDefaultPage();
-        }
+namespace Checkpoint_Manager;
 
-        public void viewDefaultPage() {
-            mainContent.Content = DefaultPage.getDefaultPage();
-        }
+/// <summary>
+/// Interação lógica para MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window {
+    public MainWindow() {
+        InitializeComponent();
+        ViewDefaultPage();
+    }
 
-        public void teste() {
-            mainContent.Content = new SavesPage();
-        }
+    public void ViewDefaultPage() {
+        mainContent.Content = DefaultPage.GetDefaultPage();
+    }
+
+    public void Teste() {
+        mainContent.Content = new SavesPage();
     }
 }

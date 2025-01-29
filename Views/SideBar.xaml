@@ -17,7 +17,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="/Views/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <SolidColorBrush x:Key="BackgroudColor"
@@ -97,7 +97,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    
+
     <Border BorderThickness="0,0,2,0" BorderBrush="#383636">
         <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
             <Grid.RowDefinitions>

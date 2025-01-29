@@ -7,11 +7,11 @@
       mc:Ignorable="d" 
       d:DesignHeight="50" d:DesignWidth="800"
       Title="TopMenu">
-
+    
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="/Views/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
 
@@ -111,38 +111,28 @@
 
     <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,2">
         <DockPanel x:Name="grid" Background="{StaticResource TopMenuBackgroud}" Height="50">
+            <!-- [Conteúdo permanece igual, apenas atualizando paths das imagens] -->
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                <!-- List -->
                 <ToggleButton x:Name="list" Style="{StaticResource ListStyle}"
                         BorderThickness="0,0,2,0"
-                        BorderBrush="{StaticResource BorderColor}">
-                    
-                </ToggleButton>
+                        BorderBrush="{StaticResource BorderColor}"/>
 
-                <!-- Botão Menu Config -->
                 <Button x:Name="menu" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/gear-six.png" x:Name="gear"
-                           Style="{StaticResource ImageStyle}"></Image>
+                    <Image Source="/Assets/gear-six.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 
-                <!-- Import -->
                 <Button x:Name="import" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/import.png" 
-                            Style="{StaticResource ImageStyle}"></Image>
+                    <Image Source="/Assets/import.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 
-                <!-- Export -->
                 <Button x:Name="export" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/export.png" 
-                           Style="{StaticResource ImageStyle}"></Image>
+                    <Image Source="/Assets/export.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
             </StackPanel>
 
             <Grid DockPanel.Dock="Right">
-                <Button HorizontalAlignment="Right" x:Name="cloud" 
-                        Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/cloud-slash.png" 
-                           Style="{StaticResource ImageStyle}"></Image>
+                <Button HorizontalAlignment="Right" x:Name="cloud" Style="{StaticResource ButtonStyle}">
+                    <Image Source="/Assets/cloud-slash.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
             </Grid>
         </DockPanel>
