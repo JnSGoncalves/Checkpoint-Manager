@@ -4,10 +4,6 @@ using Checkpoint_Manager.ViewModels;
 using Checkpoint_Manager.Views;
 
 namespace Checkpoint_Manager;
-
-/// <summary>
-/// Interação lógica para MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window {
     public MainWindow() {
         InitializeComponent();

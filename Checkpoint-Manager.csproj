@@ -31,6 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="app_icon.ico" />
     <Resource Include="AssemblyInfo.cs" />
   </ItemGroup>

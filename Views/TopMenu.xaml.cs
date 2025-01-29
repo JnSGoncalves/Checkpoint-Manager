@@ -1,13 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace Checkpoint_Manager.Views {
-    /// <summary>
-    /// Interação lógica para TopMenu.xam
-    /// </summary>
     public partial class TopMenu : Page {
         public TopMenu() {
             InitializeComponent();

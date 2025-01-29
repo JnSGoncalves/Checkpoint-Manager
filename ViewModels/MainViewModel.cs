@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Input;
 using Checkpoint_Manager.Models;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Checkpoint_Manager.ViewModels {
      public class MainViewModel : INotifyPropertyChanged {
@@ -16,7 +19,39 @@ namespace Checkpoint_Manager.ViewModels {
             }
         }
 
-        public MainViewModel() { }
+        private Game? _selectedGame;
+        public Game? SelectedGame { get => _selectedGame; 
+            set {
+                if (_selectedGame != value) {
+                    // Desseleciona o jogo anterior
+                    if (_selectedGame != null)
+                        _selectedGame.IsSelected = false;
+
+                    _selectedGame = value;
+
+                    // Seleciona o novo jogo
+                    if (_selectedGame != null)
+                        _selectedGame.IsSelected = true;
+
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //public ICommand AddGameCommand { get; }
+        public ICommand RemoveGameCommand { get; }
+        public ICommand SelectGameCommand { get; }
+
+        public MainViewModel() {
+            Games = FileManeger.FindGames();
+
+            //AddGameCommand = new RelayCommand(AddGame);
+            RemoveGameCommand = new RelayCommand(RemoveGame);
+
+            #pragma warning disable CS8622
+            SelectGameCommand = new RelayCommand<Game>(SelectGame);
+            #pragma warning restore CS8622
+        }
 
         public void StartApp() {
             Games = FileManeger.FindGames();
@@ -25,29 +60,36 @@ namespace Checkpoint_Manager.ViewModels {
             FileManeger.StartConfigInfo();
         }
 
-        public void AddGame(String name, String path) {
-            if (Games != null) {
-                Games.Add(new Game(IdGetter.CreateId(name), name, path));
-                OnPropertyChanged(nameof(Games));
+        private void SelectGame(Game game) {
+            if (SelectedGame ==  game ) {
+                SelectedGame = null;
+                Debug.WriteLine("Nenhum game selecionado");
+                return;
+            } else {
+                SelectedGame = game;
             }
+            Debug.WriteLine($"Selected game: {SelectedGame.Name}");
         }
 
-        public void DelGame(String id) {
-            if(Games != null) {
-                for (int i = 0; i < Games.Count; i++) {
-                    if (Games[i].Id.Equals(id)) {
-                        Games.RemoveAt(i);
-                        OnPropertyChanged(nameof(Games));
-                        break;
-                    }
+        private void RemoveGame() {
+            if (SelectedGame == null) {
+                MessageBox.Show("Nenhum jogo selecionado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            } else if (Games != null) {
+                MessageBoxResult result = MessageBox.Show("Deseja realmente remover " + SelectedGame.Name+
+                " da lista?\nEssa ação não pode ser desfeita.", "Remover Jogo", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.OK) {
+                    Debug.WriteLine($"Jogo {SelectedGame.Name} de id: {SelectedGame.Id} foi excluido");
+
+                    Games.Remove(SelectedGame);
+                    SelectedGame = null;
                 }
             }
-
-            // Adicionar o resto do código de remoção dos arquivos
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) {
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

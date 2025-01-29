@@ -11,7 +11,7 @@
       d:DesignHeight="450" d:DesignWidth="200">
 
     <Page.DataContext>
-        <Binding Source="{x:Static app:App.mainViewModel}" />
+        <Binding Source="{x:Static app:App.MainViewModelInstance}" />
     </Page.DataContext>
 
     <Page.Resources>
@@ -35,9 +35,6 @@
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
 
-                <EventSetter Event="Checked" Handler="GameClick"/>
-                <EventSetter Event="Unchecked" Handler="UncheckedGame"/>
-
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
@@ -46,8 +43,8 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Margin="12, 2, 12, 2"
                                     CornerRadius="8">
-                                <ContentPresenter HorizontalAlignment="Center" 
-                        VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -104,16 +101,26 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-                
-            <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                            HorizontalScrollBarVisibility="Disabled">
 
-                <StackPanel x:Name="list" Grid.Row="0" Background="{StaticResource BackgroudColor}">
-                    <!-- Somente para espaçamento -->
-                    <TextBlock Height="3"/>
-                </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                        HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="gamesList" 
+                        ItemsSource="{Binding Games}"
+                        Background="{StaticResource BackgroudColor}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton 
+                                Content="{Binding Name}"
+                                Style="{StaticResource ButtonStyle}"
+                                IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}"
+                                Tag="{Binding Id}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
-                
+
             <Grid Background="{StaticResource BackgroudColor}"
                     Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -125,7 +132,7 @@
                     Add Game
                 </Button>
 
-                <Button Grid.Column="1" Style="{StaticResource DownButton}" Click="RemoveGame">
+                <Button Grid.Column="1" Style="{StaticResource DownButton}" Command="{Binding RemoveGameCommand}">
                     Remove Game
                 </Button>
             </Grid>

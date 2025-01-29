@@ -1,17 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Checkpoint_Manager.Models {
-    public class Game {
+    public class Game : INotifyPropertyChanged {
         public String Id { get; set; }
         public String Name { get; set; }
         public String Path { get; set; }
         public bool ConfigsIsDefault { get; set; }
-        public GameBackupConfigs gameBackupConfigs { get; set; }
+        private bool _isSelected;
+        public bool IsSelected {
+            get => _isSelected;
+            set {
+                if (_isSelected != value) {
+                    _isSelected = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public GameBackupConfigs? gameBackupConfigs { get; set; }
         public ObservableCollection<Save> Saves { get; set; }
 
         public Game(String id, String name, String path) { 
@@ -53,6 +65,11 @@ namespace Checkpoint_Manager.Models {
 
         public void newSave(Save save) {
             Saves.Add(save);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
