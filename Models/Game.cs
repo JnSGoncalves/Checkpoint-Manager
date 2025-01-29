@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Checkpoint_Manager.Models {
     public class Game {
-        public int Id { get; set; }
+        public String Id { get; set; }
         public String Name { get; set; }
         public String Path { get; set; }
         public bool ConfigsIsDefault { get; set; }
         public GameBackupConfigs gameBackupConfigs { get; set; }
         public ObservableCollection<Save> Saves { get; set; }
 
-        public Game(int id, String name, String path) { 
+        public Game(String id, String name, String path) { 
             this.Id = id;
             this.Name = name;
             this.Path = path;
@@ -22,7 +22,7 @@ namespace Checkpoint_Manager.Models {
             this.Saves = new ObservableCollection<Save>();
         }
 
-        public Game(int id, String name, String path, GameBackupConfigs gameBackupConfigs) {
+        public Game(String id, String name, String path, GameBackupConfigs gameBackupConfigs) {
             this.Id = id;
             this.Name = name;
             this.Path = path;
@@ -30,7 +30,7 @@ namespace Checkpoint_Manager.Models {
             this.Saves = new ObservableCollection<Save>();
         }
 
-        public Game(int id, String name, String path, ObservableCollection<Save> saves) {
+        public Game(String id, String name, String path, ObservableCollection<Save> saves) {
             this.Id = id;
             this.Name = name;
             this.Path = path;
@@ -38,7 +38,7 @@ namespace Checkpoint_Manager.Models {
             this.Saves = saves;
         }
 
-        public Game(int id, String name, String path, ObservableCollection<Save> saves, GameBackupConfigs gameBackupConfigs) {
+        public Game(String id, String name, String path, ObservableCollection<Save> saves, GameBackupConfigs gameBackupConfigs) {
             this.Id = id;
             this.Name = name;
             this.Path = path;

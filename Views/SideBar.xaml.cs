@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -30,7 +31,7 @@ public partial class SideBar : Page {
             }
         }
 
-        Console.WriteLine($"Game id = {GetSenderId(sender)}");
+        Debug.WriteLine($"Game id = {GetSenderId(sender)}");
 
         if (Application.Current.MainWindow is MainWindow mainWindow) {
             mainWindow.Teste();
@@ -46,8 +47,8 @@ public partial class SideBar : Page {
             return;
         }
 
-        int id = GetSenderId(selectedGame);
-        if (id == -1) {
+        String id = GetSenderId(selectedGame);
+        if (id.Equals("")) {
             MessageBox.Show("Erro ao buscar jogo", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
@@ -61,34 +62,36 @@ public partial class SideBar : Page {
         if (result == MessageBoxResult.OK) {
             if (DataContext is MainViewModel viewModel) {
                 viewModel.DelGame(id);
-                Console.WriteLine($"Game {selectedGame.Content} Id: {id} Removido");
+                Debug.WriteLine($"Game {selectedGame.Content} Id: {id} Removido");
                 ViewDefaultContent();
             }
         }
     }
 
-    private int GetSenderId(object sender) {
+    private String GetSenderId(object sender) {
         if (sender is not ToggleButton gameButton)
-            return -1;
+            return "";
 
         if (string.IsNullOrEmpty(gameButton.Name) || gameButton.Name == "_1")
-            return -1;
+            return "";
 
         int index = gameButton.Name.IndexOf('_');
-        return int.Parse(gameButton.Name[(index + 1)..]);
+        return gameButton.Name[(index + 1)..];
     }
 
     private void UpdateToggleButtons() {
         list.Children.Clear();
 
-        foreach (var game in App.mainViewModel.Games) {
-            var toggleButton = new ToggleButton {
-                Name = $"GameId_{game.Id}",
-                Content = game.Name,
-                Style = (Style)FindResource("ButtonStyle")
-            };
+        if (App.mainViewModel.Games != null) {
+            foreach (var game in App.mainViewModel.Games) {
+                var toggleButton = new ToggleButton {
+                    Name = $"GameId_{game.Id}",
+                    Content = game.Name,
+                    Style = (Style)FindResource("ButtonStyle")
+                };
 
-            list.Children.Add(toggleButton);
+                list.Children.Add(toggleButton);
+            }
         }
     }
 
@@ -102,7 +105,7 @@ public partial class SideBar : Page {
         ViewDefaultContent();
     }
 
-    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
         if (e.PropertyName == nameof(MainViewModel.Games)) {
             UpdateToggleButtons();
         }

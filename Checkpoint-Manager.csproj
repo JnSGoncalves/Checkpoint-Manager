@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>app_icon.ico</ApplicationIcon>
+    <StartupObject>Checkpoint_Manager.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
