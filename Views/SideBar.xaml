@@ -22,7 +22,7 @@
 
             <SolidColorBrush x:Key="BackgroudColor"
                  Color="#282828"/>
-
+            
 
             <!-- Botões Laterais / Seleção dos jogos -->
             <Style x:Key="ButtonStyle" TargetType="ToggleButton">
@@ -113,7 +113,7 @@
                                 Content="{Binding Name}"
                                 Style="{StaticResource ButtonStyle}"
                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                Command="{Binding DataContext.SidePageVM.SelectGameCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                 CommandParameter="{Binding}"
                                 Tag="{Binding Id}"/>
                         </DataTemplate>
@@ -132,7 +132,7 @@
                     Add Game
                 </Button>
 
-                <Button Grid.Column="1" Style="{StaticResource DownButton}" Command="{Binding RemoveGameCommand}">
+                <Button Grid.Column="1" Style="{StaticResource DownButton}" Command="{Binding SidePageVM.RemoveGameCommand}">
                     Remove Game
                 </Button>
             </Grid>

@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using Checkpoint_Manager.Models;
-using Checkpoint_Manager.ViewModels;
 using Checkpoint_Manager.Views;
 
 namespace Checkpoint_Manager;
