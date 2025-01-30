@@ -13,6 +13,10 @@
         <Binding Source="{x:Static local:App.MainViewModelInstance}" />
     </Window.DataContext>
 
+    <Window.Resources>
+        <vm:MultiPageConverter x:Key="PageConverter"/>
+    </Window.Resources>
+    
     <Grid Background="#242222">
         <Grid.RowDefinitions>
             <!-- Top Menu -->
@@ -43,7 +47,16 @@
 
         <!-- Conteúdo Principal -->
         <Frame x:Name="mainContent" NavigationUIVisibility="Hidden" 
-               Grid.Column="1" Grid.Row="1"/>
+               Grid.Column="1" Grid.Row="1">
+            <Frame.Content>
+                <MultiBinding Converter="{StaticResource PageConverter}" ConverterParameter="Config,GameConfig,Add,Game">
+                    <Binding Path="SelectedGame"/> <!-- values[0] -->
+                    <Binding Path="ConfigIsOpen"/> <!-- values[1] -->
+                    <Binding Path="AddPageIsOpen"/> <!-- values[2] -->
+                    <Binding Path="GameConfigIsOpen"/> <!-- values[3] -->
+                </MultiBinding>
+            </Frame.Content>
+        </Frame>
 
         <!-- Barra Inferior -->
         <Frame Source="/Views/DownBar.xaml" NavigationUIVisibility="Hidden"

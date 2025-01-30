@@ -8,8 +8,10 @@ namespace Checkpoint_Manager.ViewModels {
     public class SidePageViewModel {
         public ICommand SelectGameCommand { get; }
         public ICommand RemoveGameCommand { get; }
+        public ICommand AddGameCommand { get; }
         public SidePageViewModel() {
             RemoveGameCommand = new RelayCommand(RemoveGame);
+            AddGameCommand = new RelayCommand(AddGame);
             #pragma warning disable CS8622
             SelectGameCommand = new RelayCommand<Game>(SelectGame);
             #pragma warning restore CS8622
@@ -44,6 +46,12 @@ namespace Checkpoint_Manager.ViewModels {
                     SelectedGame = null;
                 }
             }
+        }
+
+        private void AddGame() {
+            Debug.WriteLine($"Open Add - Config is {App.MainViewModelInstance.ConfigIsOpen}");
+            App.MainViewModelInstance.ResetOpenPages();
+            App.MainViewModelInstance.AddPageIsOpen = true;
         }
     }
 }

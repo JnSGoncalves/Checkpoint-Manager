@@ -1,13 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
 using Checkpoint_Manager.Models;
+using Checkpoint_Manager.Views;
 
 namespace Checkpoint_Manager.ViewModels {
      public class MainViewModel : INotifyPropertyChanged {
         // Instacia das ViewModels de cada Page
         public SidePageViewModel SidePageVM { get; set; }
+        public TopMenuViewModel TopMenuVM { get; set; }
         
         // Lista dos Jogos cadastrados
         private ObservableCollection<Game>? _games;
@@ -38,10 +42,40 @@ namespace Checkpoint_Manager.ViewModels {
                 }
             }
         }
-        
+
+        // Aba de Config está aberta?
+        private bool _configIsOpen;
+        public bool ConfigIsOpen {
+            get => _configIsOpen;
+            set {
+                _configIsOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Aba de Adição de Jogos está aberta?
+        private bool _addPageIsOpen;
+        public bool AddPageIsOpen {
+            get => _addPageIsOpen;
+            set {
+                _addPageIsOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Aba de Adição de Jogos está aberta?
+        private bool _gameConfigIsOpen;
+        public bool GameConfigIsOpen {
+            get => _gameConfigIsOpen;
+            set {
+                _gameConfigIsOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainViewModel() {
-            //AddGameCommand = new RelayCommand(AddGame);
             SidePageVM = new SidePageViewModel();
+            TopMenuVM = new TopMenuViewModel();
         }
 
         public void StartApp() {
@@ -56,6 +90,54 @@ namespace Checkpoint_Manager.ViewModels {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void ResetOpenPages() {
+            GameConfigIsOpen = false;
+            AddPageIsOpen = false;
+            ConfigIsOpen = false;
+            OnPropertyChanged();
+        }
+    }
+
+    public class MultiPageConverter : IMultiValueConverter {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
+            Debug.WriteLine("=== VALORES RECEBIDOS NO CONVERSOR ===");
+            Debug.WriteLine($"SelectedGame: {values[0]?.ToString() ?? "null"}");
+            Debug.WriteLine($"ConfigIsOpen: {values[1]}");
+            Debug.WriteLine($"AddPageIsOpen: {values[2]}");
+            Debug.WriteLine($"GameConfigIsOpen: {values[3]}");
+            Debug.WriteLine($"Parameter: {parameter}");
+
+            // Ordem de prioridade (definida no parâmetro do XAML)
+            var priority = (parameter as string)?.Split(',') ?? new[] { "Config", "GameConfig", "Add", "Game" };
+
+            foreach (var pageType in priority) {
+                switch (pageType.Trim()) {
+                    case "Config" when values[1] is bool configOpen && configOpen:
+                        Debug.WriteLine("Open Config ev");
+                        return new ConfigPage();
+
+                    case "GameConfig" when values[3] is bool gameConfigOpen && gameConfigOpen
+                                          && values[0] is Game selectedGame && selectedGame != null:
+                        Debug.WriteLine("Open Game Config ev");
+                        return new GameConfigPage { DataContext = selectedGame }; // Exige jogo selecionado;
+
+                    case "Add" when values[2] is bool addOpen && addOpen:
+                        Debug.WriteLine("Open Add ev");
+                        return new AddGamePage();
+
+                    case "Game" when values[0] is Game game && game != null:
+                        Debug.WriteLine("Open Save ev");
+                        return new SavesPage { DataContext = game };
+                }
+            }
+
+            return DefaultPage.GetDefaultPage();
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) {
+            throw new NotImplementedException();
         }
     }
 }

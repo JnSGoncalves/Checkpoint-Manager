@@ -35,8 +35,7 @@
             <Label Style="{StaticResource TitleLabelStyle}">
                 Registred Saves - 
             </Label>
-            <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}">
-                Game Name
+            <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}">
             </Label>
         </StackPanel>
 

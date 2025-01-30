@@ -128,7 +128,7 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Style="{StaticResource DownButton}">
+                <Button Grid.Column="0" Style="{StaticResource DownButton}" Command="{Binding SidePageVM.AddGameCommand}">
                     Add Game
                 </Button>
 
