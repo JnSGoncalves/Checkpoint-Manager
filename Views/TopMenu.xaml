@@ -4,14 +4,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
       mc:Ignorable="d" 
       d:DesignHeight="50" d:DesignWidth="800"
       Title="TopMenu">
 
+    <Page.DataContext>
+        <Binding Source="{x:Static app:App.MainViewModelInstance}" />
+    </Page.DataContext>
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="/Views/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
 
@@ -63,10 +68,10 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Background="{TemplateBinding Background}" 
-                        BorderBrush="{TemplateBinding BorderBrush}" 
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}">
                                 <ContentPresenter HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center"/>
+                                                  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -112,37 +117,26 @@
     <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,2">
         <DockPanel x:Name="grid" Background="{StaticResource TopMenuBackgroud}" Height="50">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                <!-- List -->
                 <ToggleButton x:Name="list" Style="{StaticResource ListStyle}"
                         BorderThickness="0,0,2,0"
-                        BorderBrush="{StaticResource BorderColor}">
-                    
-                </ToggleButton>
+                        BorderBrush="{StaticResource BorderColor}"/>
 
-                <!-- Botão Menu Config -->
-                <Button x:Name="menu" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/gear-six.png" x:Name="gear"
-                           Style="{StaticResource ImageStyle}"></Image>
+                <Button x:Name="menu" Style="{StaticResource ButtonStyle}" Command="{Binding TopMenuVM.OpenConfigCommand}">
+                    <Image Source="/Assets/gear-six.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 
-                <!-- Import -->
                 <Button x:Name="import" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/import.png" 
-                            Style="{StaticResource ImageStyle}"></Image>
+                    <Image Source="/Assets/import.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 
-                <!-- Export -->
                 <Button x:Name="export" Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/export.png" 
-                           Style="{StaticResource ImageStyle}"></Image>
+                    <Image Source="/Assets/export.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
             </StackPanel>
 
             <Grid DockPanel.Dock="Right">
-                <Button HorizontalAlignment="Right" x:Name="cloud" 
-                        Style="{StaticResource ButtonStyle}">
-                    <Image Source="/Assets/cloud-slash.png" 
-                           Style="{StaticResource ImageStyle}"></Image>
+                <Button HorizontalAlignment="Right" x:Name="cloud" Style="{StaticResource ButtonStyle}">
+                    <Image Source="/Assets/cloud-slash.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
             </Grid>
         </DockPanel>

@@ -3,19 +3,26 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Checkpoint_Manager.Views" xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:local="clr-namespace:Checkpoint_Manager.Views"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:vm="clr-namespace:Checkpoint_Manager.ViewModels"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="200">
+
+    <Page.DataContext>
+        <Binding Source="{x:Static app:App.MainViewModelInstance}" />
+    </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="/Views/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <SolidColorBrush x:Key="BackgroudColor"
                  Color="#282828"/>
-
+            
 
             <!-- Botões Laterais / Seleção dos jogos -->
             <Style x:Key="ButtonStyle" TargetType="ToggleButton">
@@ -28,8 +35,6 @@
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
 
-                <EventSetter Event="Checked" Handler="GameClick"/>
-
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
@@ -38,8 +43,8 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Margin="12, 2, 12, 2"
                                     CornerRadius="8">
-                                <ContentPresenter HorizontalAlignment="Center" 
-                        VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -89,62 +94,49 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    
-        <Border BorderThickness="0,0,2,0" BorderBrush="#383636">
-            <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-                
-                <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                              HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel x:Name="list" Grid.Row="0" Background="{StaticResource BackgroudColor}">
-                        <!-- Somente para espaçamento -->
-                        <TextBlock Height="3"/>
-                        
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 1
-                        </ToggleButton>
 
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 2
-                        </ToggleButton>
+    <Border BorderThickness="0,0,2,0" BorderBrush="#383636">
+        <Grid x:Name="mainGrid" Background="{StaticResource BackgroudColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
 
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 3
-                        </ToggleButton>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                        HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="gamesList" 
+                        ItemsSource="{Binding Games}"
+                        Background="{StaticResource BackgroudColor}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton 
+                                Content="{Binding Name}"
+                                Style="{StaticResource ButtonStyle}"
+                                IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                Command="{Binding DataContext.SidePageVM.SelectGameCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}"
+                                Tag="{Binding Id}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 4
-                        </ToggleButton>
-                        
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 5
-                        </ToggleButton>
+            <Grid Background="{StaticResource BackgroudColor}"
+                    Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
 
-                        <ToggleButton Style="{StaticResource ButtonStyle}">
-                            Game test 6
-                        </ToggleButton>
-                </StackPanel>
-                </ScrollViewer>
-                
-                <Grid Background="{StaticResource BackgroudColor}"
-                      Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                    </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource DownButton}" Command="{Binding SidePageVM.AddGameCommand}">
+                    Add Game
+                </Button>
 
-                    <Button Grid.Column="0" Style="{StaticResource DownButton}">
-                        Add Game
-                    </Button>
-
-                    <Button Grid.Column="1" Style="{StaticResource DownButton}">
-                        Remove Game
-                    </Button>
-                </Grid>
+                <Button Grid.Column="1" Style="{StaticResource DownButton}" Command="{Binding SidePageVM.RemoveGameCommand}">
+                    Remove Game
+                </Button>
             </Grid>
-        </Border>
+        </Grid>
+    </Border>
 
 </Page>

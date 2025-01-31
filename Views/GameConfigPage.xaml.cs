@@ -15,10 +15,10 @@ using System.Windows.Shapes;
 
 namespace Checkpoint_Manager.Views {
     /// <summary>
-    /// Interação lógica para GamePage.xam
+    /// Interação lógica para GameConfig.xam
     /// </summary>
-    public partial class GamePage : Page {
-        public GamePage() {
+    public partial class GameConfigPage : Page {
+        public GameConfigPage() {
             InitializeComponent();
         }
     }

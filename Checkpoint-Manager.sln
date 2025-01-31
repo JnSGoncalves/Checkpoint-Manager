@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174
+VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkpoint-Manager", "Checkpoint-Manager.csproj", "{511304D3-63F9-45BE-8145-5E814525B1CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkpoint-Manager", "Checkpoint-Manager.csproj", "{E499E32B-1D83-44D5-8D50-9410DFADE8A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{511304D3-63F9-45BE-8145-5E814525B1CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{511304D3-63F9-45BE-8145-5E814525B1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{511304D3-63F9-45BE-8145-5E814525B1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{511304D3-63F9-45BE-8145-5E814525B1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E499E32B-1D83-44D5-8D50-9410DFADE8A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E499E32B-1D83-44D5-8D50-9410DFADE8A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E499E32B-1D83-44D5-8D50-9410DFADE8A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E499E32B-1D83-44D5-8D50-9410DFADE8A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
