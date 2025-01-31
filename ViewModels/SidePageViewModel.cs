@@ -37,9 +37,9 @@ namespace Checkpoint_Manager.ViewModels {
                 return;
             } else if (Games != null) {
                 MessageBoxResult result = MessageBox.Show("Deseja realmente remover " + SelectedGame.Name +
-                " da lista?\nEssa ação não pode ser desfeita.", "Remover Jogo", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                " da lista?\nEssa ação não pode ser desfeita.", "Remover Jogo", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                if (result == MessageBoxResult.OK) {
+                if (result == MessageBoxResult.Yes) {
                     Debug.WriteLine($"Jogo {SelectedGame.Name} de id: {SelectedGame.Id} foi excluido");
 
                     Games.Remove(SelectedGame);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -24,14 +25,22 @@ namespace Checkpoint_Manager.Models {
             }
         }
         public GameBackupConfigs? gameBackupConfigs { get; set; }
-        public ObservableCollection<Save> Saves { get; set; }
+
+        private ObservableCollection<Save> _saves = [];
+        public ObservableCollection<Save> Saves {
+            get => _saves;
+            set {
+                _saves = value;
+                Debug.WriteLine("Qtd de save " + _saves.Count);
+                OnPropertyChanged();
+            }
+        }
 
         public Game(String id, String name, String path) { 
             this.Id = id;
             this.Name = name;
             this.Path = path;
             this.ConfigsIsDefault = true;
-            this.Saves = new ObservableCollection<Save>();
         }
 
         public Game(String id, String name, String path, GameBackupConfigs gameBackupConfigs) {
@@ -39,7 +48,6 @@ namespace Checkpoint_Manager.Models {
             this.Name = name;
             this.Path = path;
             this.ConfigsIsDefault = false;
-            this.Saves = new ObservableCollection<Save>();
         }
 
         public Game(String id, String name, String path, ObservableCollection<Save> saves) {
@@ -59,11 +67,7 @@ namespace Checkpoint_Manager.Models {
             this.ConfigsIsDefault = false;
         }
 
-        public void newSave() {
-            Saves.Add(new Save());
-        }
-
-        public void newSave(Save save) {
+        public void NewSave(Save save) {
             Saves.Add(save);
         }
 
@@ -82,6 +86,9 @@ namespace Checkpoint_Manager.Models {
             IsAutoSave = isAutoSave;
             AutoSaveTime = autoSaveTime;
             MaxSaves = maxSaves;
+        }
+
+        public GameBackupConfigs() {
         }
     }
 }

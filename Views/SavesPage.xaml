@@ -5,19 +5,49 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
       xmlns:vm="clr-namespace:Checkpoint_Manager.ViewModels"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SavePage">
-
-    <Page.DataContext>
-        <vm:MainViewModel/>
-    </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="SaveButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource TopMenuBackgroud}"/>
+                <Setter Property="Width" Value="45"/>
+                <Setter Property="Height" Value="45"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="15">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MenuHoverButtonColor}" />
+                    </Trigger>
+
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ButtonPressedColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Width" Value="30"/>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
     
@@ -33,16 +63,88 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <Label Style="{StaticResource TitleLabelStyle}">
-                Registred Saves - 
+                Registred Saves -
             </Label>
             <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}">
             </Label>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1">
-            <StackPanel x:Name="SaveListPanel">
+            <ItemsControl ItemsSource="{Binding Saves}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="10,5,10,5"
+                                CornerRadius="10"
+                                Background="{StaticResource ListHoverButtonColor}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="55"/>
+                                    <ColumnDefinition Width="55"/>
+                                </Grid.ColumnDefinitions>
 
-            </StackPanel>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="65"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Margin="15,5,0,0"
+                                Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                        <Label Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}"></Label>
+                                        <Button BorderThickness="0" x:Name="RenameSaveButton"
+                                                Width="22" Background="{StaticResource ListHoverButtonColor}"
+                                                Height="22"
+                                                ToolTip="Rename Save" ToolTipService.InitialShowDelay="1000" 
+                                                Cursor="Hand" BorderBrush="Transparent">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                        BorderThickness="0" CornerRadius="5">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+
+                                            
+                                            <Image Source="/Assets/pencil-line-thin.png"
+                                               Width="{Binding Width, ElementName=RenameSaveButton}"
+                                               Height="{Binding Height, ElementName=RenameSaveButton}"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                        <Label FontSize="10" Foreground="White"
+                                               x:Name="SaveDescriptionLabel" Content="{Binding Date}"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Button Style="{StaticResource SaveButtonStyle}" 
+                                        Grid.Column="1" >
+                                    <Image Source="/Assets/swap.png" Style="{StaticResource ImageStyle}"
+                                           ToolTip="Swap to this save" ToolTipService.InitialShowDelay="1000"/>
+                                </Button>
+
+                                <Button x:Name="DelSaveButton" Style="{StaticResource SaveButtonStyle}" 
+                                        Grid.Column="2"
+                                        Command="{Binding Source={x:Static app:App.MainViewModelInstance}, 
+                                        Path=SavesPageVM.DeleteSaveCommand}"
+                                        CommandParameter="{Binding}">
+                                    <Image Source="/Assets/trash.png" Style="{StaticResource ImageStyle}"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </Page>

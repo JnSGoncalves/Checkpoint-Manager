@@ -10,8 +10,9 @@ using Checkpoint_Manager.Views;
 namespace Checkpoint_Manager.ViewModels {
      public class MainViewModel : INotifyPropertyChanged {
         // Instacia das ViewModels de cada Page
-        public SidePageViewModel SidePageVM { get; set; }
-        public TopMenuViewModel TopMenuVM { get; set; }
+        public SidePageViewModel SidePageVM { get; }
+        public TopMenuViewModel TopMenuVM { get; }
+        public SavesPageViewModel SavesPageVM {  get; }
         
         // Lista dos Jogos cadastrados
         private ObservableCollection<Game>? _games;
@@ -35,8 +36,10 @@ namespace Checkpoint_Manager.ViewModels {
                     _selectedGame = value;
 
                     // Seleciona o novo jogo
-                    if (_selectedGame != null)
+                    if (_selectedGame != null) {
                         _selectedGame.IsSelected = true;
+                        OnPropertyChanged(nameof(SelectedGame.Saves));
+                    }
 
                     OnPropertyChanged();
                 }
@@ -76,6 +79,7 @@ namespace Checkpoint_Manager.ViewModels {
         public MainViewModel() {
             SidePageVM = new SidePageViewModel();
             TopMenuVM = new TopMenuViewModel();
+            SavesPageVM = new SavesPageViewModel();
         }
 
         public void StartApp() {
@@ -85,21 +89,20 @@ namespace Checkpoint_Manager.ViewModels {
             FileManeger.StartConfigInfo();
         }
 
+        public void ResetOpenPages() {
+            GameConfigIsOpen = false;
+            AddPageIsOpen = false;
+            ConfigIsOpen = false;
+        }
 
         // Declaração do Evento de modificação de propriedade
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public void ResetOpenPages() {
-            GameConfigIsOpen = false;
-            AddPageIsOpen = false;
-            ConfigIsOpen = false;
-            OnPropertyChanged();
-        }
     }
 
+    // Converter do MainContent
     public class MultiPageConverter : IMultiValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
             Debug.WriteLine("=== VALORES RECEBIDOS NO CONVERSOR ===");

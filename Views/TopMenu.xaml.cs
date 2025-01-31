@@ -24,6 +24,8 @@ namespace Checkpoint_Manager.Views {
 
                 translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
 
+                // Futuramente fazer uma alteração na animação pois os elementos da MainContent acabam ficando
+                // sobrepostos com os da side bar no incio da animação
                 if (mainContent != null) {
                     Grid.SetColumn(mainContent, 0);
                     Grid.SetColumnSpan(mainContent, 2);

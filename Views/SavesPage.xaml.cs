@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Checkpoint_Manager.Models;
 
 namespace Checkpoint_Manager.Views {
-    /// <summary>
-    /// Interação lógica para SavesPage.xam
-    /// </summary>
     public partial class SavesPage : Page {
         public SavesPage() {
             InitializeComponent();
+        }
+
+        public void DelSave(object sender, RoutedEventArgs e) {
+            if(sender != null) {
+                if(sender is Button button && button.DataContext is Save save) {
+                    Debug.WriteLine($"Chamada do del Save para {save.Name}");
+                    App.MainViewModelInstance.SavesPageVM.DelSave(save);
+                }
+            } else {
+                Debug.WriteLine("Save não é DataContext");
+            }
+        }
+
+        private void SwapSave(object sender, RoutedEventArgs e) {
+
         }
     }
 }

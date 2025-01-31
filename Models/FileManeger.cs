@@ -4,8 +4,11 @@ namespace Checkpoint_Manager.Models {
     internal class FileManeger {
         public static ObservableCollection<Game> FindGames() {
             ObservableCollection<Game> games = new ObservableCollection<Game>();
+            ObservableCollection<Save> saves = new ObservableCollection<Save>();
+            saves.Add(new Save(1 ,"Teste 1", "test desc", "01/01/1001"));
+            saves.Add(new Save(2, "Teste 2", "test desc", "02/02/1002"));
 
-            games.Add(new Game(IdGetter.CreateId("Game Test 1"), "Game Test 1", "C/Games/"));
+            games.Add(new Game(IdGetter.CreateId("Game Test com Saves"), "Game Test com Saves", "C/Games/", saves, new GameBackupConfigs()));
             games.Add(new Game(IdGetter.CreateId("Game Test 2"), "Game Test 2", "C/Games/"));
             games.Add(new Game(IdGetter.CreateId("Game Test 3"), "Game Test 3", "C/Games/"));
             games.Add(new Game(IdGetter.CreateId("Game Test 4"), "Game Test 4", "C/Games/"));

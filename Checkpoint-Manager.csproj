@@ -27,6 +27,10 @@
     <None Remove="Assets\gear-six.png" />
     <None Remove="Assets\import.png" />
     <None Remove="Assets\list.png" />
+    <None Remove="Assets\pencil-line-thin.png" />
+    <None Remove="Assets\swap.png" />
+    <None Remove="Assets\textbox.png" />
+    <None Remove="Assets\trash.png" />
     <None Remove="Assets\x.png" />
   </ItemGroup>
 
@@ -51,6 +55,10 @@
     <Resource Include="Assets\gear-six.png" />
     <Resource Include="Assets\import.png" />
     <Resource Include="Assets\list.png" />
+    <Resource Include="Assets\pencil-line-thin.png" />
+    <Resource Include="Assets\swap.png" />
+    <Resource Include="Assets\textbox.png" />
+    <Resource Include="Assets\trash.png" />
     <Resource Include="Assets\x.png" />
   </ItemGroup>
 
