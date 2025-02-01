@@ -107,7 +107,8 @@
                                                             <ControlTemplate TargetType="Button">
                                                                 <Border Background="{TemplateBinding Background}" 
                                                                         BorderThickness="0" CornerRadius="5">
-                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                                      VerticalAlignment="Center"/>
                                                                 </Border>
                                                             </ControlTemplate>
                                                         </Setter.Value>
