@@ -10,7 +10,7 @@ namespace Checkpoint_Manager.Views {
         }
 
         private void CloseSideBar(object sender, RoutedEventArgs e) {
-            if (Application.Current.MainWindow is not MainWindow mainWindow)
+            if (System.Windows.Application.Current.MainWindow is not MainWindow mainWindow)
                 return;
 
             var sideBarFrame = mainWindow.FindName("sideBarFrame") as Frame;
@@ -34,7 +34,7 @@ namespace Checkpoint_Manager.Views {
         }
 
         private void OpenSideBar(object sender, RoutedEventArgs e) {
-            if (Application.Current.MainWindow is not MainWindow mainWindow)
+            if (System.Windows.Application.Current.MainWindow is not MainWindow mainWindow)
                 return;
 
             var sideBarFrame = mainWindow.FindName("sideBarFrame") as Frame;

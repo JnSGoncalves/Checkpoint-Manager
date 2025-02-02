@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using Checkpoint_Manager.Models;
 using CommunityToolkit.Mvvm.Input;
 
@@ -33,23 +34,25 @@ namespace Checkpoint_Manager.ViewModels {
             var Games = App.MainViewModelInstance.Games;
 
             if (SelectedGame == null) {
-                MessageBox.Show("Nenhum jogo selecionado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("Nenhum jogo selecionado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             } else if (Games != null) {
-                MessageBoxResult result = MessageBox.Show("Deseja realmente remover " + SelectedGame.Name +
+                MessageBoxResult result = System.Windows.MessageBox.Show("Deseja realmente remover " + SelectedGame.Name +
                 " da lista?\nEssa ação não pode ser desfeita.", "Remover Jogo", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes) {
                     Debug.WriteLine($"Jogo {SelectedGame.Name} de id: {SelectedGame.Id} foi excluido");
 
                     Games.Remove(SelectedGame);
-                    SelectedGame = null;
+                    App.MainViewModelInstance.SelectedGame = null;
                 }
             }
         }
 
         private void AddGame() {
             Debug.WriteLine($"Open Add - Config is {App.MainViewModelInstance.ConfigIsOpen}");
+            if (App.MainViewModelInstance.AddPageIsOpen == true)
+                return;
             App.MainViewModelInstance.ResetOpenPages();
             App.MainViewModelInstance.AddPageIsOpen = true;
         }

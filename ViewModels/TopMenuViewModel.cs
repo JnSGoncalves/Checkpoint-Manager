@@ -10,6 +10,8 @@ namespace Checkpoint_Manager.ViewModels {
         }
 
         private void OpenConfig (){
+            if (App.MainViewModelInstance.ConfigIsOpen == true)
+                return;
             App.MainViewModelInstance.ResetOpenPages();
             App.MainViewModelInstance.ConfigIsOpen = true;
             Debug.WriteLine("Open Config");

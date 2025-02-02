@@ -13,6 +13,7 @@ namespace Checkpoint_Manager.ViewModels {
         public SidePageViewModel SidePageVM { get; }
         public TopMenuViewModel TopMenuVM { get; }
         public SavesPageViewModel SavesPageVM {  get; }
+        public AddGamePageViewModel AddGamePageVM { get; }
         
         // Lista dos Jogos cadastrados
         private ObservableCollection<Game>? _games;
@@ -66,7 +67,7 @@ namespace Checkpoint_Manager.ViewModels {
             }
         }
 
-        // Aba de Adição de Jogos está aberta?
+        // Aba de configuração de Jogos está aberta?
         private bool _gameConfigIsOpen;
         public bool GameConfigIsOpen {
             get => _gameConfigIsOpen;
@@ -80,6 +81,7 @@ namespace Checkpoint_Manager.ViewModels {
             SidePageVM = new SidePageViewModel();
             TopMenuVM = new TopMenuViewModel();
             SavesPageVM = new SavesPageViewModel();
+            AddGamePageVM = new AddGamePageViewModel();
         }
 
         public void StartApp() {

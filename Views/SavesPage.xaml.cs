@@ -11,7 +11,7 @@ namespace Checkpoint_Manager.Views {
 
         public void DelSave(object sender, RoutedEventArgs e) {
             if(sender != null) {
-                if(sender is Button button && button.DataContext is Save save) {
+                if(sender is System.Windows.Controls.Button button && button.DataContext is Save save) {
                     Debug.WriteLine($"Chamada do del Save para {save.Name}");
                     App.MainViewModelInstance.SavesPageVM.DelSave(save);
                 }

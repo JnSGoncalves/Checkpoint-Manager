@@ -9,6 +9,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>app_icon.ico</ApplicationIcon>
     <StartupObject>Checkpoint_Manager.App</StartupObject>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,11 +32,13 @@
     <None Remove="Assets\swap.png" />
     <None Remove="Assets\textbox.png" />
     <None Remove="Assets\trash.png" />
+    <None Remove="Assets\x-circle.png" />
     <None Remove="Assets\x.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +62,7 @@
     <Resource Include="Assets\swap.png" />
     <Resource Include="Assets\textbox.png" />
     <Resource Include="Assets\trash.png" />
+    <Resource Include="Assets\x-circle.png" />
     <Resource Include="Assets\x.png" />
   </ItemGroup>
 

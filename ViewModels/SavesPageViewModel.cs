@@ -14,7 +14,7 @@ namespace Checkpoint_Manager.ViewModels
 
         public void DelSave(Save? save) {
             if (save != null && App.MainViewModelInstance.SelectedGame is Game selectedGame) {
-                MessageBoxResult result = MessageBox.Show("Deseja realmente deletar o save " + save.Name +
+                MessageBoxResult result = System.Windows.MessageBox.Show("Deseja realmente deletar o save " + save.Name +
                 "?\nEssa ação não pode ser desfeita.", "Remover Save", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes) {

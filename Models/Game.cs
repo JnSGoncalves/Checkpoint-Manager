@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkpoint_Manager.Models {
     public class Game : INotifyPropertyChanged {
         public String Id { get; set; }
         public String Name { get; set; }
         public String Path { get; set; }
+        public bool IsSingleFileSave { get; set; }
         public bool ConfigsIsDefault { get; set; }
+
         private bool _isSelected;
         public bool IsSelected {
             get => _isSelected;
@@ -36,40 +33,16 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
-        public Game(String id, String name, String path) { 
+        public Game(String id, String name, String path, bool isSingleFileSave) { 
+            this.IsSelected = false;
             this.Id = id;
             this.Name = name;
             this.Path = path;
+            this.IsSingleFileSave = isSingleFileSave;
             this.ConfigsIsDefault = true;
         }
 
-        public Game(String id, String name, String path, GameBackupConfigs gameBackupConfigs) {
-            this.Id = id;
-            this.Name = name;
-            this.Path = path;
-            this.ConfigsIsDefault = false;
-        }
 
-        public Game(String id, String name, String path, ObservableCollection<Save> saves) {
-            this.Id = id;
-            this.Name = name;
-            this.Path = path;
-            this.ConfigsIsDefault = true;
-            this.Saves = saves;
-        }
-
-        public Game(String id, String name, String path, ObservableCollection<Save> saves, GameBackupConfigs gameBackupConfigs) {
-            this.Id = id;
-            this.Name = name;
-            this.Path = path;
-            this.Saves = saves;
-            this.gameBackupConfigs = gameBackupConfigs;
-            this.ConfigsIsDefault = false;
-        }
-
-        public void NewSave(Save save) {
-            Saves.Add(save);
-        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
