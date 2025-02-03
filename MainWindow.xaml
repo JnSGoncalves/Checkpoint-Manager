@@ -48,7 +48,7 @@
         </Frame>
 
         <GridSplitter Grid.Column="1" Grid.Row="1" x:Name="gridSplitter"
-                      Width="5" HorizontalAlignment="Stretch" 
+                      Width="5" HorizontalAlignment="Stretch" Focusable="False"
                       Background="DarkGray" ResizeBehavior="PreviousAndNext"/>
 
         <!-- Conteúdo Principal -->

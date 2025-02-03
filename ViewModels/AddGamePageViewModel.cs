@@ -102,7 +102,7 @@ namespace Checkpoint_Manager.ViewModels {
                     MessageBoxResult result = System.Windows.MessageBox.Show($"O caminho de save '{GamePath}' está correto?\n\n" +
                         "O programa realizará alterações no caminho selecionado, tenha certeza que as modificações constantes " +
                         "no caminho não causarão problemas ao sistema ou outros aplicativos", 
-                        "Adicionar Jogo", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        "Adicionar Jogo", MessageBoxButton.YesNo, MessageBoxImage.None);
 
                     if (result == MessageBoxResult.Yes) {
                         Game game = new Game(newGameId, GameName, GamePath, IsSingleFileSave);

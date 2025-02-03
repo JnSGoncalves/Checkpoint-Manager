@@ -61,13 +61,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Label Style="{StaticResource TitleLabelStyle}">
-                Registred Saves -
-            </Label>
-            <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}">
-            </Label>
-        </StackPanel>
+        <Border Grid.Row="0" Background="#1F1E1E" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderColor}">
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Style="{StaticResource TitleLabelStyle}">
+                    Registred Saves:
+                </Label>
+                <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}">
+                </Label>
+            </StackPanel>
+        </Border>
 
         <ScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding Saves}">
