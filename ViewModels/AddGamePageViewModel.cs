@@ -109,7 +109,10 @@ namespace Checkpoint_Manager.ViewModels {
                         App.MainViewModelInstance.Games.Add(game);
 
                         System.Windows.Forms.MessageBox.Show($"Jogo {GameName} adicionado!", "Sucesso",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Atualiza o arquivo que salva os dados dos jogos
+                        FileManeger.AttArquives(App.MainViewModelInstance.Games);
 
                         App.MainViewModelInstance.ResetOpenPages();
 

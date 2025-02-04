@@ -85,10 +85,11 @@ namespace Checkpoint_Manager.ViewModels {
         }
 
         public void StartApp() {
+            ConfigInfo Config = FileManeger.StartConfigInfo();
+
             Games = FileManeger.FindGames();
             
             Debug.WriteLine($"Qtd de Jogos encontrados: {Games.Count}");
-            FileManeger.StartConfigInfo();
         }
 
         public void ResetOpenPages() {
