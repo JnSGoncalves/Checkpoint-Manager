@@ -88,7 +88,15 @@ namespace Checkpoint_Manager.ViewModels {
             ConfigInfo Config = FileManeger.StartConfigInfo();
 
             Games = FileManeger.FindGames();
-            
+
+            int contagem = 1;
+            foreach (Game games in Games) {
+                if (games.NewSave($"teste {contagem}", $"descricao {contagem}")) {
+                    FileManeger.AttArquives(Games);
+                }
+                contagem++;
+            }
+
             Debug.WriteLine($"Qtd de Jogos encontrados: {Games.Count}");
         }
 
@@ -108,12 +116,6 @@ namespace Checkpoint_Manager.ViewModels {
     // Converter do MainContent
     public class MultiPageConverter : IMultiValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-            Debug.WriteLine("=== VALORES RECEBIDOS NO CONVERSOR ===");
-            Debug.WriteLine($"SelectedGame: {values[0]?.ToString() ?? "null"}");
-            Debug.WriteLine($"ConfigIsOpen: {values[1]}");
-            Debug.WriteLine($"AddPageIsOpen: {values[2]}");
-            Debug.WriteLine($"GameConfigIsOpen: {values[3]}");
-            Debug.WriteLine($"Parameter: {parameter}");
 
             // Ordem de prioridade (definida no parâmetro do XAML)
             var priority = (parameter as string)?.Split(',') ?? new[] { "Config", "GameConfig", "Add", "Game" };

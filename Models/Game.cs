@@ -42,7 +42,22 @@ namespace Checkpoint_Manager.Models {
             this.ConfigsIsDefault = true;
         }
 
+        public bool NewSave(string name, string description) {
+            string saveId = IdGetter.CreateId(name);
+            var save = new Save(saveId, name, description, DateGetter.GetActualDate());
+            try {
+                FileManeger.CopyNewSave(this, name);
 
+                Saves.Add(save);
+                Debug.WriteLine($"Save {name} de id {saveId} criado");
+
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine($"Erro ao criar o Save {name} de id {saveId} criado");
+                return false;
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {

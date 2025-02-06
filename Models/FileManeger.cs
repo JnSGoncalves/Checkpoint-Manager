@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace Checkpoint_Manager.Models {
 
         private readonly static string ConfigPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-            "CheckpointManeger");
+            "Checkpoint Maneger");
 
         public static void AttArquives(ObservableCollection<Game> games) {
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
@@ -65,9 +66,10 @@ namespace Checkpoint_Manager.Models {
                 Config.IsAutoSave = false;
                 Config.AutoSaveTime = 60; // Definido em minutos
                 Config.MaxSaves = 0; // 0 = Ilimitado
+                Config.Culture = CultureInfo.GetCultureInfo("pt-BR");
 
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                Config.SavesPath = Path.Combine(documentosPath, "CheckpointManeger\\Saves");
+                Config.SavesPath = Path.Combine(documentosPath, "Checkpoint Maneger\\Saves");
                 Debug.WriteLine(Config.SavesPath);
 
                 var json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
@@ -78,6 +80,103 @@ namespace Checkpoint_Manager.Models {
             }
 
             return Config;
+        }
+
+        public static void CopyNewSave(Game game, string name) {
+            string backupDirectory = Path.Combine(Config.SavesPath, game.Name);
+
+            if (!Directory.Exists(backupDirectory)) {
+                Directory.CreateDirectory(backupDirectory);
+            }
+
+            string saveBackupFolder = Path.Combine(backupDirectory, name);
+            Directory.CreateDirectory(saveBackupFolder);
+            DirectoryInfo finalDir = new DirectoryInfo(saveBackupFolder);
+
+            if (game.IsSingleFileSave) {    
+                FileInfo saveFile = new FileInfo(game.Path);
+                if (saveFile.Exists) {
+                    string newSaveFile = Path.Combine(finalDir.FullName, saveFile.Name);
+                    
+                    File.Copy(saveFile.FullName, newSaveFile);
+
+                    Debug.WriteLine("Cópia de save criada");
+                    return;
+                } else {
+                    finalDir.Delete();
+                    Debug.WriteLine("Arquivo de Save do jogo não encontrado");
+                    throw new DirectoryNotFoundException(
+                        "Arquivo de origem não encontrado: " + saveFile);
+                }
+            } else {
+                DirectoryInfo saveDirectory = new DirectoryInfo(game.Path);
+                if (saveDirectory.Exists) {
+                    Copy(saveDirectory, finalDir);
+
+                    Debug.WriteLine("Cópia da pasta de save criada");
+                    return;
+                } else {
+                    finalDir.Delete();
+                    Debug.WriteLine("Pasta de Save do jogo não encontrado");
+                    throw new DirectoryNotFoundException(
+                        "Diretório de origem não encontrado: " + saveDirectory);
+                }
+            }
+        }
+
+        private static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
+            if (!destDir.Exists) {
+                Directory.CreateDirectory(sourceDir.FullName);
+            }
+
+            foreach (FileInfo file in sourceDir.GetFiles()) {
+                string tempPath = Path.Combine(destDir.FullName, file.Name);
+                file.CopyTo(tempPath, true);
+            }
+
+            if (copySubDirs) {
+                foreach (DirectoryInfo subdir in sourceDir.GetDirectories()) {
+                    DirectoryInfo tempPath = new DirectoryInfo(Path.Combine(destDir.FullName, subdir.Name));
+                    if (!tempPath.Exists) {
+                        Directory.CreateDirectory(tempPath.FullName);
+                    }
+
+                    // Chamada recursiva
+                    Copy(subdir, tempPath, copySubDirs);
+                }
+            }
+        }
+
+        // adicionar essa verificação no textBox do nome de um novo save
+        public static bool IsValidSaveName(string folderName) {
+            if (string.IsNullOrWhiteSpace(folderName)) {
+                return false;
+            }
+
+            if (folderName.EndsWith(".")) {
+                return false;
+            }
+
+            string invalidChars = "<>:\"/\\|?*";
+            foreach (char c in invalidChars) {
+                if (folderName.Contains(c)) {
+                    return false;
+                }
+            }
+
+            string[] reservedNames = {
+                "CON", "PRN", "AUX", "NUL",
+                "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+                "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+            };
+
+            foreach (string reservedName in reservedNames) {
+                if (folderName.Equals(reservedName, StringComparison.OrdinalIgnoreCase)) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
