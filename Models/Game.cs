@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkpoint_Manager.Models {
     public class Game : INotifyPropertyChanged {
         public String Id { get; set; }
         public String Name { get; set; }
         public String Path { get; set; }
+        public bool IsSingleFileSave { get; set; }
         public bool ConfigsIsDefault { get; set; }
+
         private bool _isSelected;
         public bool IsSelected {
             get => _isSelected;
@@ -36,39 +33,51 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
-        public Game(String id, String name, String path) { 
+        public Game(String id, String name, String path, bool isSingleFileSave) { 
+            this.IsSelected = false;
             this.Id = id;
             this.Name = name;
             this.Path = path;
+            this.IsSingleFileSave = isSingleFileSave;
             this.ConfigsIsDefault = true;
         }
 
-        public Game(String id, String name, String path, GameBackupConfigs gameBackupConfigs) {
-            this.Id = id;
-            this.Name = name;
-            this.Path = path;
-            this.ConfigsIsDefault = false;
+        // A verificação de nome de save deve ser feita na coleta dele antes da chamada dessa função
+        public bool NewSave(string name, string description) {
+            string saveId = IdGetter.CreateId(name);
+            var save = new Save(saveId, name, description, DateGetter.GetActualDate());
+            try {
+                FileManager.CopyNewSave(this, name);
+
+                Saves.Add(save);
+                Debug.WriteLine($"Save {name} de id {saveId} criado");
+
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine($"Erro ao criar o Save {name} de id {saveId}");
+                return false;
+            }
         }
 
-        public Game(String id, String name, String path, ObservableCollection<Save> saves) {
-            this.Id = id;
-            this.Name = name;
-            this.Path = path;
-            this.ConfigsIsDefault = true;
-            this.Saves = saves;
-        }
+        public bool NewSave() {
+            string date = DateGetter.GetDateToName();
+            string name = $"{Name} - {date}";
+            string id = IdGetter.CreateId(name);
+            var save = new Save(id, name, "", DateGetter.GetActualDate());
 
-        public Game(String id, String name, String path, ObservableCollection<Save> saves, GameBackupConfigs gameBackupConfigs) {
-            this.Id = id;
-            this.Name = name;
-            this.Path = path;
-            this.Saves = saves;
-            this.gameBackupConfigs = gameBackupConfigs;
-            this.ConfigsIsDefault = false;
-        }
+            try {
+                FileManager.CopyNewSave(this, name);
 
-        public void NewSave(Save save) {
-            Saves.Add(save);
+                Saves.Add(save);
+                Debug.WriteLine($"Save {name} de id {id} criado");
+
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine($"Erro ao criar o Save {name} de id {id}");
+                return false;
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

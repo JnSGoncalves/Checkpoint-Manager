@@ -10,7 +10,7 @@ namespace Checkpoint_Manager.Views {
         }
 
         private void CloseSideBar(object sender, RoutedEventArgs e) {
-            if (Application.Current.MainWindow is not MainWindow mainWindow)
+            if (System.Windows.Application.Current.MainWindow is not MainWindow mainWindow)
                 return;
 
             var sideBarFrame = mainWindow.FindName("sideBarFrame") as Frame;
@@ -18,23 +18,26 @@ namespace Checkpoint_Manager.Views {
 
             if (sideBarFrame?.RenderTransform is TranslateTransform translateTransform) {
                 var animation = new DoubleAnimation {
-                    To = -200,
+                    To = -sideBarFrame.ActualWidth,
                     Duration = TimeSpan.FromSeconds(0.3)
                 };
 
-                translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+                animation.Completed += (s, e) => {
+                    if (mainContent != null) {
+                        Grid.SetColumn(mainContent, 0);
+                        Grid.SetColumnSpan(mainContent, 3);
+                    }
+                };
 
-                // Futuramente fazer uma alteração na animação pois os elementos da MainContent acabam ficando
-                // sobrepostos com os da side bar no incio da animação
-                if (mainContent != null) {
-                    Grid.SetColumn(mainContent, 0);
-                    Grid.SetColumnSpan(mainContent, 2);
-                }
+                var gridSplitter = mainWindow.FindName("gridSplitter") as GridSplitter;
+                gridSplitter.Visibility = Visibility.Collapsed;
+
+                translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
             }
         }
 
         private void OpenSideBar(object sender, RoutedEventArgs e) {
-            if (Application.Current.MainWindow is not MainWindow mainWindow)
+            if (System.Windows.Application.Current.MainWindow is not MainWindow mainWindow)
                 return;
 
             var sideBarFrame = mainWindow.FindName("sideBarFrame") as Frame;
@@ -46,10 +49,15 @@ namespace Checkpoint_Manager.Views {
                     Duration = TimeSpan.FromSeconds(0.3)
                 };
 
+                animation.Completed += (s, e) => {
+                    var gridSplitter = mainWindow.FindName("gridSplitter") as GridSplitter;
+                    gridSplitter.Visibility = Visibility.Visible;
+                };
+
                 translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
 
                 if (mainContent != null) {
-                    Grid.SetColumn(mainContent, 1);
+                    Grid.SetColumn(mainContent, 2);
                     Grid.SetColumnSpan(mainContent, 1);
                 }
             }

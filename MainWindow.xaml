@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:Checkpoint_Manager.ViewModels"
         mc:Ignorable="d"
         Title="Checkpoint Manager" Height="600" Width="1100"
-        MinHeight="350" MinWidth="550"
+        MinHeight="400" MinWidth="550"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <Binding Source="{x:Static local:App.MainViewModelInstance}" />
@@ -28,14 +28,16 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <!-- Side Bar -->
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto" MinWidth="200" MaxWidth="430"/>
+            <!-- GridSplitter -->
+            <ColumnDefinition Width="2"/>
             <!-- Conteúdo principal -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Top Menu -->
         <Frame Source="/Views/TopMenu.xaml" NavigationUIVisibility="Hidden"
-               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
+               Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"/>
 
         <!-- Side Bar -->
         <Frame x:Name="sideBarFrame" Source="/Views/SideBar.xaml" NavigationUIVisibility="Hidden"
@@ -45,9 +47,13 @@
             </Frame.RenderTransform>
         </Frame>
 
+        <GridSplitter Grid.Column="1" Grid.Row="1" x:Name="gridSplitter"
+                      Width="5" HorizontalAlignment="Stretch" Focusable="False"
+                      Background="DarkGray" ResizeBehavior="PreviousAndNext"/>
+
         <!-- Conteúdo Principal -->
         <Frame x:Name="mainContent" NavigationUIVisibility="Hidden" 
-               Grid.Column="1" Grid.Row="1">
+               Grid.Column="3" Grid.Row="1">
             <Frame.Content>
                 <MultiBinding Converter="{StaticResource PageConverter}" ConverterParameter="Config,GameConfig,Add,Game">
                     <Binding Path="SelectedGame"/> <!-- values[0] -->
@@ -60,6 +66,6 @@
 
         <!-- Barra Inferior -->
         <Frame Source="/Views/DownBar.xaml" NavigationUIVisibility="Hidden"
-               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"/>
+               Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2"/>
     </Grid>
 </Window>

@@ -13,6 +13,7 @@ namespace Checkpoint_Manager.ViewModels {
         public SidePageViewModel SidePageVM { get; }
         public TopMenuViewModel TopMenuVM { get; }
         public SavesPageViewModel SavesPageVM {  get; }
+        public AddGamePageViewModel AddGamePageVM { get; }
         
         // Lista dos Jogos cadastrados
         private ObservableCollection<Game>? _games;
@@ -66,7 +67,7 @@ namespace Checkpoint_Manager.ViewModels {
             }
         }
 
-        // Aba de Adição de Jogos está aberta?
+        // Aba de configuração de Jogos está aberta?
         private bool _gameConfigIsOpen;
         public bool GameConfigIsOpen {
             get => _gameConfigIsOpen;
@@ -80,13 +81,13 @@ namespace Checkpoint_Manager.ViewModels {
             SidePageVM = new SidePageViewModel();
             TopMenuVM = new TopMenuViewModel();
             SavesPageVM = new SavesPageViewModel();
+            AddGamePageVM = new AddGamePageViewModel();
         }
 
         public void StartApp() {
-            Games = FileManeger.FindGames();
-            
-            Debug.WriteLine($"Qtd de Jogos encontrados: {Games.Count}");
-            FileManeger.StartConfigInfo();
+            ConfigInfo Config = FileManager.StartConfigInfo();
+
+            Games = FileManager.FindGames();
         }
 
         public void ResetOpenPages() {
@@ -105,12 +106,6 @@ namespace Checkpoint_Manager.ViewModels {
     // Converter do MainContent
     public class MultiPageConverter : IMultiValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-            Debug.WriteLine("=== VALORES RECEBIDOS NO CONVERSOR ===");
-            Debug.WriteLine($"SelectedGame: {values[0]?.ToString() ?? "null"}");
-            Debug.WriteLine($"ConfigIsOpen: {values[1]}");
-            Debug.WriteLine($"AddPageIsOpen: {values[2]}");
-            Debug.WriteLine($"GameConfigIsOpen: {values[3]}");
-            Debug.WriteLine($"Parameter: {parameter}");
 
             // Ordem de prioridade (definida no parâmetro do XAML)
             var priority = (parameter as string)?.Split(',') ?? new[] { "Config", "GameConfig", "Add", "Game" };

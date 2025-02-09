@@ -4,13 +4,158 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddGamePage">
 
+    <Page.DataContext>
+        <Binding Source="{x:Static app:App.MainViewModelInstance}" />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource TopMenuBackgroud}"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="15"
+                                    BorderThickness="1" BorderBrush="{StaticResource BorderColor}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MenuHoverButtonColor}" />
+                    </Trigger>
+
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ButtonPressedColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid>
-        <Label Foreground="White" FontSize="30"> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.7*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Foreground="White" FontSize="30" Margin="0,10,0,0"
+                   HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center"> 
             Add Game
-        </Label>
+        </TextBlock>
+
+        <Button Height="50" Width="50" Style="{StaticResource ButtonStyle}"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,10,10,0" Command="{Binding AddGamePageVM.ClosePageCommand}">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{StaticResource BorderColor}"
+                            CornerRadius="25"
+                            BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+
+            <Image Width="43" Height="43" Source="/Assets/x-circle.png"/>
+        </Button>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <Viewbox MaxHeight="60">
+                <TextBlock
+               Foreground="White"
+               HorizontalAlignment="Center"
+               Margin="10,10,10,10">
+                    Nome do Jogo
+                </TextBlock>
+            </Viewbox>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="TxtGameName" Style="{StaticResource TextBoxStyle}" 
+                         Text="{Binding AddGamePageVM.GameName, Mode=TwoWay}"
+                         Grid.Column="1" MaxLength="50"/>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <Viewbox MaxHeight="60">
+                <TextBlock
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="10,10,10,10">
+                    Caminho do Jogo
+                </TextBlock>
+            </Viewbox>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBox Name="TxtGamePath" Style="{StaticResource TextBoxStyle}"
+                         Text="{Binding AddGamePageVM.GamePath, Mode=TwoWay}"
+                         Grid.Column="1" Margin="0,0,34,0"/>
+
+                <Button Grid.Column="1" Height="26" Width="30" 
+                        Style="{StaticResource ButtonStyle}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Content="..."
+                        Command="{Binding AddGamePageVM.SelectPathCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderThickness="1" BorderBrush="{StaticResource BorderColor}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <CheckBox Name="SaveIsFile" HorizontalAlignment="Center" 
+                      IsChecked="{Binding AddGamePageVM.IsSingleFileSave, Mode=TwoWay}"
+                      Foreground="White" Margin="0,20,0,20">
+                Save de arquívo único
+            </CheckBox>
+        </StackPanel>
+
+        <Button Grid.Row="3" Height="35" Width="165" 
+                FontSize="15"
+                Style="{StaticResource ButtonStyle}" 
+                Command="{Binding AddGamePageVM.AddGameCommand}"
+                VerticalAlignment="Center">
+            Adicionar Jogo
+        </Button>
     </Grid>
 </Page>

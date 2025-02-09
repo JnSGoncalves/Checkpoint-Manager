@@ -26,13 +26,13 @@
 
             <!-- Botões Laterais / Seleção dos jogos -->
             <Style x:Key="ButtonStyle" TargetType="ToggleButton">
-                <Setter Property="Width" Value="200"/>
                 <Setter Property="Height" Value="45"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="FontFamily" Value="{StaticResource NunitoSans}"/>
                 <Setter Property="FontSize" Value="15"/>
+                <Setter Property="HorizontalContentAlignment"  Value="Left"/>
                 <Setter Property="Background" Value="{Binding Background, ElementName=mainGrid}" />
 
                 <Setter Property="Template">
@@ -43,7 +43,8 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Margin="12, 2, 12, 2"
                                     CornerRadius="8">
-                                <ContentPresenter HorizontalAlignment="Center"
+                                <ContentPresenter HorizontalAlignment="Left"
+                                                  Margin="10,0,0,0"
                                                   VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
@@ -113,7 +114,8 @@
                                 Content="{Binding Name}"
                                 Style="{StaticResource ButtonStyle}"
                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                Command="{Binding DataContext.SidePageVM.SelectGameCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                Command="{Binding DataContext.SidePageVM.SelectGameCommand, 
+                                RelativeSource={RelativeSource AncestorType=Page}}"
                                 CommandParameter="{Binding}"
                                 Tag="{Binding Id}"/>
                         </DataTemplate>
@@ -124,8 +126,8 @@
             <Grid Background="{StaticResource BackgroudColor}"
                     Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Style="{StaticResource DownButton}" Command="{Binding SidePageVM.AddGameCommand}">
