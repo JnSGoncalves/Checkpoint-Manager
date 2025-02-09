@@ -85,19 +85,9 @@ namespace Checkpoint_Manager.ViewModels {
         }
 
         public void StartApp() {
-            ConfigInfo Config = FileManeger.StartConfigInfo();
+            ConfigInfo Config = FileManager.StartConfigInfo();
 
-            Games = FileManeger.FindGames();
-
-            int contagem = 1;
-            foreach (Game games in Games) {
-                if (games.NewSave($"teste {contagem}", $"descricao {contagem}")) {
-                    FileManeger.AttArquives(Games);
-                }
-                contagem++;
-            }
-
-            Debug.WriteLine($"Qtd de Jogos encontrados: {Games.Count}");
+            Games = FileManager.FindGames();
         }
 
         public void ResetOpenPages() {

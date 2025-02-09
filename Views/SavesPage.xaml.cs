@@ -19,9 +19,5 @@ namespace Checkpoint_Manager.Views {
                 Debug.WriteLine("Save não é DataContext");
             }
         }
-
-        private void SwapSave(object sender, RoutedEventArgs e) {
-
-        }
     }
 }

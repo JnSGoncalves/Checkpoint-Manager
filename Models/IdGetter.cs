@@ -4,8 +4,8 @@ using System.Text;
 namespace Checkpoint_Manager.Models {
     internal class IdGetter {
         public static String CreateId(String seed) {
-            if (seed.Length > 50)
-                seed = seed.Substring(0, 50); // Garante no máximo 35 caracteres
+            if (seed.Length > 80)
+                seed = seed.Substring(0, 80); // Garante no máximo 80 caracteres
 
             using SHA256 sha256 = SHA256.Create();
             byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(seed));

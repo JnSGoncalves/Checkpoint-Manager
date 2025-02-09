@@ -86,9 +86,16 @@ namespace Checkpoint_Manager.ViewModels {
 
         private void AddGame() {
             if (!string.IsNullOrEmpty(GameName) && !string.IsNullOrEmpty(GamePath)) {
-                if (!PathValidator.IsSystemOrProtectedPath(GamePath)) {
+                if (!NameValidator.IsValidName(GameName)) {
+                    System.Windows.Forms.MessageBox.Show("Nome inválido!", "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!PathValidator.IsSystemOrProtectedPath(GamePath)) { 
                     string newGameId = IdGetter.CreateId(GameName);
 
+                    #pragma warning disable CS8602
                     foreach (Game _ in App.MainViewModelInstance.Games) {
                         if (_.Id.Equals(newGameId)) {
                             System.Windows.Forms.MessageBox.Show("Jogo já adicionado.\n\n" +
@@ -98,6 +105,7 @@ namespace Checkpoint_Manager.ViewModels {
                             return;
                         }
                     }
+                    #pragma warning restore CS8602
 
                     MessageBoxResult result = System.Windows.MessageBox.Show($"O caminho de save '{GamePath}' está correto?\n\n" +
                         "O programa realizará alterações no caminho selecionado, tenha certeza que as modificações constantes " +
@@ -112,7 +120,7 @@ namespace Checkpoint_Manager.ViewModels {
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         // Atualiza o arquivo que salva os dados dos jogos
-                        FileManeger.AttArquives(App.MainViewModelInstance.Games);
+                        FileManager.AttArquives(App.MainViewModelInstance.Games);
 
                         App.MainViewModelInstance.ResetOpenPages();
 

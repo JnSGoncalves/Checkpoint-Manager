@@ -42,11 +42,12 @@ namespace Checkpoint_Manager.Models {
             this.ConfigsIsDefault = true;
         }
 
+        // A verificação de nome de save deve ser feita na coleta dele antes da chamada dessa função
         public bool NewSave(string name, string description) {
             string saveId = IdGetter.CreateId(name);
             var save = new Save(saveId, name, description, DateGetter.GetActualDate());
             try {
-                FileManeger.CopyNewSave(this, name);
+                FileManager.CopyNewSave(this, name);
 
                 Saves.Add(save);
                 Debug.WriteLine($"Save {name} de id {saveId} criado");
@@ -54,7 +55,27 @@ namespace Checkpoint_Manager.Models {
                 return true;
             } catch (Exception ex) {
                 Debug.WriteLine(ex.ToString());
-                Debug.WriteLine($"Erro ao criar o Save {name} de id {saveId} criado");
+                Debug.WriteLine($"Erro ao criar o Save {name} de id {saveId}");
+                return false;
+            }
+        }
+
+        public bool NewSave() {
+            string date = DateGetter.GetDateToName();
+            string name = $"{Name} - {date}";
+            string id = IdGetter.CreateId(name);
+            var save = new Save(id, name, "", DateGetter.GetActualDate());
+
+            try {
+                FileManager.CopyNewSave(this, name);
+
+                Saves.Add(save);
+                Debug.WriteLine($"Save {name} de id {id} criado");
+
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine($"Erro ao criar o Save {name} de id {id}");
                 return false;
             }
         }

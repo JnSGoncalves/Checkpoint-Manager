@@ -5,18 +5,31 @@ using System.IO;
 using System.Text.Json;
 
 namespace Checkpoint_Manager.Models {
-    internal class FileManeger {
+    internal class FileManager {
         public static ConfigInfo Config { get; set; }
 
         private readonly static string ConfigPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
             "Checkpoint Maneger");
 
+
+        // Ao salvar nos arquivos ele mantém o status de isSelected do jogo selecionado anteriormente
+        // Fazer a modificação depois,
+
+        // A Parte comentada resolve esse problema sem mudar a lista da aplicação,
+        // mas não tenho certeza se funciona na conversão de volta na leitura do arquivo
         public static void AttArquives(ObservableCollection<Game> games) {
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
             string gamesArquivePath = Path.Combine(ConfigPath, "Games.json");
 
+            //List<Game> copiaGames = games.ToList<Game>();
+
+            foreach (Game game in games) {
+                game.IsSelected = false;
+            }
+
             string jsonConfig = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
+            //string jsonGames = JsonSerializer.Serialize(copiaGames, new JsonSerializerOptions { WriteIndented = true });
             string jsonGames = JsonSerializer.Serialize(games, new JsonSerializerOptions { WriteIndented = true });
 
             File.WriteAllText(configArchivePath, jsonConfig);
