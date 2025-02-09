@@ -39,11 +39,16 @@ namespace Checkpoint_Manager.ViewModels
         public void DelSave(Save? save) {
             if (save != null && App.MainViewModelInstance.SelectedGame is Game selectedGame) {
                 MessageBoxResult result = System.Windows.MessageBox.Show("Deseja realmente deletar o save " + save.Name +
-                "?\nEssa ação não pode ser desfeita.", "Remover Save", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                "?\nEssa ação não pode ser desfeita.", "Deletar Save", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes) {
-                    selectedGame.Saves.Remove(save);
-                    Debug.WriteLine($"Save {save.Name} do jogo {App.MainViewModelInstance.SelectedGame.Name} removido!");
+                    if (FileManager.DeleteSave(selectedGame.Name ,save.Name)) {
+                        selectedGame.Saves.Remove(save);
+                        Debug.WriteLine($"Save {save.Name} do jogo {App.MainViewModelInstance.SelectedGame.Name} removido!");
+                        return;
+                    }
+                    System.Windows.MessageBox.Show("Erro ao tentar excluir o save", "Erro", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

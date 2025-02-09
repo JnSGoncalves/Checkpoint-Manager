@@ -137,6 +137,19 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
+        public static bool DeleteSave(string gameName, string saveName) {
+            string pathFolder = Path.Combine(Config.SavesPath, Path.Combine(gameName, saveName));
+            Debug.WriteLine(pathFolder);
+
+            if (!Directory.Exists(pathFolder)) { 
+                Debug.WriteLine($"Save {saveName} não existe");
+                return false;
+            }
+
+            Directory.Delete(pathFolder, true);
+            return true;
+        }
+
         private static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
             if (!destDir.Exists) {
                 Directory.CreateDirectory(sourceDir.FullName);
@@ -159,6 +172,7 @@ namespace Checkpoint_Manager.Models {
                 }
             }
         }
+
 
         // adicionar essa verificação no textBox do nome de um novo save
         public static bool IsValidSaveName(string folderName) {
