@@ -119,7 +119,7 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid Margin="15,5,0,0"
-                                        Grid.Column="0">
+                                        Grid.Column="0" ToolTip="{Binding Description}" ToolTipService.InitialShowDelay="1000">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="30"/>
                                             <RowDefinition Height="*"/>
@@ -160,7 +160,9 @@
                                     </Grid>
 
                                     <Button Style="{StaticResource SaveButtonStyle}" 
-                                                Grid.Column="1" >
+                                            Grid.Column="1"
+                                            Command="{Binding Source={x:Static app:App.MainViewModelInstance}, 
+                                            Path=SavesPageVM.SwapSaveCommand}" CommandParameter="{Binding}">
                                         <Image Source="/Assets/swap.png" Style="{StaticResource ImageStyle}"
                                                    ToolTip="Swap to this save" ToolTipService.InitialShowDelay="1000"/>
                                     </Button>

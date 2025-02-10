@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace Checkpoint_Manager.Models {
     internal class ConfigInfo {
@@ -7,6 +8,7 @@ namespace Checkpoint_Manager.Models {
         public double AutoSaveTime { get; set; }
         public int MaxSaves { get; set; }
         public string? SavesPath { get; set; }
+        [JsonIgnore]
         public CultureInfo? Culture { get; set; }
     }
 }
