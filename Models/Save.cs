@@ -8,7 +8,16 @@ namespace Checkpoint_Manager.Models {
     public class Save {
         public string? Id { get; set; }
         public string Name { get; set; }
-        public string? Description { get; set; }
+        private string _description;
+        public string? Description {
+            get => _description;
+            set {
+                if (String.IsNullOrEmpty(value))
+                    _description = "Description: Null";
+                else
+                    _description = "Description: " + value;
+            }
+        }
         public string? Date { get; set; }
         public Boolean? IsFavorite { get; set; }
 

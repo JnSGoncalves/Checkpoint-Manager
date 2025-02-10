@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Windows;
 
 namespace Checkpoint_Manager.Models {
     internal class FileManager {
@@ -10,7 +12,7 @@ namespace Checkpoint_Manager.Models {
 
         private readonly static string ConfigPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-            "Checkpoint Maneger");
+            "Checkpoint Manager");
 
 
         // Ao salvar nos arquivos ele mantém o status de isSelected do jogo selecionado anteriormente
@@ -48,10 +50,18 @@ namespace Checkpoint_Manager.Models {
             if (!File.Exists(gamesArquive)) {
                 File.Create(gamesArquive);
             } else {
-                if (JsonSerializer.Deserialize<ObservableCollection<Game>>(File.ReadAllText(gamesArquive)) is
-                    ObservableCollection<Game> games) {
-                    return games;
-                }  
+                string jsonContent = File.ReadAllText(gamesArquive);
+
+                if (string.IsNullOrWhiteSpace(jsonContent)) {
+                    return new ObservableCollection<Game>();
+                }
+
+                try {
+                    var games = JsonSerializer.Deserialize<ObservableCollection<Game>>(jsonContent);
+                    return games ?? new ObservableCollection<Game>();
+                } catch (JsonException) {
+                    return new ObservableCollection<Game>();
+                }
             }
 
             return new ObservableCollection<Game>();
@@ -64,7 +74,13 @@ namespace Checkpoint_Manager.Models {
 
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
             if (File.Exists(configArchivePath)) {
-                if(JsonSerializer.Deserialize<ConfigInfo>(File.ReadAllText(configArchivePath)) is ConfigInfo config){
+                var options = new JsonSerializerOptions {
+                    WriteIndented = true,
+                };
+
+                ConfigInfo config = JsonSerializer.Deserialize<ConfigInfo>(File.ReadAllText(configArchivePath));
+
+                if (config != null){
                     Config = (ConfigInfo)config;
                     Debug.WriteLine("Arquivo de configuração carregado");
                 } else {
@@ -82,10 +98,13 @@ namespace Checkpoint_Manager.Models {
                 Config.Culture = CultureInfo.GetCultureInfo("pt-BR");
 
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                Config.SavesPath = Path.Combine(documentosPath, "Checkpoint Maneger\\Saves");
+                Config.SavesPath = Path.Combine(documentosPath, "Checkpoint Manager\\Saves");
                 Debug.WriteLine(Config.SavesPath);
 
-                var json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
+                var json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { 
+                    WriteIndented = true,
+                    ReferenceHandler = ReferenceHandler.Preserve
+                });
                 
                 File.WriteAllText(configArchivePath, json);
 
@@ -93,6 +112,52 @@ namespace Checkpoint_Manager.Models {
             }
 
             return Config;
+        }
+
+        public static void SwapSave(Game selectedGame, string saveName) {
+            if (!selectedGame.NewSave()) {
+                Debug.WriteLine("Erro ao criar save automático");
+                throw new Exception("Erro ao criar save automático");
+
+            } else {
+                // Save como pasta
+                if (!selectedGame.IsSingleFileSave) { 
+                    string backupPath = Path.Combine(Config.SavesPath, Path.Combine(selectedGame.Name, saveName));
+
+                    DirectoryInfo swapSaveDirectoryInfo = new DirectoryInfo(backupPath);
+                    DirectoryInfo actualSaveDirectoryInfo = new DirectoryInfo(selectedGame.Path);
+
+                    if (swapSaveDirectoryInfo.Exists && actualSaveDirectoryInfo.Exists) {
+                        FileManager.AttArquives(App.MainViewModelInstance.Games);
+
+                        // Copia o save backup selecionado para a pasta de save do jogo
+                        Copy(swapSaveDirectoryInfo, actualSaveDirectoryInfo);
+
+                        return;
+                    } else {
+                        selectedGame.Saves.RemoveAt(0);
+
+                        Debug.WriteLine("Pasta de save de backup não encontrado nos arquivos");
+                        throw new Exception("Pasta de save de backup não encontrado nos arquivos");
+                    }
+                // Save de arquivo único
+                } else {
+                    string backupSaveFolder = Path.Combine(Config.SavesPath, Path.Combine(selectedGame.Name, saveName));
+
+                    FileInfo actualSaveFile = new FileInfo(selectedGame.Path);
+                    FileInfo backupSaveFile = new FileInfo(Path.Combine(backupSaveFolder, actualSaveFile.Name));
+                    if (backupSaveFile.Exists && actualSaveFile.Exists) {
+                        File.Copy(backupSaveFile.FullName, actualSaveFile.FullName, true);
+
+                        return;
+                    } else {
+                        selectedGame.Saves.RemoveAt(0);
+
+                        Debug.WriteLine("Pasta de save de backup não encontrado nos arquivos");
+                        throw new Exception("Pasta de save de backup não encontrado nos arquivos");
+                    }
+                }
+            }
         }
 
         public static void CopyNewSave(Game game, string name) {
@@ -137,6 +202,19 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
+        public static bool DeleteSave(string gameName, string saveName) {
+            string pathFolder = Path.Combine(Config.SavesPath, Path.Combine(gameName, saveName));
+            Debug.WriteLine(pathFolder);
+
+            if (!Directory.Exists(pathFolder)) { 
+                Debug.WriteLine($"Save {saveName} não existe");
+                return false;
+            }
+
+            Directory.Delete(pathFolder, true);
+            return true;
+        }
+
         private static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
             if (!destDir.Exists) {
                 Directory.CreateDirectory(sourceDir.FullName);
@@ -159,6 +237,7 @@ namespace Checkpoint_Manager.Models {
                 }
             }
         }
+
 
         // adicionar essa verificação no textBox do nome de um novo save
         public static bool IsValidSaveName(string folderName) {

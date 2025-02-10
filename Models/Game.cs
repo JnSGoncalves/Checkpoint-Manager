@@ -49,7 +49,7 @@ namespace Checkpoint_Manager.Models {
             try {
                 FileManager.CopyNewSave(this, name);
 
-                Saves.Add(save);
+                Saves.Insert(0, save);
                 Debug.WriteLine($"Save {name} de id {saveId} criado");
 
                 return true;
@@ -69,7 +69,7 @@ namespace Checkpoint_Manager.Models {
             try {
                 FileManager.CopyNewSave(this, name);
 
-                Saves.Add(save);
+                Saves.Insert(0, save);
                 Debug.WriteLine($"Save {name} de id {id} criado");
 
                 return true;
