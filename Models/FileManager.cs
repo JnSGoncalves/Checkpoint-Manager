@@ -115,47 +115,41 @@ namespace Checkpoint_Manager.Models {
         }
 
         public static void SwapSave(Game selectedGame, string saveName) {
-            if (!selectedGame.NewSave()) {
-                Debug.WriteLine("Erro ao criar save automático");
-                throw new Exception("Erro ao criar save automático");
+            // Save como pasta
+            if (!selectedGame.IsSingleFileSave) { 
+                string backupPath = Path.Combine(Config.SavesPath, Path.Combine(selectedGame.Name, saveName));
 
-            } else {
-                // Save como pasta
-                if (!selectedGame.IsSingleFileSave) { 
-                    string backupPath = Path.Combine(Config.SavesPath, Path.Combine(selectedGame.Name, saveName));
+                DirectoryInfo swapSaveDirectoryInfo = new DirectoryInfo(backupPath);
+                DirectoryInfo actualSaveDirectoryInfo = new DirectoryInfo(selectedGame.Path);
 
-                    DirectoryInfo swapSaveDirectoryInfo = new DirectoryInfo(backupPath);
-                    DirectoryInfo actualSaveDirectoryInfo = new DirectoryInfo(selectedGame.Path);
+                if (swapSaveDirectoryInfo.Exists && actualSaveDirectoryInfo.Exists) {
+                    FileManager.AttArquives(App.MainViewModelInstance.Games);
 
-                    if (swapSaveDirectoryInfo.Exists && actualSaveDirectoryInfo.Exists) {
-                        FileManager.AttArquives(App.MainViewModelInstance.Games);
+                    // Copia o save backup selecionado para a pasta de save do jogo
+                    Copy(swapSaveDirectoryInfo, actualSaveDirectoryInfo);
 
-                        // Copia o save backup selecionado para a pasta de save do jogo
-                        Copy(swapSaveDirectoryInfo, actualSaveDirectoryInfo);
-
-                        return;
-                    } else {
-                        selectedGame.Saves.RemoveAt(0);
-
-                        Debug.WriteLine("Pasta de save de backup não encontrado nos arquivos");
-                        throw new Exception("Pasta de save de backup não encontrado nos arquivos");
-                    }
-                // Save de arquivo único
+                    return;
                 } else {
-                    string backupSaveFolder = Path.Combine(Config.SavesPath, Path.Combine(selectedGame.Name, saveName));
+                    selectedGame.Saves.RemoveAt(0);
 
-                    FileInfo actualSaveFile = new FileInfo(selectedGame.Path);
-                    FileInfo backupSaveFile = new FileInfo(Path.Combine(backupSaveFolder, actualSaveFile.Name));
-                    if (backupSaveFile.Exists && actualSaveFile.Exists) {
-                        File.Copy(backupSaveFile.FullName, actualSaveFile.FullName, true);
+                    Debug.WriteLine("Pasta de save de backup não encontrado nos arquivos");
+                    throw new Exception("Pasta de save de backup não encontrado nos arquivos");
+                }
+            // Save de arquivo único
+            } else {
+                string backupSaveFolder = Path.Combine(Config.SavesPath, Path.Combine(selectedGame.Name, saveName));
 
-                        return;
-                    } else {
-                        selectedGame.Saves.RemoveAt(0);
+                FileInfo actualSaveFile = new FileInfo(selectedGame.Path);
+                FileInfo backupSaveFile = new FileInfo(Path.Combine(backupSaveFolder, actualSaveFile.Name));
+                if (backupSaveFile.Exists && actualSaveFile.Exists) {
+                    File.Copy(backupSaveFile.FullName, actualSaveFile.FullName, true);
 
-                        Debug.WriteLine("Pasta de save de backup não encontrado nos arquivos");
-                        throw new Exception("Pasta de save de backup não encontrado nos arquivos");
-                    }
+                    return;
+                } else {
+                    selectedGame.Saves.RemoveAt(0);
+
+                    Debug.WriteLine("Pasta de save de backup não encontrado nos arquivos");
+                    throw new Exception("Pasta de save de backup não encontrado nos arquivos");
                 }
             }
         }
