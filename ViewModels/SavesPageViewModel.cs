@@ -21,12 +21,25 @@ namespace Checkpoint_Manager.ViewModels
 
         private void SwapSave(Save? save) {
             if (save != null && App.MainViewModelInstance.SelectedGame is Game selectedGame) {
-                MessageBoxResult result = System.Windows.MessageBox.Show("Deseja realmente fazer a troca do " +
-                    "save atual para o Checkpoint " + save.Name + "?\n\nLembre-se que essa função só deve ser usada " +
-                    "quando o save atual não está em andamento.\n\n\n(Seu save atual será guardado em um Checkpont automático)", 
-                    "Retornar Checkpoint", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult result = System.Windows.MessageBox.Show("Deseja criar um novo Checkpoint para o " +
+                    "save atual antes da troca para o Checkpoint \"" + save.Name + 
+                    "\"?\n\nLembre-se que essa função só deve ser usada quando o save atual não está em andamento.", 
+                    "Retornar Checkpoint", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes) {
+                    try {
+                        AddSave();
+
+                        FileManager.SwapSave(selectedGame, save.Name);
+
+                        System.Windows.MessageBox.Show("Sucesso ao fazer a troca do save atual para o Checkpoint "
+                            + save.Name + ".", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    } catch (Exception ex) {
+                        System.Windows.MessageBox.Show(ex.Message, "Erro",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }else if(result == MessageBoxResult.No) {
                     try {
                         FileManager.SwapSave(selectedGame, save.Name);
 
@@ -37,8 +50,12 @@ namespace Checkpoint_Manager.ViewModels
                         System.Windows.MessageBox.Show(ex.Message, "Erro",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                } else if(result == MessageBoxResult.Cancel){
+                    Debug.WriteLine("Operação de troca de save cancelada");
+                } else {
+                    Debug.WriteLine("Erro ao trocar de save");
                 }
-            } else {
+            } else{
                 Debug.WriteLine("Erro ao trocar de save");
             }
         }
@@ -52,6 +69,7 @@ namespace Checkpoint_Manager.ViewModels
                 if (App.MainViewModelInstance.SelectedGame != null) {
                     if (!App.MainViewModelInstance.SelectedGame.NewSave()) {
                         Debug.WriteLine("Erro ao criar save automático");
+                        throw new Exception("Erro ao criar novo Save");
                     } else {
                         FileManager.AttArquives(App.MainViewModelInstance.Games);
                     }
