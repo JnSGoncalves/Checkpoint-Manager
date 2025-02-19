@@ -61,6 +61,15 @@ namespace Checkpoint_Manager.ViewModels
         }
 
         private void AddSave() {
+            if (FileManager.IsFull) {
+                System.Windows.MessageBox.Show("Espaço de armazenamento máximo definido alcançado." +
+                    "\n\nCaso queira criar um novo Checkpoint, exclua um antigo ou modifique o espaço de " +
+                    "armazenamento máximo a ser usado.", "Aviso",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return;
+            }
+
             DialogResult result = System.Windows.Forms.MessageBox.Show("Deseja criar um Checkpoint personalizado?\n\n" +
                 "Caso não, será criado um Checkpoint automático gerado pelo sistema.", "Save personalizado",
                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
@@ -71,7 +80,9 @@ namespace Checkpoint_Manager.ViewModels
                         Debug.WriteLine("Erro ao criar save automático");
                         throw new Exception("Erro ao criar novo Save");
                     } else {
+                        // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                         FileManager.AttArquives(App.MainViewModelInstance.Games);
+                        App.MainViewModelInstance.DownBarVM.GetSpaces();
                     }
                 }
             }else if(result == DialogResult.Yes) {
@@ -95,7 +106,10 @@ namespace Checkpoint_Manager.ViewModels
                     System.Windows.MessageBox.Show("Este Checkpoint não foi encontrado na pasta de " +
                         "backup, ele será removido da lista", "Deletar Save", MessageBoxButton.OK, MessageBoxImage.Information);
                     selectedGame.Saves.Remove(save);
+
+                    // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                     FileManager.AttArquives(App.MainViewModelInstance.Games);
+                    App.MainViewModelInstance.DownBarVM.GetSpaces();
                     return;
                 }
 
@@ -103,7 +117,10 @@ namespace Checkpoint_Manager.ViewModels
                     if (FileManager.DeleteSave(selectedGame.Name ,save.Name)) {
                         selectedGame.Saves.Remove(save);
                         Debug.WriteLine($"Save {save.Name} do jogo {App.MainViewModelInstance.SelectedGame.Name} removido!");
+
+                        // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                         FileManager.AttArquives(App.MainViewModelInstance.Games);
+                        App.MainViewModelInstance.DownBarVM.GetSpaces();
                         return;
                     }
 

@@ -4,9 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
       mc:Ignorable="d" 
       d:DesignHeight="50" d:DesignWidth="800"
       Title="DownBar">
+
+    <Page.DataContext>
+        <Binding Source="{x:Static app:App.MainViewModelInstance}" />
+    </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
@@ -24,15 +29,29 @@
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
 
-            <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0" Grid.Column="0">
-                100% Used
-            </Label>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center">
+                <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0" Width="60" HorizontalContentAlignment="Right" 
+                       Content="{Binding DownBarVM.PercentSpace}">
+                </Label>
+                <Label Style="{StaticResource LabelStyle}" Margin="-9,0,0,0" HorizontalContentAlignment="Left">
+                    % Used
+                </Label>
+            </StackPanel>
 
-            <ProgressBar Width="Auto" Height="15" Grid.Column="1" Margin="20,0,20,0"></ProgressBar>
+            <ProgressBar Width="Auto" Height="15" Grid.Column="1" Margin="20,0,20,0" 
+                         Value="{Binding DownBarVM.PercentSpace}"/>
 
-            <Label Style="{StaticResource LabelStyle}" Margin="0,0,20,0" Grid.Column="2">
-                200 Kb / 200 Mb
-            </Label>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center">
+                <Label Style="{StaticResource LabelStyle}" Margin="0,0,0,0" 
+                       Content="{Binding DownBarVM.ActualSpace}">
+                </Label>
+                <Label Style="{StaticResource LabelStyle}" Margin="0,0,0,0">
+                    / 
+                </Label>
+                <Label Style="{StaticResource LabelStyle}" Margin="0,0,20,0"
+                       Content="{Binding DownBarVM.MaxSpace}">
+                </Label>
+            </StackPanel>
         </Grid>
     </Border>
 </Page>

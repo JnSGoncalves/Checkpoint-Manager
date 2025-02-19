@@ -14,6 +14,7 @@ namespace Checkpoint_Manager.Models {
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
             "Checkpoint Manager");
 
+        public static bool IsFull { get; set; }
 
         // Ao salvar nos arquivos ele mantém o status de isSelected do jogo selecionado anteriormente
         // Fazer a modificação depois,
@@ -67,7 +68,7 @@ namespace Checkpoint_Manager.Models {
             return new ObservableCollection<Game>();
         }
 
-        public static ConfigInfo StartConfigInfo() {
+        public static void StartConfigInfo() {
             if (!Path.Exists(ConfigPath)) {
                 Directory.CreateDirectory(ConfigPath);
             }
@@ -78,7 +79,7 @@ namespace Checkpoint_Manager.Models {
                     WriteIndented = true,
                 };
 
-                ConfigInfo config = JsonSerializer.Deserialize<ConfigInfo>(File.ReadAllText(configArchivePath));
+                ConfigInfo? config = JsonSerializer.Deserialize<ConfigInfo>(File.ReadAllText(configArchivePath));
 
                 if (config != null){
                     Config = (ConfigInfo)config;
@@ -93,8 +94,9 @@ namespace Checkpoint_Manager.Models {
 
                 Config = new ConfigInfo();
                 Config.IsAutoSave = false;
-                Config.AutoSaveTime = 60; // Definido em minutos
-                Config.MaxSaves = 0; // 0 = Ilimitado
+                Config.AutoSaveTime = 60;
+                Config.MaxSaves = 0;
+                Config.MaxSpace = 0;
                 Config.Culture = CultureInfo.GetCultureInfo("pt-BR");
 
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -110,8 +112,39 @@ namespace Checkpoint_Manager.Models {
 
                 Debug.WriteLine("Novo arquivo de configuração criado em Roaming");
             }
+        }
 
-            return Config;
+        // Retorna o espaço ocupado por todos os saves em Bytes
+        public static int GetUsedSpace() {
+            int usedSpace = 0;
+            DirectoryInfo savesDirectory = new DirectoryInfo(Config.SavesPath);
+            usedSpace += GetUsedSpace(savesDirectory);
+            
+            return usedSpace;
+        }
+        // Retorna o espaço ocupado por uma pasta em Bytes
+        private static int GetUsedSpace(DirectoryInfo directory) {
+            int usedSpace = 0;
+            if (!directory.Exists) {
+                return usedSpace;
+            }
+            usedSpace += (int)directory.EnumerateFiles().Sum(file => file.Length);
+            foreach (DirectoryInfo subDir in directory.GetDirectories()) {
+                usedSpace += GetUsedSpace(subDir);
+            }
+            
+            return usedSpace;
+        }
+
+        public static string BytesToString(double value) {
+            string[] convertions = { "B", "KB", "MB", "GB" };
+            //double convertedValue = value;
+            int count = 0;
+            do {
+                value /= 1024;
+                count++;
+            } while (value >= 1024 && count < 3);
+            return $"{value.ToString("0.##")} {convertions[count]}";
         }
 
         public static void SwapSave(Game selectedGame, string saveName) {
