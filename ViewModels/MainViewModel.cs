@@ -14,7 +14,8 @@ namespace Checkpoint_Manager.ViewModels {
         public TopMenuViewModel TopMenuVM { get; }
         public SavesPageViewModel SavesPageVM {  get; }
         public AddGamePageViewModel AddGamePageVM { get; }
-        
+        public DawnBarViewModel DownBarVM { get; }
+
         // Lista dos Jogos cadastrados
         private ObservableCollection<Game>? _games;
         public ObservableCollection<Game>? Games {
@@ -82,12 +83,15 @@ namespace Checkpoint_Manager.ViewModels {
             TopMenuVM = new TopMenuViewModel();
             SavesPageVM = new SavesPageViewModel();
             AddGamePageVM = new AddGamePageViewModel();
+            DownBarVM = new DawnBarViewModel();
         }
 
         public void StartApp() {
-            ConfigInfo Config = FileManager.StartConfigInfo();
+            FileManager.StartConfigInfo();
 
             Games = FileManager.FindGames();
+
+            DownBarVM.GetSpaces();
         }
 
         public void ResetOpenPages() {
