@@ -118,7 +118,7 @@ namespace Checkpoint_Manager.ViewModels {
                 switch (pageType.Trim()) {
                     case "Config" when values[1] is bool configOpen && configOpen:
                         Debug.WriteLine("Open Config ev");
-                        return new ConfigPage();
+                        return new ConfigPage() { DataContext = new ConfigViewModel() };
 
                     case "GameConfig" when values[3] is bool gameConfigOpen && gameConfigOpen
                                           && values[0] is Game selectedGame && selectedGame != null:

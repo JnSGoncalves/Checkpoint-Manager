@@ -41,7 +41,7 @@ namespace Checkpoint_Manager.ViewModels {
 
             ActualSpace = FileManager.BytesToString(bytesActualSpace);
 
-            int bytesMaxSpace = FileManager.Config.MaxSpace; // Na config é definido em MB
+            int bytesMaxSpace = FileManager.Config.MaxSpace.GetValueOrDefault(); // Na config é definido em MB
 
             double percent = 0;
 

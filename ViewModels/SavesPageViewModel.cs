@@ -82,7 +82,6 @@ namespace Checkpoint_Manager.ViewModels
                     } else {
                         // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                         FileManager.AttArquives(App.MainViewModelInstance.Games);
-                        App.MainViewModelInstance.DownBarVM.GetSpaces();
                     }
                 }
             }else if(result == DialogResult.Yes) {
@@ -109,7 +108,6 @@ namespace Checkpoint_Manager.ViewModels
 
                     // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                     FileManager.AttArquives(App.MainViewModelInstance.Games);
-                    App.MainViewModelInstance.DownBarVM.GetSpaces();
                     return;
                 }
 
@@ -120,7 +118,6 @@ namespace Checkpoint_Manager.ViewModels
 
                         // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                         FileManager.AttArquives(App.MainViewModelInstance.Games);
-                        App.MainViewModelInstance.DownBarVM.GetSpaces();
                         return;
                     }
 

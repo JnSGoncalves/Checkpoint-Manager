@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Checkpoint_Manager.Views {
     /// <summary>
@@ -20,6 +8,19 @@ namespace Checkpoint_Manager.Views {
     public partial class ConfigPage : Page {
         public ConfigPage() {
             InitializeComponent();
+            AutoBackupView();
+        }
+
+        private void AutoBackup_Click(object sender, RoutedEventArgs e) {
+            AutoBackupView();
+        }
+
+        private void AutoBackupView() {
+            if (AutoBackup.IsChecked == true) {
+                BackupConfigs.Visibility = Visibility.Visible;
+            } else {
+                BackupConfigs.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
