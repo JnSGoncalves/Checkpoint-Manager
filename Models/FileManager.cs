@@ -14,23 +14,16 @@ namespace Checkpoint_Manager.Models {
 
         public static bool IsFull { get; set; }
 
-        // Ao salvar nos arquivos ele mantém o status de isSelected do jogo selecionado anteriormente
-        // Fazer a modificação depois,
-
-        // A Parte comentada resolve esse problema sem mudar a lista da aplicação,
-        // mas não tenho certeza se funciona na conversão de volta na leitura do arquivo
         public static void AttArquives(ObservableCollection<Game> games) {
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
             string gamesArquivePath = Path.Combine(ConfigPath, "Games.json");
 
-            //List<Game> copiaGames = games.ToList<Game>();
-
+        
             foreach (Game game in games) {
                 game.IsSelected = false;
             }
 
             string jsonConfig = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
-            //string jsonGames = JsonSerializer.Serialize(copiaGames, new JsonSerializerOptions { WriteIndented = true });
             string jsonGames = JsonSerializer.Serialize(games, new JsonSerializerOptions { WriteIndented = true });
 
             File.WriteAllText(configArchivePath, jsonConfig);
@@ -49,6 +42,22 @@ namespace Checkpoint_Manager.Models {
             App.MainViewModelInstance.DownBarVM.GetSpaces();
 
             Debug.WriteLine("Atualização nas Configurações Feita");
+        }
+
+        public static void RenameSave(Save save, string newName) {
+            if (App.MainViewModelInstance.SelectedGame.Name is string gameName && gameName != null) {
+                string savePath = Path.Combine(Config.SavesPath, Path.Combine(gameName, save.Name));
+                string renameSavePath = Path.Combine(Config.SavesPath, Path.Combine(gameName, newName));
+
+                DirectoryInfo directory = new DirectoryInfo(savePath);
+                DirectoryInfo renamedDirectory = new DirectoryInfo(renameSavePath);
+
+                Copy(directory, renamedDirectory);
+
+                DeleteSave(gameName, savePath);
+
+                Debug.WriteLine("Save renomeado");
+            }
         }
 
         public static ObservableCollection<Game> FindGames() {
@@ -255,7 +264,7 @@ namespace Checkpoint_Manager.Models {
 
         private static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
             if (!destDir.Exists) {
-                Directory.CreateDirectory(sourceDir.FullName);
+                Directory.CreateDirectory(destDir.FullName);
             }
 
             foreach (FileInfo file in sourceDir.GetFiles()) {
