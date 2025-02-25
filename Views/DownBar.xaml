@@ -24,9 +24,9 @@
     <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource BorderColor}">
         <Grid Background="{StaticResource DownBarBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center">

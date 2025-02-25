@@ -91,13 +91,8 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" Background="#1F1E1E" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderColor}">
-                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Style="{StaticResource TitleLabelStyle}">
-                        Registred Saves:
-                    </Label>
-                    <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}">
-                    </Label>
-                </StackPanel>
+                <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" FontSize="27"
+                       HorizontalAlignment="Left" Margin="30,0,0,0" Content="{Binding Name}" VerticalAlignment="Center"/>
             </Border>
 
             <ScrollViewer Grid.Row="1">
@@ -125,10 +120,16 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                            <Label Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}"></Label>
+                                            <Label Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}" 
+                                                   Visibility="Visible" Tag="{Binding Id}" Loaded="Label_Loaded"></Label>
+                                            
+                                            <TextBox Style="{StaticResource TextBoxStyle}" Width="400" Margin="0,0,10,0" 
+                                                     Visibility="Collapsed" Tag="{Binding Id}" Loaded="TextBox_Loaded"
+                                                     Text="{Binding Name, Mode=TwoWay}"></TextBox>
+                                            
                                             <Button BorderThickness="0" x:Name="RenameSaveButton"
                                                         Width="22" Background="{StaticResource ListHoverButtonColor}"
-                                                        Height="22"
+                                                        Height="22" Click="Rename"
                                                         ToolTip="Rename Save" ToolTipService.InitialShowDelay="1000" 
                                                         Cursor="Hand" BorderBrush="Transparent">
                                                 <Button.Style>
@@ -146,7 +147,6 @@
                                                         </Setter>
                                                     </Style>
                                                 </Button.Style>
-
 
                                                 <Image Source="/Assets/pencil-line-thin.png"
                                                        Width="{Binding Width, ElementName=RenameSaveButton}"

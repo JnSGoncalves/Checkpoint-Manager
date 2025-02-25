@@ -4,13 +4,210 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
+      xmlns:app="clr-namespace:Checkpoint_Manager"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="500" d:DesignWidth="800"
       Title="ConfigPage">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource TopMenuBackgroud}"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="15"
+                                BorderThickness="1" BorderBrush="{StaticResource BorderColor}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MenuHoverButtonColor}" />
+                    </Trigger>
+
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ButtonPressedColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
-        <Label Foreground="White" FontSize="30">
-            Config
-        </Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="55"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Foreground="White" FontSize="30" Margin="20,10,0,0"
+               HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top"> 
+            Configurações
+        </TextBlock>
+
+        <Button Height="50" Width="50" Style="{StaticResource ButtonStyle}"
+            HorizontalAlignment="Right" VerticalAlignment="Top"
+            Margin="0,10,10,0" Command="{Binding ClosePageCommand}">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{StaticResource BorderColor}"
+                        CornerRadius="25"
+                        BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+
+            <Image Width="43" Height="43" Source="/Assets/x-circle.png"/>
+        </Button>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel>
+                    <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                                Foreground="White"
+                                HorizontalAlignment="Left"
+                                Margin="20,0,0,0">
+                        Padrão de data e hora designinado pelo país:
+                    </Label>
+
+
+                    <ComboBox x:Name="CountryListBox" Foreground="#FF121010" Margin="20,0,0,0"
+                              Width="90" HorizontalAlignment="Left"
+                              ItemsSource="{Binding CountryList}"
+                              SelectedItem="{Binding SelectedCountry, Mode=TwoWay}"
+                              Text="{Binding SelectedCountry, Mode=TwoWay}"/>
+                </StackPanel>
+
+                <StackPanel Margin="20,10,0,10">
+                    <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                            HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                        Espaço de armazenamento máximo para ser usado:
+                    </Label>
+
+                    <StackPanel Orientation="Horizontal">
+                        <xctk:IntegerUpDown Height="24" Width="90" Background="Transparent" Foreground="White"
+                            Minimum="0" Value="{Binding MaxSpace, Mode=TwoWay}" HorizontalAlignment="Left"/>
+
+                        <Label Style="{StaticResource LabelStyle}" Margin="0,0,0,0">
+                            MB
+                        </Label>
+                        <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0">
+                            0 = Ilimitado
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+                
+                <StackPanel>
+                    <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                            Foreground="White"
+                            HorizontalAlignment="Left"
+                            Margin="20,0,0,0">
+                        Caminho dos Checkpoints
+                    </Label>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Name="TxtGamePath" Style="{StaticResource TextBoxStyle}"
+                                Text="{Binding SavesPath, Mode=TwoWay}"
+                                Grid.Column="1" Margin="0,0,0,0"/>
+
+                        <Button Grid.Column="2" Height="26" Width="30" 
+                                Style="{StaticResource ButtonStyle}" Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="..."
+                                Command="{Binding SelectPathCommand}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderThickness="1" BorderBrush="{StaticResource BorderColor}">
+                                        <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox x:Name="AutoBackup" HorizontalAlignment="Left" FontSize="14" Click="AutoBackup_Click"
+                                IsChecked="{Binding IsAutoSave, Mode=TwoWay}" Height="20"
+                                Foreground="White" Margin="20,10,0,0" >
+                        Habilitar criação de backups automáticos
+                    </CheckBox>
+
+                    <StackPanel x:Name="BackupConfigs" Visibility="Visible">
+                        <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                                    HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                                    Margin="30,5,0,0">
+                            Criação de backups automáticos a cada:
+                        </Label>
+
+                        <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                            <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
+                                    Minimum="0" Maximum="23" Value="{Binding AutoSaveHour, Mode=TwoWay}" />
+                            <Label Style="{StaticResource LabelStyle}" Content="Horas" />
+
+                            <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
+                                    Minimum="0" Maximum="59" Value="{Binding AutoSaveMinute, Mode=TwoWay}" />
+                            <Label Style="{StaticResource LabelStyle}" Content="Minutos" Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                                    HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                                    Margin="30,10,0,0">
+                            Número máximo de saves automáticos criados:
+                        </Label>
+
+                        <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                            <xctk:IntegerUpDown Height="24" Width="70" Background="Transparent" Foreground="White"
+                                    Minimum="0" Maximum="59" Value="{Binding MaxSaves, Mode=TwoWay}" HorizontalAlignment="Left"/>
+
+                            <Label Style="{StaticResource LabelStyle}" Margin="10,0,0,0">
+                                0 = Ilimitado
+                            </Label>
+                        </StackPanel>
+
+                        <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0" HorizontalAlignment="Left">
+                            Caso o número máximo seja atingido, o Checkpoint automático mais antigo será apagado
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Left">
+            <Button Grid.Row="2" Height="30" Width="140" 
+                FontSize="15" Margin="20,10,10,10"
+                Style="{StaticResource ButtonStyle}" 
+                Command="{Binding SaveConfigCommand}"
+                VerticalAlignment="Center">
+                Salvar
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
