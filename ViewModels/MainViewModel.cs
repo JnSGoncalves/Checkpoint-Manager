@@ -117,20 +117,16 @@ namespace Checkpoint_Manager.ViewModels {
             foreach (var pageType in priority) {
                 switch (pageType.Trim()) {
                     case "Config" when values[1] is bool configOpen && configOpen:
-                        Debug.WriteLine("Open Config ev");
                         return new ConfigPage() { DataContext = new ConfigViewModel() };
 
                     case "GameConfig" when values[3] is bool gameConfigOpen && gameConfigOpen
                                           && values[0] is Game selectedGame && selectedGame != null:
-                        Debug.WriteLine("Open Game Config ev");
                         return new GameConfigPage { DataContext = selectedGame }; // Exige jogo selecionado;
 
                     case "Add" when values[2] is bool addOpen && addOpen:
-                        Debug.WriteLine("Open Add ev");
                         return new AddGamePage();
 
                     case "Game" when values[0] is Game game && game != null:
-                        Debug.WriteLine("Open Save ev");
                         return new SavesPage { DataContext = game };
                 }
             }

@@ -14,10 +14,16 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <vm:MultiPageConverter x:Key="PageConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Views/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <vm:MultiPageConverter x:Key="PageConverter"/>
+        </ResourceDictionary>
     </Window.Resources>
-    
-    <Grid Background="#242222">
+
+    <Grid Background="{StaticResource Backgroud}">
         <Grid.RowDefinitions>
             <!-- Top Menu -->
             <RowDefinition Height="50"/>

@@ -1,14 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows;
 
 namespace Checkpoint_Manager.Models {
     internal class FileManager {
         public static ConfigInfo Config { get; set; }
 
-        private readonly static string ConfigPath = Path.Combine(
+        public readonly static string ConfigPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
             "Checkpoint Manager");
 
@@ -246,6 +248,39 @@ namespace Checkpoint_Manager.Models {
                     throw new DirectoryNotFoundException(
                         "Diretório de origem não encontrado: " + saveDirectory);
                 }
+            }
+        }
+
+        public static bool AddFileToZip(string zipPath, string archivePath) {
+            try {
+                using (ZipArchive zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Update)) {
+                    string entryName = Path.GetFileName(archivePath);
+                    zipArchive.CreateEntryFromFile(archivePath, entryName, CompressionLevel.Fastest);
+                }
+
+                Debug.WriteLine($"Atualização do conteúdo da pasta compactado com sucesso em: {zipPath}");
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine($"Erro ao adicionar o arquivo no arquivo zip: {zipPath}");
+                File.Delete(zipPath);
+                return false;
+            }
+        }
+
+        public static bool CompactFolder(string zipPath, string folderToZip) {
+            try {
+                using (ZipArchive zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Create)) {
+                    foreach (string filePath in Directory.GetFiles(folderToZip, "*", SearchOption.AllDirectories)) {
+                        string entryName = Path.GetRelativePath(folderToZip, filePath);
+                        zipArchive.CreateEntryFromFile(filePath, entryName, CompressionLevel.Fastest);
+                    }
+                }
+                Debug.WriteLine($"Conteúdo da pasta compactado com sucesso em: {zipPath}");
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine($"Erro ao compactar o conteúdo da pasta: {folderToZip}");
+                File.Delete(zipPath);
+                return false;
             }
         }
 
