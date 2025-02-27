@@ -29,6 +29,8 @@ namespace Checkpoint_Manager.ViewModels {
             Debug.WriteLine($"Selected game: {App.MainViewModelInstance.SelectedGame.Name}");
         }
 
+        // To do
+        // Deletar a pasta dos arquivos do sistema, avisando que excluirá os saves ao fazer isso
         private void RemoveGame() { // Adicionar futuramente a remoção do jogo do arquivo de listagem dos jogos
             var SelectedGame = App.MainViewModelInstance.SelectedGame;
             var Games = App.MainViewModelInstance.Games;

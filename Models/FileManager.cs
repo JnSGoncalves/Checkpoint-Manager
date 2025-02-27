@@ -18,7 +18,7 @@ namespace Checkpoint_Manager.Models {
 
         public static void AttArquives(ObservableCollection<Game> games) {
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
-            string gamesArquivePath = Path.Combine(ConfigPath, "Games.json");
+            string gamesArquivePath = Path.Combine(Config.SavesPath, "Games.json");
 
         
             foreach (Game game in games) {
@@ -68,9 +68,11 @@ namespace Checkpoint_Manager.Models {
                 Directory.CreateDirectory(Config.SavesPath);
             }
 
-            string gamesArquive = Path.Combine(ConfigPath, "Games.json");
+            string gamesArquive = Path.Combine(Config.SavesPath, "Games.json");
             if (!File.Exists(gamesArquive)) {
                 File.Create(gamesArquive);
+
+                return new ObservableCollection<Game>();
             } else {
                 string jsonContent = File.ReadAllText(gamesArquive);
 
@@ -85,8 +87,6 @@ namespace Checkpoint_Manager.Models {
                     return new ObservableCollection<Game>();
                 }
             }
-
-            return new ObservableCollection<Game>();
         }
 
         public static void StartConfigInfo() {
@@ -248,22 +248,6 @@ namespace Checkpoint_Manager.Models {
                     throw new DirectoryNotFoundException(
                         "Diretório de origem não encontrado: " + saveDirectory);
                 }
-            }
-        }
-
-        public static bool AddFileToZip(string zipPath, string archivePath) {
-            try {
-                using (ZipArchive zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Update)) {
-                    string entryName = Path.GetFileName(archivePath);
-                    zipArchive.CreateEntryFromFile(archivePath, entryName, CompressionLevel.Fastest);
-                }
-
-                Debug.WriteLine($"Atualização do conteúdo da pasta compactado com sucesso em: {zipPath}");
-                return true;
-            } catch (Exception ex) {
-                Debug.WriteLine($"Erro ao adicionar o arquivo no arquivo zip: {zipPath}");
-                File.Delete(zipPath);
-                return false;
             }
         }
 

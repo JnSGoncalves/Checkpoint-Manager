@@ -40,15 +40,13 @@ namespace Checkpoint_Manager.ViewModels {
 
                 try {
                     await Task.Run(() => {
-#pragma warning disable CS8604
+                        #pragma warning disable CS8604
                         if (!FileManager.CompactFolder(path, savesPath)) {
-                            throw new Exception("Erro ao tentar exportar os Checkpoints");
-                        } else if (!FileManager.AddFileToZip(path, Path.Combine(FileManager.ConfigPath, "Games.json"))) {
                             throw new Exception("Erro ao tentar exportar os Checkpoints");
                         } else {
                             Debug.WriteLine("Exportado");
                         }
-#pragma warning restore CS8604
+                        #pragma warning restore CS8604
                     });
                 } catch (Exception ex) {
                     System.Windows.MessageBox.Show(ex.Message, "Erro",

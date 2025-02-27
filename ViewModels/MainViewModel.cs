@@ -87,6 +87,8 @@ namespace Checkpoint_Manager.ViewModels {
         }
 
         public void StartApp() {
+            SelectedGame = null;
+
             FileManager.StartConfigInfo();
 
             Games = FileManager.FindGames();
