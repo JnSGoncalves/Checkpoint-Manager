@@ -139,6 +139,7 @@ namespace Checkpoint_Manager.ViewModels
                 FileManager.Config.IsAutoSave = IsAutoSave;
 
                 FileManager.AttConfig();
+                App.MainViewModelInstance.StartApp();
             }
         }
 
