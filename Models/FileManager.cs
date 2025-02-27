@@ -251,22 +251,6 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
-        public static bool AddFileToZip(string zipPath, string archivePath) {
-            try {
-                using (ZipArchive zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Update)) {
-                    string entryName = Path.GetFileName(archivePath);
-                    zipArchive.CreateEntryFromFile(archivePath, entryName, CompressionLevel.Fastest);
-                }
-
-                Debug.WriteLine($"Atualização do conteúdo da pasta compactado com sucesso em: {zipPath}");
-                return true;
-            } catch (Exception ex) {
-                Debug.WriteLine($"Erro ao adicionar o arquivo no arquivo zip: {zipPath}");
-                File.Delete(zipPath);
-                return false;
-            }
-        }
-
         public static bool CompactFolder(string zipPath, string folderToZip) {
             try {
                 using (ZipArchive zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Create)) {
