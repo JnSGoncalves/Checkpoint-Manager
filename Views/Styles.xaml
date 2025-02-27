@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <SolidColorBrush x:Key="Backgroud" Color="#242222"/>
     <SolidColorBrush x:Key="TopMenuBackgroud" Color="#1a1919"/>
     <SolidColorBrush x:Key="DownBarBackground" Color="#1b1a1a"/>
     <SolidColorBrush x:Key="BorderColor" Color="#383636"/>
