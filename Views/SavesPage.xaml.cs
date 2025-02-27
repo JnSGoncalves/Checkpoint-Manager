@@ -80,8 +80,6 @@ namespace Checkpoint_Manager.Views {
                 string id = txtBox.Tag.ToString();
 
                 txtBox.Name = "txt" + id;
-
-                Debug.WriteLine(txtBox.Name);
             }
         }
 

@@ -129,7 +129,7 @@
                     <Image Source="/Assets/import.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 
-                <Button x:Name="export" Style="{StaticResource ButtonStyle}">
+                <Button x:Name="export" Style="{StaticResource ButtonStyle}" Command="{Binding TopMenuVM.ExportCommand}">
                     <Image Source="/Assets/export.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
             </StackPanel>

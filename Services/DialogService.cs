@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Checkpoint_Manager.ViewModels;
+using Checkpoint_Manager.Views;
 
 namespace Checkpoint_Manager.Services
 {
@@ -7,6 +9,15 @@ namespace Checkpoint_Manager.Services
             var window = new Window2Open();
             window.Owner = System.Windows.Application.Current.MainWindow;
             window.ShowDialog();
+        }
+
+        public static WaitWindow ShowWaitDialog(string msg) {
+            WaitWindow window = new WaitWindow();
+            window.Owner = System.Windows.Application.Current.MainWindow;
+            window.DataContext = new WaitWindowViewModel(msg);
+            window.Show();
+
+            return window;
         }
     }
 }
