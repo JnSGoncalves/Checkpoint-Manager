@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Windows;
 
 namespace Checkpoint_Manager.Models {
     internal class FileManager {
@@ -19,11 +18,6 @@ namespace Checkpoint_Manager.Models {
         public static void AttArquives(ObservableCollection<Game> games) {
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
             string gamesArquivePath = Path.Combine(Config.SavesPath, "Games.json");
-
-        
-            foreach (Game game in games) {
-                game.IsSelected = false;
-            }
 
             string jsonConfig = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
             string jsonGames = JsonSerializer.Serialize(games, new JsonSerializerOptions { WriteIndented = true });
@@ -73,19 +67,44 @@ namespace Checkpoint_Manager.Models {
                 File.Create(gamesArquive);
 
                 return new ObservableCollection<Game>();
-            } else {
-                string jsonContent = File.ReadAllText(gamesArquive);
+            }
 
-                if (string.IsNullOrWhiteSpace(jsonContent)) {
-                    return new ObservableCollection<Game>();
-                }
+            string jsonContent = File.ReadAllText(gamesArquive);
 
-                try {
-                    var games = JsonSerializer.Deserialize<ObservableCollection<Game>>(jsonContent);
-                    return games ?? new ObservableCollection<Game>();
-                } catch (JsonException) {
-                    return new ObservableCollection<Game>();
-                }
+            if (string.IsNullOrWhiteSpace(jsonContent)) {
+                return new ObservableCollection<Game>();
+            }
+
+            try {
+                var games = JsonSerializer.Deserialize<ObservableCollection<Game>>(jsonContent);
+                return games ?? new ObservableCollection<Game>();
+            } catch (JsonException) {
+                return new ObservableCollection<Game>();
+            }
+        }
+
+        public static List<Game>? FindGames(string folderPath) {
+            // Cria a pasta onde ficam os saves
+            if (!Directory.Exists(folderPath)) {
+                return null;
+            }
+
+            string gamesArquive = Path.Combine(folderPath, "Games.json");
+            if (!File.Exists(gamesArquive)) {
+                return null;
+            }
+
+            string jsonContent = File.ReadAllText(gamesArquive);
+
+            if (string.IsNullOrWhiteSpace(jsonContent)) {
+                return new List<Game>();
+            }
+            
+            try {
+                var games = JsonSerializer.Deserialize<List<Game>>(jsonContent);
+                return games ?? new List<Game>();
+            } catch (JsonException) {
+                return new List<Game>();
             }
         }
 
@@ -267,6 +286,31 @@ namespace Checkpoint_Manager.Models {
                 return false;
             }
         }
+        public static bool IsImportFile(string path) {
+            try {
+                using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Read)) {
+                    return zipArchive.GetEntry("Games.json") != null;
+                }
+            }catch (Exception ex) {
+                Debug.WriteLine("Erro ao tentar ler o arquivo .zip");
+                return false;
+            }
+        }
+
+        public static bool DescompactZip(string zipPath, string destinPath) {
+            try {
+                if (!Directory.Exists(destinPath)) {
+                    Directory.CreateDirectory(destinPath);
+                }
+
+                ZipFile.ExtractToDirectory(zipPath, destinPath);
+                Debug.WriteLine($"Arquivo descompactado com sucesso em: {destinPath}");
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine($"Erro ao descompactar o arquivo: {zipPath}");
+                return false;
+            }
+        }
 
         public static bool DeleteSave(string gameName, string saveName) {
             string pathFolder = Path.Combine(Config.SavesPath, Path.Combine(gameName, saveName));
@@ -281,7 +325,7 @@ namespace Checkpoint_Manager.Models {
             return true;
         }
 
-        private static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
+        public static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
             if (!destDir.Exists) {
                 Directory.CreateDirectory(destDir.FullName);
             }

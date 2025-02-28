@@ -112,7 +112,7 @@ namespace Checkpoint_Manager.ViewModels
                 }
 
                 if (result == MessageBoxResult.Yes) {
-                    if (FileManager.DeleteSave(selectedGame.Name ,save.Name)) {
+                    if (FileManager.DeleteSave(selectedGame.Name, save.Name)) {
                         selectedGame.Saves.Remove(save);
                         Debug.WriteLine($"Save {save.Name} do jogo {App.MainViewModelInstance.SelectedGame.Name} removido!");
 

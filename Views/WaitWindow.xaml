@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
-        ShowInTaskbar="False"
+        ShowInTaskbar="False" BorderBrush="DarkGray" BorderThickness="1"
         Topmost="True">
     <Window.Resources>
         <ResourceDictionary>
