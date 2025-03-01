@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace Checkpoint_Manager.Models {
     public class Game : INotifyPropertyChanged {
@@ -11,7 +12,9 @@ namespace Checkpoint_Manager.Models {
         public bool IsSingleFileSave { get; set; }
         public bool ConfigsIsDefault { get; set; }
 
+        [JsonIgnore]
         private bool _isSelected;
+        [JsonIgnore]
         public bool IsSelected {
             get => _isSelected;
             set {

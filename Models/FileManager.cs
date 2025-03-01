@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Windows;
 
 namespace Checkpoint_Manager.Models {
     internal class FileManager {
@@ -19,11 +18,6 @@ namespace Checkpoint_Manager.Models {
         public static void AttArquives(ObservableCollection<Game> games) {
             string configArchivePath = Path.Combine(ConfigPath, "Config.json");
             string gamesArquivePath = Path.Combine(Config.SavesPath, "Games.json");
-
-        
-            foreach (Game game in games) {
-                game.IsSelected = false;
-            }
 
             string jsonConfig = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
             string jsonGames = JsonSerializer.Serialize(games, new JsonSerializerOptions { WriteIndented = true });
@@ -62,6 +56,34 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
+        public static void RenameFolder(string path, string newName) {
+            DirectoryInfo directory = new DirectoryInfo(path);
+
+            if (directory.Parent == null) {
+                Debug.WriteLine("O diretório não possui um diretório pai.");
+                return;
+            }
+
+            string renamePath = Path.Combine(directory.Parent.FullName, newName);
+
+            DirectoryInfo renamedDirectory = new DirectoryInfo(renamePath);
+
+            Copy(directory, renamedDirectory);
+
+            directory.Delete(true);
+
+            Debug.WriteLine("Pasta renomeada");
+        }
+
+        public static bool DeleteFolder(string path) {
+            if (Directory.Exists(path)) {
+                Directory.Delete(path, true);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         public static ObservableCollection<Game> FindGames() {
             // Cria a pasta onde ficam os saves
             if (!Directory.Exists(Config.SavesPath)) {
@@ -73,19 +95,44 @@ namespace Checkpoint_Manager.Models {
                 File.Create(gamesArquive);
 
                 return new ObservableCollection<Game>();
-            } else {
-                string jsonContent = File.ReadAllText(gamesArquive);
+            }
 
-                if (string.IsNullOrWhiteSpace(jsonContent)) {
-                    return new ObservableCollection<Game>();
-                }
+            string jsonContent = File.ReadAllText(gamesArquive);
 
-                try {
-                    var games = JsonSerializer.Deserialize<ObservableCollection<Game>>(jsonContent);
-                    return games ?? new ObservableCollection<Game>();
-                } catch (JsonException) {
-                    return new ObservableCollection<Game>();
-                }
+            if (string.IsNullOrWhiteSpace(jsonContent)) {
+                return new ObservableCollection<Game>();
+            }
+
+            try {
+                var games = JsonSerializer.Deserialize<ObservableCollection<Game>>(jsonContent);
+                return games ?? new ObservableCollection<Game>();
+            } catch (JsonException) {
+                return new ObservableCollection<Game>();
+            }
+        }
+
+        public static List<Game>? FindGames(string folderPath) {
+            // Cria a pasta onde ficam os saves
+            if (!Directory.Exists(folderPath)) {
+                return null;
+            }
+
+            string gamesArquive = Path.Combine(folderPath, "Games.json");
+            if (!File.Exists(gamesArquive)) {
+                return null;
+            }
+
+            string jsonContent = File.ReadAllText(gamesArquive);
+
+            if (string.IsNullOrWhiteSpace(jsonContent)) {
+                return new List<Game>();
+            }
+            
+            try {
+                var games = JsonSerializer.Deserialize<List<Game>>(jsonContent);
+                return games ?? new List<Game>();
+            } catch (JsonException) {
+                return new List<Game>();
             }
         }
 
@@ -262,8 +309,33 @@ namespace Checkpoint_Manager.Models {
                 Debug.WriteLine($"Conteúdo da pasta compactado com sucesso em: {zipPath}");
                 return true;
             } catch (Exception ex) {
-                Debug.WriteLine($"Erro ao compactar o conteúdo da pasta: {folderToZip}");
+                Debug.WriteLine($"Erro ao compactar o conteúdo da pasta: {folderToZip}\n{ex.Message}");
                 File.Delete(zipPath);
+                return false;
+            }
+        }
+        public static bool IsImportFile(string path) {
+            try {
+                using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Read)) {
+                    return zipArchive.GetEntry("Games.json") != null;
+                }
+            }catch (Exception ex) {
+                Debug.WriteLine("Erro ao tentar ler o arquivo .zip");
+                return false;
+            }
+        }
+
+        public static bool DescompactZip(string zipPath, string destinPath) {
+            try {
+                if (!Directory.Exists(destinPath)) {
+                    Directory.CreateDirectory(destinPath);
+                }
+
+                ZipFile.ExtractToDirectory(zipPath, destinPath);
+                Debug.WriteLine($"Arquivo descompactado com sucesso em: {destinPath}");
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine($"Erro ao descompactar o arquivo: {zipPath}");
                 return false;
             }
         }
@@ -281,26 +353,33 @@ namespace Checkpoint_Manager.Models {
             return true;
         }
 
-        private static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
-            if (!destDir.Exists) {
-                Directory.CreateDirectory(destDir.FullName);
-            }
-
-            foreach (FileInfo file in sourceDir.GetFiles()) {
-                string tempPath = Path.Combine(destDir.FullName, file.Name);
-                file.CopyTo(tempPath, true);
-            }
-
-            if (copySubDirs) {
-                foreach (DirectoryInfo subdir in sourceDir.GetDirectories()) {
-                    DirectoryInfo tempPath = new DirectoryInfo(Path.Combine(destDir.FullName, subdir.Name));
-                    if (!tempPath.Exists) {
-                        Directory.CreateDirectory(tempPath.FullName);
-                    }
-
-                    // Chamada recursiva
-                    Copy(subdir, tempPath, copySubDirs);
+        public static bool Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
+            try{
+                if (!destDir.Exists) {
+                    Directory.CreateDirectory(destDir.FullName);
                 }
+
+                foreach (FileInfo file in sourceDir.GetFiles()) {
+                    string tempPath = Path.Combine(destDir.FullName, file.Name);
+                    file.CopyTo(tempPath, true);
+                }
+
+                if (copySubDirs) {
+                    foreach (DirectoryInfo subdir in sourceDir.GetDirectories()) {
+                        DirectoryInfo tempPath = new DirectoryInfo(Path.Combine(destDir.FullName, subdir.Name));
+                        if (!tempPath.Exists) {
+                            Directory.CreateDirectory(tempPath.FullName);
+                        }
+
+                        // Chamada recursiva
+                        Copy(subdir, tempPath, copySubDirs);
+                    }
+                }
+
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+                return false;
             }
         }
 

@@ -18,11 +18,13 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
-    <Grid Background="{StaticResource Backgroud}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Message}" Foreground="White" FontSize="16" Margin="10"/>
-            <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
-        </StackPanel>
-    </Grid>
+
+    <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1">
+        <Grid Background="{StaticResource Backgroud}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Message}" Foreground="White" FontSize="16" Margin="10"/>
+                <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>

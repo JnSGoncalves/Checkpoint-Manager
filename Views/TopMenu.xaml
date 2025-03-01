@@ -125,7 +125,7 @@
                     <Image Source="/Assets/gear-six.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 
-                <Button x:Name="import" Style="{StaticResource ButtonStyle}">
+                <Button x:Name="import" Style="{StaticResource ButtonStyle}" Command="{Binding TopMenuVM.ImportCommand}">
                     <Image Source="/Assets/import.png" Style="{StaticResource ImageStyle}"/>
                 </Button>
 

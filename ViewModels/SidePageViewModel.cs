@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using Checkpoint_Manager.Models;
 using CommunityToolkit.Mvvm.Input;
 
@@ -46,7 +46,10 @@ namespace Checkpoint_Manager.ViewModels {
                     Debug.WriteLine($"Jogo {SelectedGame.Name} de id: {SelectedGame.Id} foi excluido");
 
                     Games.Remove(SelectedGame);
+                    FileManager.DeleteFolder(Path.Combine(FileManager.Config.SavesPath, SelectedGame.Name));
+
                     App.MainViewModelInstance.SelectedGame = null;
+                    FileManager.AttArquives(App.MainViewModelInstance.Games);
                 }
             }
         }
