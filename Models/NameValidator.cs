@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Checkpoint_Manager.Models
 {
@@ -17,6 +18,16 @@ namespace Checkpoint_Manager.Models
 
             // Verifica apenas os caracteres proibidos
             return !ContainsInvalidChars(trimmedName);
+        }
+
+        public static int? ExtrairNumeroFinal(string texto) {
+            Match match = Regex.Match(texto, @"\((\d+)\)\s*$"); // Captura o último número entre () no final da string
+
+            if (match.Success) {
+                return int.Parse(match.Groups[1].Value);
+            }
+
+            return null; // Retorna null se não encontrar número no final
         }
 
         private static bool ContainsInvalidChars(string name) {

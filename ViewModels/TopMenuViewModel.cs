@@ -13,13 +13,13 @@ namespace Checkpoint_Manager.ViewModels {
         public IRelayCommand ExportCommand { get; }
         public IRelayCommand ImportCommand { get; }
 
-        public TopMenuViewModel() { 
+        public TopMenuViewModel() {
             OpenConfigCommand = new RelayCommand(OpenConfig);
             ExportCommand = new RelayCommand(async () => await ExportAsync());
             ImportCommand = new RelayCommand(async () => await ImportAsync());
         }
 
-        private void OpenConfig (){
+        private void OpenConfig() {
             if (App.MainViewModelInstance.ConfigIsOpen == true)
                 return;
             App.MainViewModelInstance.ResetOpenPages();
@@ -30,7 +30,7 @@ namespace Checkpoint_Manager.ViewModels {
         private async Task ExportAsync() {
             var dialog = new System.Windows.Forms.SaveFileDialog() {
                 Title = "Export",
-                InitialDirectory = "C:\\Users\\jnsil\\Documents\\Checkpoint Manager",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 FileName = $"Saves - {DateGetter.GetDateToName()}",
                 Filter = "Export file (*.zip)|*.zip",
                 FilterIndex = 1
@@ -44,13 +44,13 @@ namespace Checkpoint_Manager.ViewModels {
 
                 try {
                     await Task.Run(() => {
-                        #pragma warning disable CS8604
+#pragma warning disable CS8604
                         if (!FileManager.CompactFolder(path, savesPath)) {
                             throw new Exception("Erro ao tentar exportar os Checkpoints");
                         } else {
                             Debug.WriteLine("Exportado");
                         }
-                        #pragma warning restore CS8604
+#pragma warning restore CS8604
                     });
                 } catch (Exception ex) {
                     System.Windows.MessageBox.Show(ex.Message, "Erro",
@@ -64,7 +64,7 @@ namespace Checkpoint_Manager.ViewModels {
         private async Task ImportAsync() {
             var dialog = new System.Windows.Forms.OpenFileDialog() {
                 Title = "Import",
-                InitialDirectory = FileManager.Config.SavesPath,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 Filter = "Import file (*.zip)|*.zip",
                 FilterIndex = 1
             };
@@ -75,10 +75,11 @@ namespace Checkpoint_Manager.ViewModels {
 
                 var waitWindow = DialogService.ShowWaitDialog("Importando Checkpoints");
 
+                string tempFolder = Path.Combine(Path.GetTempPath(), "checkpoint_manager_temp");
+
                 if (FileManager.IsImportFile(path)) {
                     try {
                         await Task.Run(() => {
-                            string tempFolder = Path.Combine(Path.GetTempPath(), "checkpoint_manager_temp");
 
                             FileManager.DescompactZip(path, tempFolder);
 
@@ -91,7 +92,8 @@ namespace Checkpoint_Manager.ViewModels {
                             if (App.MainViewModelInstance.Games == null)
                                 throw new Exception("Erro");
 
-                            if(App.MainViewModelInstance.Games.Count == 0) {
+                            // Caso do import ser totalmente novo
+                            if (App.MainViewModelInstance.Games.Count == 0) {
                                 FileManager.Copy(new DirectoryInfo(tempFolder), new DirectoryInfo(savesPath));
                                 App.MainViewModelInstance.Games = new ObservableCollection<Game>(newGames);
 
@@ -101,17 +103,69 @@ namespace Checkpoint_Manager.ViewModels {
                                 return;
                             }
 
-                            List<Game> duplicated = new List<Game>();
+                            // Adiciona todos os jogos, modificando renomeando os que já estavam cadastrados
                             foreach (var item in newGames) {
-                                if (App.MainViewModelInstance.Games.Contains(item)) {
-                                    duplicated.Add(item);
+                                bool encontrouDuplicado;
+
+                                do {
+                                    encontrouDuplicado = false;
+
+                                    foreach (var actGame in App.MainViewModelInstance.Games) {
+                                        if (actGame.Id.Equals(item.Id)) {
+                                            encontrouDuplicado = true;
+                                            Debug.WriteLine("");
+
+                                            int n = 1;
+                                            int? oldN = null;
+                                            if (item.Name.EndsWith(")")) {
+                                                oldN = NameValidator.ExtrairNumeroFinal(item.Name);
+
+                                                if (oldN != null) {
+                                                    n = (int)(n + oldN);
+                                                }
+                                            }
+
+                                            string newName;
+                                            if (oldN != null)
+                                                #pragma warning disable CS8602
+                                                newName = string.Concat(item.Name.AsSpan(0, item.Name.Length - (oldN.ToString().Length + 2)), $"({n})");
+                                                #pragma warning restore CS8602
+                                            else if (item.Name.Length > (80 - (n.ToString().Length + 2)))
+                                                newName = string.Concat(item.Name.AsSpan(0, item.Name.Length - (n.ToString().Length + 2)), $"({n})");
+                                            else
+                                                newName = item.Name + $"({n})";
+
+                                            FileManager.RenameFolder(Path.Combine(tempFolder, item.Name), newName);
+
+                                            item.Name = newName;
+                                            item.Id = IdGetter.CreateId(newName);
+                                            break;
+                                        }
+                                    }
+                                } while (encontrouDuplicado);
+
+                                string newGamePath = Path.Combine(tempFolder, item.Name);
+                                if (!FileManager.Copy(
+                                    new DirectoryInfo(newGamePath),
+                                    new DirectoryInfo(Path.Combine(savesPath, item.Name))
+                                    )
+                                ) {
+                                    throw new Exception("Erro ao importar os arquivos");
                                 }
+                                ;
+
+                                App.Current.Dispatcher.Invoke(() => {
+                                    App.MainViewModelInstance.Games.Add(item);
+                                });
                             }
+
+                            FileManager.AttArquives(App.MainViewModelInstance.Games);
                         });
                     } catch (Exception ex) {
                         System.Windows.MessageBox.Show(ex.Message, "Erro",
                                 MessageBoxButton.OK, MessageBoxImage.Error);
                     } finally {
+                        Directory.Delete(tempFolder, true);
                         waitWindow.Close();
                     }
                 }

@@ -56,6 +56,34 @@ namespace Checkpoint_Manager.Models {
             }
         }
 
+        public static void RenameFolder(string path, string newName) {
+            DirectoryInfo directory = new DirectoryInfo(path);
+
+            if (directory.Parent == null) {
+                Debug.WriteLine("O diretório não possui um diretório pai.");
+                return;
+            }
+
+            string renamePath = Path.Combine(directory.Parent.FullName, newName);
+
+            DirectoryInfo renamedDirectory = new DirectoryInfo(renamePath);
+
+            Copy(directory, renamedDirectory);
+
+            directory.Delete(true);
+
+            Debug.WriteLine("Pasta renomeada");
+        }
+
+        public static bool DeleteFolder(string path) {
+            if (Directory.Exists(path)) {
+                Directory.Delete(path, true);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         public static ObservableCollection<Game> FindGames() {
             // Cria a pasta onde ficam os saves
             if (!Directory.Exists(Config.SavesPath)) {
@@ -281,7 +309,7 @@ namespace Checkpoint_Manager.Models {
                 Debug.WriteLine($"Conteúdo da pasta compactado com sucesso em: {zipPath}");
                 return true;
             } catch (Exception ex) {
-                Debug.WriteLine($"Erro ao compactar o conteúdo da pasta: {folderToZip}");
+                Debug.WriteLine($"Erro ao compactar o conteúdo da pasta: {folderToZip}\n{ex.Message}");
                 File.Delete(zipPath);
                 return false;
             }
@@ -325,26 +353,33 @@ namespace Checkpoint_Manager.Models {
             return true;
         }
 
-        public static void Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
-            if (!destDir.Exists) {
-                Directory.CreateDirectory(destDir.FullName);
-            }
-
-            foreach (FileInfo file in sourceDir.GetFiles()) {
-                string tempPath = Path.Combine(destDir.FullName, file.Name);
-                file.CopyTo(tempPath, true);
-            }
-
-            if (copySubDirs) {
-                foreach (DirectoryInfo subdir in sourceDir.GetDirectories()) {
-                    DirectoryInfo tempPath = new DirectoryInfo(Path.Combine(destDir.FullName, subdir.Name));
-                    if (!tempPath.Exists) {
-                        Directory.CreateDirectory(tempPath.FullName);
-                    }
-
-                    // Chamada recursiva
-                    Copy(subdir, tempPath, copySubDirs);
+        public static bool Copy(DirectoryInfo sourceDir, DirectoryInfo destDir, bool copySubDirs = true) {
+            try{
+                if (!destDir.Exists) {
+                    Directory.CreateDirectory(destDir.FullName);
                 }
+
+                foreach (FileInfo file in sourceDir.GetFiles()) {
+                    string tempPath = Path.Combine(destDir.FullName, file.Name);
+                    file.CopyTo(tempPath, true);
+                }
+
+                if (copySubDirs) {
+                    foreach (DirectoryInfo subdir in sourceDir.GetDirectories()) {
+                        DirectoryInfo tempPath = new DirectoryInfo(Path.Combine(destDir.FullName, subdir.Name));
+                        if (!tempPath.Exists) {
+                            Directory.CreateDirectory(tempPath.FullName);
+                        }
+
+                        // Chamada recursiva
+                        Copy(subdir, tempPath, copySubDirs);
+                    }
+                }
+
+                return true;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+                return false;
             }
         }
 
