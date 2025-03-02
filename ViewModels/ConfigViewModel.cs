@@ -53,6 +53,15 @@ namespace Checkpoint_Manager.ViewModels
             }
         }
 
+        private bool? _isStartup;
+        public bool? IsStartup {
+            get => _isStartup;
+            set {
+                _isStartup = value;
+                OnPropertyChanged(nameof(IsStartup));
+            }
+        }
+
         private bool? _isAutoSave;
         public bool? IsAutoSave {
             get => _isAutoSave;
@@ -102,6 +111,7 @@ namespace Checkpoint_Manager.ViewModels
             SelectedCountry = FileManager.Config.CultureCountry;
             SavesPath = FileManager.Config.SavesPath;
             IsAutoSave = FileManager.Config.IsAutoSave;
+            IsStartup = FileManager.Config.IsStartupEnable;
 
             GetHourMinute(FileManager.Config.AutoSaveTime, 
                 out int hour, out int min);
@@ -137,6 +147,7 @@ namespace Checkpoint_Manager.ViewModels
                 FileManager.Config.MaxSaves = MaxSaves;
                 FileManager.Config.SavesPath = SavesPath;
                 FileManager.Config.IsAutoSave = IsAutoSave;
+                FileManager.Config.IsStartupEnable = IsStartup;
 
                 FileManager.AttConfig();
                 App.MainViewModelInstance.StartApp();

@@ -153,6 +153,14 @@
                 </StackPanel>
 
                 <StackPanel>
+                    <CheckBox x:Name="Startup" HorizontalAlignment="Left" FontSize="14" Click="AutoBackup_Click"
+                            IsChecked="{Binding IsStartup, Mode=TwoWay}" Height="20"
+                            Foreground="White" Margin="20,10,0,0" >
+                        Iniciar com o Windows
+                    </CheckBox>
+                </StackPanel>
+                
+                <StackPanel>
                     <CheckBox x:Name="AutoBackup" HorizontalAlignment="Left" FontSize="14" Click="AutoBackup_Click"
                                 IsChecked="{Binding IsAutoSave, Mode=TwoWay}" Height="20"
                                 Foreground="White" Margin="20,10,0,0" >

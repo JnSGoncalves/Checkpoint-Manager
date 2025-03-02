@@ -2,9 +2,14 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Forms;
+using System.Windows.Input;
 using Checkpoint_Manager.Models;
+using Checkpoint_Manager.Services;
 using Checkpoint_Manager.Views;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Checkpoint_Manager.ViewModels {
      public class MainViewModel : INotifyPropertyChanged {
@@ -77,12 +82,35 @@ namespace Checkpoint_Manager.ViewModels {
             }
         }
 
+        public ICommand ShowWindowCommand { get; }
+        public ICommand ExitCommand { get; }
         public MainViewModel() {
             SidePageVM = new SidePageViewModel();
             TopMenuVM = new TopMenuViewModel();
             SavesPageVM = new SavesPageViewModel();
             AddGamePageVM = new AddGamePageViewModel();
             DownBarVM = new DawnBarViewModel();
+
+            ShowWindowCommand = new RelayCommand(ShowMainWindow);
+            ExitCommand = new RelayCommand(ExitApplication);
+
+            NotifyIconService.Instance.SetCommands(ShowWindowCommand, ExitCommand);
+        }
+
+        public void ShowMainWindow() {
+            App.Current.Dispatcher.Invoke(() => {
+                var mainWindow = App.Current.MainWindow;
+                if (mainWindow == null)
+                    return;
+                mainWindow.Show();
+                mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
+            });
+        }
+
+        public void ExitApplication() {
+            NotifyIconService.Instance.SetNotifyIconVisibility(false);
+            App.Current.Shutdown();
         }
 
         public void StartApp() {
@@ -93,6 +121,8 @@ namespace Checkpoint_Manager.ViewModels {
             Games = FileManager.FindGames();
 
             DownBarVM.GetSpaces();
+
+            NotifyIconService.Instance.Initialize();
         }
 
         public void ResetOpenPages() {

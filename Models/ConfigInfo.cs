@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.Json.Serialization;
 
 namespace Checkpoint_Manager.Models {
@@ -25,6 +23,8 @@ namespace Checkpoint_Manager.Models {
                 SetCulture();
             }
         }
+        [JsonIgnore]
+        public bool? IsStartupEnable { get; set; } = false;
         [JsonIgnore]
         private CultureInfo? _culture;
         private int? maxSpace;

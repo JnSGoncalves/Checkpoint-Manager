@@ -35,6 +35,9 @@ namespace Checkpoint_Manager.Models {
             string jsonConfig = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(configArchivePath, jsonConfig);
 
+            if (Config.IsStartupEnable.HasValue) {
+                StartupManager.SetStartup(Config.IsStartupEnable.Value);
+            }
             App.MainViewModelInstance.DownBarVM.GetSpaces();
 
             Debug.WriteLine("Atualização nas Configurações Feita");
@@ -152,6 +155,8 @@ namespace Checkpoint_Manager.Models {
                 if (config != null){
                     Config = (ConfigInfo)config;
                     Config.SetCulture();
+                    Config.IsStartupEnable = StartupManager.IsStartupEnabled();
+
                     Debug.WriteLine("Arquivo de configuração carregado");
                 } else {
                     Debug.WriteLine("Erro ao carregar as configurações!");
