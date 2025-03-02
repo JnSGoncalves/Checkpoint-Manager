@@ -156,7 +156,7 @@
                     <CheckBox x:Name="Startup" HorizontalAlignment="Left" FontSize="14" Click="AutoBackup_Click"
                             IsChecked="{Binding IsStartup, Mode=TwoWay}" Height="20"
                             Foreground="White" Margin="20,10,0,0" >
-                        Abrir programa ao iniciar
+                        Iniciar com o Windows
                     </CheckBox>
                 </StackPanel>
                 
