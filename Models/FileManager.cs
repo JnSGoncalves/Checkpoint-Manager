@@ -55,6 +55,8 @@ namespace Checkpoint_Manager.Models {
 
                 DeleteSave(gameName, savePath);
 
+                AttArquives(App.MainViewModelInstance.Games);
+
                 Debug.WriteLine("Save renomeado");
             }
         }
@@ -167,7 +169,6 @@ namespace Checkpoint_Manager.Models {
                 // partir das configurações padrão abaixo
 
                 Config = new ConfigInfo();
-                Config.IsAutoSave = false;
                 Config.AutoSaveTime = 60;
                 Config.MaxSaves = 0;
                 Config.MaxSpace = 0;

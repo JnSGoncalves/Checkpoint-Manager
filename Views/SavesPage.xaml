@@ -77,6 +77,50 @@
                 <Setter Property="Height" Value="30"/>
                 <Setter Property="Width" Value="30"/>
             </Style>
+
+            <!-- Botão de inicio do Autobackup -->
+            <Style x:Key="PlayPauseStyle" TargetType="ToggleButton">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="IsChecked" Value="True"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="20">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <!-- Alterando o conteúdo (imagem) quando o botão está desmarcado -->
+                    <Trigger Property="IsChecked" Value="False">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Image Source="/Assets/play-circle.png" Width="50" Height="50"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <!-- Alterando o conteúdo (imagem) quando o botão está marcado -->
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Image Source="/Assets/stop-circle.png" Width="50" Height="50"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
@@ -90,9 +134,50 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Background="#1F1E1E" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderColor}">
-                <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" FontSize="27"
-                       HorizontalAlignment="Left" Margin="30,0,0,0" Content="{Binding Name}" VerticalAlignment="Center"/>
+            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderColor}">
+                <Grid Grid.Row="0" Background="#1F1E1E">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label x:Name="GameName" Style="{StaticResource TitleLabelStyle}" FontSize="27"
+                           HorizontalAlignment="Left" Margin="30,0,0,0" Content="{Binding Name}" 
+                           VerticalAlignment="Center" Grid.Column="0"/>
+
+                    <Image x:Name="LoadingIcon" Width="30" Height="30" 
+                           Visibility="Visible" Margin="0,0,80,0"
+                           HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1"
+                           Source="/Assets/circle-notch.png">
+                        <Image.RenderTransform>
+                            <RotateTransform x:Name="RotateTransform" CenterX="15" CenterY="15"/>
+                        </Image.RenderTransform>
+                        <Image.Style>
+                            <Style TargetType="Image" >
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Visibility, RelativeSource={RelativeSource Self}}" Value="Visible">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <DoubleAnimation Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                                                    From="0" To="360"
+                                                    Duration="0:0:1"
+                                                    RepeatBehavior="Forever"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+
+                    <ToggleButton x:Name="PlayStopButton" Style="{StaticResource PlayPauseStyle}" Margin="30,0,10,0"
+                                  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1"
+                                  Height="50" Width="50" IsChecked="{Binding IsActualAutoBackup, Mode=TwoWay}"
+                                  Click="AutoBackupCommand"
+                                  ToolTip="Acionar/Desativar backups automáticos"/>
+                </Grid>
             </Border>
 
             <ScrollViewer Grid.Row="1">
@@ -122,11 +207,11 @@
                                         <StackPanel Orientation="Horizontal" Grid.Row="0">
                                             <Label Style="{StaticResource TitleLabelStyle}" Content="{Binding Name}" 
                                                    Visibility="Visible" Tag="{Binding Id}" Loaded="Label_Loaded"></Label>
-                                            
+
                                             <TextBox Style="{StaticResource TextBoxStyle}" Width="400" Margin="0,0,10,0" 
                                                      Visibility="Collapsed" Tag="{Binding Id}" Loaded="TextBox_Loaded"
                                                      Text="{Binding Name, Mode=TwoWay}"></TextBox>
-                                            
+
                                             <Button BorderThickness="0" x:Name="RenameSaveButton"
                                                         Width="22" Background="{StaticResource ListHoverButtonColor}"
                                                         Height="22" Click="Rename"
@@ -181,6 +266,7 @@
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
+        
         <Button x:Name="AddSaveButton" Height="30" Width="100"
                 Style="{StaticResource AddSaveButtonStyle}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"

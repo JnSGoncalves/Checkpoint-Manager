@@ -8,6 +8,34 @@ namespace Checkpoint_Manager.Views {
     public partial class SavesPage : Page {
         public SavesPage() {
             InitializeComponent();
+            this.DataContextChanged += OnDataContextChanged;
+        }
+
+        private void ActiveLoading() {
+            if (LoadingIcon != null)
+                LoadingIcon.Visibility = Visibility.Visible;
+        }
+
+        private void DisableLoading() {
+            if (LoadingIcon != null)
+                LoadingIcon.Visibility = Visibility.Hidden;
+        }
+
+        private void AutoBackupCommand(object sender, RoutedEventArgs e) {
+            if (DataContext is Game game) {
+                if (App.MainViewModelInstance.SelectedBackupGame != null &&
+                    App.MainViewModelInstance.SelectedBackupGame.Equals(game)) {
+                    DisableLoading();
+                    App.MainViewModelInstance.SavesPageVM.AutoBackup(game, false);
+                } else {
+                    if (App.MainViewModelInstance.SavesPageVM.AutoBackup(game, true)) {
+                        ActiveLoading();
+                    } else {
+                        DisableLoading();
+                        PlayStopButton.IsChecked = false;
+                    }
+                }
+            }
         }
 
         public void Rename(object sender, RoutedEventArgs e) {
@@ -24,7 +52,7 @@ namespace Checkpoint_Manager.Views {
                     if (parent is StackPanel stackPanel) {
                         string txtName = "txt" + save.Id;
                         string lblName = "lbl" + save.Id;
-                        
+
                         var txt = FindChild<System.Windows.Controls.TextBox>(stackPanel, txtName);
                         var lbl = FindChild<System.Windows.Controls.Label>(stackPanel, lblName);
 
@@ -88,6 +116,17 @@ namespace Checkpoint_Manager.Views {
                 string id = label.Tag.ToString();
 
                 label.Name = "lbl" + id;
+            }
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            if (DataContext is Game game) {
+                Debug.WriteLine("1");
+                if (App.MainViewModelInstance.SelectedBackupGame == null ||
+                    !App.MainViewModelInstance.SelectedBackupGame.Equals(game)) {
+                    Debug.WriteLine("2");
+                    DisableLoading();
+                }
             }
         }
     }

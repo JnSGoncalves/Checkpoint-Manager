@@ -4,7 +4,14 @@ using System.Text.Json.Serialization;
 namespace Checkpoint_Manager.Models {
     internal class ConfigInfo {
         public bool? IsAutoSave { get; set; }
-        public int? AutoSaveTime { get; set; } // Definido em minutos
+        private int? _autoSaveTime;
+        public int? AutoSaveTime { // Definido em minutos
+            get => _autoSaveTime; 
+            set {
+                _autoSaveTime = value;
+                App.MainViewModelInstance.ConfigureTimer(true);
+            } 
+        } 
         public int? MaxSaves { get; set; }  // 0 = Ilimitado - Máximo de saves automáticos
         public int? MaxSpace { get => maxSpace; 
             set {
@@ -28,6 +35,7 @@ namespace Checkpoint_Manager.Models {
         [JsonIgnore]
         private CultureInfo? _culture;
         private int? maxSpace;
+        private int? autoSaveTime;
 
         [JsonIgnore]
         public CultureInfo? Culture {

@@ -20,6 +20,7 @@
     <None Remove="Assets\app_icon.ico" />
     <None Remove="Assets\app_icon.png" />
     <None Remove="Assets\app_icon_image.png" />
+    <None Remove="Assets\circle-notch.png" />
     <None Remove="Assets\cloud-arrow-up.png" />
     <None Remove="Assets\cloud-check.png" />
     <None Remove="Assets\cloud-slash.png" />
@@ -29,6 +30,8 @@
     <None Remove="Assets\import.png" />
     <None Remove="Assets\list.png" />
     <None Remove="Assets\pencil-line-thin.png" />
+    <None Remove="Assets\play-circle.png" />
+    <None Remove="Assets\stop-circle.png" />
     <None Remove="Assets\swap.png" />
     <None Remove="Assets\textbox.png" />
     <None Remove="Assets\trash.png" />
@@ -51,6 +54,7 @@
     <Resource Include="Assets\app_icon.ico" />
     <Resource Include="Assets\app_icon.png" />
     <Resource Include="Assets\app_icon_image.png" />
+    <Resource Include="Assets\circle-notch.png" />
     <Resource Include="Assets\cloud-arrow-up.png" />
     <Resource Include="Assets\cloud-check.png" />
     <Resource Include="Assets\cloud-slash.png" />
@@ -60,6 +64,8 @@
     <Resource Include="Assets\import.png" />
     <Resource Include="Assets\list.png" />
     <Resource Include="Assets\pencil-line-thin.png" />
+    <Resource Include="Assets\play-circle.png" />
+    <Resource Include="Assets\stop-circle.png" />
     <Resource Include="Assets\swap.png" />
     <Resource Include="Assets\textbox.png" />
     <Resource Include="Assets\trash.png" />

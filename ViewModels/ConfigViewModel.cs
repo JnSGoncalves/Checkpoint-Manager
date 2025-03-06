@@ -62,15 +62,6 @@ namespace Checkpoint_Manager.ViewModels
             }
         }
 
-        private bool? _isAutoSave;
-        public bool? IsAutoSave {
-            get => _isAutoSave;
-            set {
-                _isAutoSave = value;
-                OnPropertyChanged(nameof(IsAutoSave));
-            }
-        }
-
         private int? _autoSaveMinute;
         public int? AutoSaveMinute {
             get => _autoSaveMinute;
@@ -110,7 +101,6 @@ namespace Checkpoint_Manager.ViewModels
             MaxSpace = FileManager.Config.MaxSpace;
             SelectedCountry = FileManager.Config.CultureCountry;
             SavesPath = FileManager.Config.SavesPath;
-            IsAutoSave = FileManager.Config.IsAutoSave;
             IsStartup = FileManager.Config.IsStartupEnable;
 
             GetHourMinute(FileManager.Config.AutoSaveTime, 
@@ -136,6 +126,15 @@ namespace Checkpoint_Manager.ViewModels
         }
 
         private void SaveConfig() {
+            if (AutoSaveHour == 0 && AutoSaveMinute < 5) {
+                System.Windows.MessageBox.Show(
+                "O tempo minimo para os backup automáticos é de 5 minutos" +
+                "\n\nCaso não utilize essa função, o tempo colocado não interferirá" +
+                " nas outras funcionalidades da aplicação", "Erro",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             MessageBoxResult result = System.Windows.MessageBox.Show(
                 "Deseja salvar as alterações na configuração?","Confirmar alterações", 
                 MessageBoxButton.YesNo, MessageBoxImage.None);
@@ -146,7 +145,6 @@ namespace Checkpoint_Manager.ViewModels
                 FileManager.Config.AutoSaveTime = GetTimeInMinute();
                 FileManager.Config.MaxSaves = MaxSaves;
                 FileManager.Config.SavesPath = SavesPath;
-                FileManager.Config.IsAutoSave = IsAutoSave;
                 FileManager.Config.IsStartupEnable = IsStartup;
 
                 FileManager.AttConfig();
