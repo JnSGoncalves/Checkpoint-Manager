@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkpoint_Manager.Models {
     public class Save : INotifyPropertyChanged {
@@ -13,13 +9,14 @@ namespace Checkpoint_Manager.Models {
         public string Name { 
             get => _name; 
             set{
-                if(_name != null) {
+                if(_name != null && !_name.Equals(value)) {
+                    Debug.WriteLine("Renomeado");
                     FileManager.RenameSave(this, value);
                 }
                 
                 _name = value;
 
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged();
             } 
         }
         private string _description;
@@ -33,13 +30,25 @@ namespace Checkpoint_Manager.Models {
             }
         }
         public string? Date { get; set; }
-        public Boolean? IsFavorite { get; set; }
+        public bool? IsFavorite { get; set; }
+        public bool IsAutoBackup { get; set; }
+
+        public Save() { }
 
         public Save(string id, string name, string description, string date) {
             this.Id = id;
             this.Name = name;
             this.Description = description;
             this.Date = date;
+            this.IsAutoBackup = false;
+        }
+
+        public Save(string id, string name, string description, string date, bool isAutoBackup) {
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.Date = date;
+            this.IsAutoBackup = isAutoBackup;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

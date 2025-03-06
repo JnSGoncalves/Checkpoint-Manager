@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Checkpoint_Manager.Services;
 using Checkpoint_Manager.ViewModels;
 
 namespace Checkpoint_Manager;
@@ -9,5 +10,6 @@ public partial class App : System.Windows.Application {
         base.OnStartup(e);
         // Inicializa os dados da ViewModel
         MainViewModelInstance.StartApp();
+        NotifyIconService.Instance.Initialize();
     }
 }

@@ -4,12 +4,14 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Forms;
+using System.Timers;
 using System.Windows.Input;
 using Checkpoint_Manager.Models;
 using Checkpoint_Manager.Services;
 using Checkpoint_Manager.Views;
 using CommunityToolkit.Mvvm.Input;
+using Timer = System.Timers.Timer;
+using System.Diagnostics;
 
 namespace Checkpoint_Manager.ViewModels {
      public class MainViewModel : INotifyPropertyChanged {
@@ -82,6 +84,30 @@ namespace Checkpoint_Manager.ViewModels {
             }
         }
 
+        // Gerenciamento dos backups automáticos
+        private readonly Timer _timer;
+        private Game? _selectedBackupGame;
+        public Game? SelectedBackupGame {
+            get => _selectedBackupGame;
+            set {
+                // Desseleciona o jogo anterior
+                if (_selectedBackupGame != null)
+                    _selectedBackupGame.IsActualAutoBackup = false;
+
+                _selectedBackupGame = value;
+
+                // Seleciona o novo jogo
+                if (_selectedBackupGame != null) {
+                    _selectedBackupGame.IsActualAutoBackup = true;
+                    OnPropertyChanged(nameof(SelectedGame.Saves));
+                }
+                
+                ConfigureTimer();
+            }
+        }
+
+
+        // Commands
         public ICommand ShowWindowCommand { get; }
         public ICommand ExitCommand { get; }
         public MainViewModel() {
@@ -95,6 +121,10 @@ namespace Checkpoint_Manager.ViewModels {
             ExitCommand = new RelayCommand(ExitApplication);
 
             NotifyIconService.Instance.SetCommands(ShowWindowCommand, ExitCommand);
+
+            _timer = new Timer();
+            _timer.Elapsed += OnTimerElapsed;
+            _timer.AutoReset = true;
         }
 
         public void ShowMainWindow() {
@@ -121,14 +151,72 @@ namespace Checkpoint_Manager.ViewModels {
             Games = FileManager.FindGames();
 
             DownBarVM.GetSpaces();
-
-            NotifyIconService.Instance.Initialize();
         }
 
         public void ResetOpenPages() {
             GameConfigIsOpen = false;
             AddPageIsOpen = false;
             ConfigIsOpen = false;
+        }
+
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e) {
+            if (SelectedBackupGame != null) {
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (SelectedBackupGame.ConfigsIsDefault) {
+                        if(SelectedBackupGame.AutoBackupQtd >= FileManager.Config.MaxSaves) {
+                            if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame));
+                                Debug.WriteLine("Último backup automático excluido");
+                        }
+                    } else {
+                        if (SelectedBackupGame.GameBackupConfigs != null &&
+                              SelectedBackupGame.AutoBackupQtd >= SelectedBackupGame.GameBackupConfigs.MaxSaves) {
+                            if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame))
+                                Debug.WriteLine("Último backup automático excluido");
+                        }
+                    }
+
+                    if (!SelectedBackupGame.NewSave(true)) {
+                        Debug.WriteLine("Erro ao criar um backup automático");
+                    } else {
+                        FileManager.AttArquives(App.MainViewModelInstance.Games);
+                        Debug.WriteLine($"Backup automático feito.");
+                    }
+                });
+            }
+        }
+
+        private void ConfigureTimer() {
+            if (SelectedBackupGame == null) {
+                _timer.Stop();
+            } else {
+                if (SelectedBackupGame.ConfigsIsDefault && FileManager.Config.AutoSaveTime != null &&
+                    FileManager.Config.AutoSaveTime != 0) {
+                    int time = (int)FileManager.Config.AutoSaveTime;
+                    _timer.Interval = TimeSpan.FromMinutes(time).TotalMilliseconds;
+                    _timer.Start();
+                } else if (SelectedBackupGame.GameBackupConfigs != null) {
+                    int time = (int)SelectedBackupGame.GameBackupConfigs.AutoSaveTime;
+                    _timer.Interval = TimeSpan.FromMinutes(time).TotalMilliseconds;
+                    _timer.Start();
+                }
+            }
+        }
+
+        // Atualização do tempo somente se o tempo das configurações for modificado e o jogo ainda é default
+        public void ConfigureTimer(bool attByConfig) {
+            if (SelectedBackupGame == null) {
+                _timer.Stop();
+            } else {
+                if (attByConfig) {
+                    if (SelectedBackupGame.ConfigsIsDefault && FileManager.Config.AutoSaveTime != null &&
+                        FileManager.Config.AutoSaveTime != 0) {
+                        int time = (int)FileManager.Config.AutoSaveTime;
+                        _timer.Interval = TimeSpan.FromMinutes(time).TotalMilliseconds;
+                        _timer.Start();
+                    }
+                }
+            }
         }
 
         // Declaração do Evento de modificação de propriedade
@@ -158,7 +246,7 @@ namespace Checkpoint_Manager.ViewModels {
                         return new AddGamePage();
 
                     case "Game" when values[0] is Game game && game != null:
-                        return new SavesPage { DataContext = game };
+                        return new SavesPage() { DataContext = game };
                 }
             }
 

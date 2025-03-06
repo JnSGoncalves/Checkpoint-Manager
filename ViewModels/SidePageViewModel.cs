@@ -27,6 +27,7 @@ namespace Checkpoint_Manager.ViewModels {
                 App.MainViewModelInstance.SelectedGame = game;
             }
             Debug.WriteLine($"Selected game: {App.MainViewModelInstance.SelectedGame.Name}");
+            Debug.WriteLine(App.MainViewModelInstance.SelectedGame.IsActualAutoBackup);
         }
 
         // To do

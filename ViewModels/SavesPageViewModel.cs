@@ -19,11 +19,42 @@ namespace Checkpoint_Manager.ViewModels
             SwapSaveCommand = new RelayCommand<Save>(SwapSave);
         }
 
+        public bool AutoBackup(Game game, bool enable) {
+            if (enable) {
+                MessageBoxResult result = System.Windows.MessageBox.Show($"Iniciar auto backup para o game: {game.Name}?" +
+                    "\n\nLembre-se que essa função não funcionará em todos os jogos. E só é utilizada em um jogo por vez" +
+                    "\nPara verificar essa funcionalidade:" +
+                    "\n1 - Crie, por segurança, um Checkpoint antes de abrir o jogo (Coloque um nome que possa ser identificado facilmente)" +
+                    "\n2 - Entre no save do jogo e faça alguma ação que possa ser identificada ao retornar aquele save" +
+                    "\n3 - Criar um novo Checkpoint enquanto o jogo e save ainda estão abertos" +
+                    "\n4 - Saia do save e volte ao menu do jogo" +
+                    "\n5 - Troque o save para o Checkpoint que foi criado por segurança no passo 1" +
+                    "\n6 - Troque o save para o Checkpoint que foi criado no passo 3" +
+                    "\n7 - Tente carregar o save do jogo e veja se a ação feita no passo 2 foi realizada" +
+                    "\nSe o save for corrompido ou a ação dentro do jogo ainda não foi realizada neste novo checkpoint, " +
+                    "o jogo possivelmente não é compativel com essa função do Checkpoint Manager." +
+                    "\nCaso não seja compativel, exclua o Checkpoint feito no passo 3 e retorne ao Checkpoint criado " +
+                    "no passo 1 para recuperar seu save.",
+                    "Ativar AutoBackup", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if(result == MessageBoxResult.Yes) {
+                    App.MainViewModelInstance.SelectedBackupGame = game;
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } else {
+                App.MainViewModelInstance.SelectedBackupGame = null;
+                return false;
+            }
+        }
+
         private void SwapSave(Save? save) {
             if (save != null && App.MainViewModelInstance.SelectedGame is Game selectedGame) {
                 MessageBoxResult result = System.Windows.MessageBox.Show("Deseja criar um novo Checkpoint para o " +
                     "save atual antes da troca para o Checkpoint \"" + save.Name + 
-                    "\"?\n\nLembre-se que essa função só deve ser usada quando o save atual não está em andamento.", 
+                    "\"?\n\nLembre-se que essa função não funciona em algum jogos quando o save ainda está em andamento.", 
                     "Retornar Checkpoint", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes) {
@@ -104,7 +135,7 @@ namespace Checkpoint_Manager.ViewModels
                 if (!Directory.Exists(saveFolder)) {
                     System.Windows.MessageBox.Show("Este Checkpoint não foi encontrado na pasta de " +
                         "backup, ele será removido da lista", "Deletar Save", MessageBoxButton.OK, MessageBoxImage.Information);
-                    selectedGame.Saves.Remove(save);
+                    selectedGame.DeleteSave(save);
 
                     // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
                     FileManager.AttArquives(App.MainViewModelInstance.Games);
@@ -113,7 +144,7 @@ namespace Checkpoint_Manager.ViewModels
 
                 if (result == MessageBoxResult.Yes) {
                     if (FileManager.DeleteSave(selectedGame.Name, save.Name)) {
-                        selectedGame.Saves.Remove(save);
+                        selectedGame.DeleteSave(save);
                         Debug.WriteLine($"Save {save.Name} do jogo {App.MainViewModelInstance.SelectedGame.Name} removido!");
 
                         // Chamada das funçoes p/ atualização dos arquivos e visualização do espaço utilizado
@@ -125,6 +156,24 @@ namespace Checkpoint_Manager.ViewModels
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        public bool DeleteLastAutoSave(Game game) {
+            Save save = game.GetLastAutoSave();
+
+            if (save != null) {
+                if (FileManager.DeleteSave(game.Name, save.Name)) {
+                    game.DeleteSave(save);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Rename(Game game, Save save) {
+            if (save.IsAutoBackup)
+                game.AutoBackupQtd -= 1;
         }
     }
 }

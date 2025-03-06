@@ -80,22 +80,26 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Orientation="Vertical">
                 <StackPanel>
+                    <Label Margin="20,5,0,0" Style="{StaticResource TitleLabelStyle}" HorizontalAlignment="Left">
+                        Geral
+                    </Label>
+                    
                     <Label Style="{StaticResource LabelStyle}" FontSize="14"
                                 Foreground="White"
                                 HorizontalAlignment="Left"
-                                Margin="20,0,0,0">
+                                Margin="30,0,0,0">
                         Padrão de data e hora designinado pelo país:
                     </Label>
 
 
-                    <ComboBox x:Name="CountryListBox" Foreground="#FF121010" Margin="20,0,0,0"
+                    <ComboBox x:Name="CountryListBox" Foreground="#FF121010" Margin="30,0,0,0"
                               Width="90" HorizontalAlignment="Left"
                               ItemsSource="{Binding CountryList}"
                               SelectedItem="{Binding SelectedCountry, Mode=TwoWay}"
                               Text="{Binding SelectedCountry, Mode=TwoWay}"/>
                 </StackPanel>
 
-                <StackPanel Margin="20,10,0,10">
+                <StackPanel Margin="30,10,0,10">
                     <Label Style="{StaticResource LabelStyle}" FontSize="14"
                             HorizontalAlignment="Left" HorizontalContentAlignment="Left">
                         Espaço de armazenamento máximo para ser usado:
@@ -108,7 +112,7 @@
                         <Label Style="{StaticResource LabelStyle}" Margin="0,0,0,0">
                             MB
                         </Label>
-                        <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0">
+                        <Label Style="{StaticResource LabelStyle}" Margin="10,0,0,0">
                             0 = Ilimitado
                         </Label>
                     </StackPanel>
@@ -118,7 +122,7 @@
                     <Label Style="{StaticResource LabelStyle}" FontSize="14"
                             Foreground="White"
                             HorizontalAlignment="Left"
-                            Margin="20,0,0,0">
+                            Margin="30,0,0,0">
                         Caminho dos Checkpoints
                     </Label>
 
@@ -131,10 +135,10 @@
 
                         <TextBox Name="TxtGamePath" Style="{StaticResource TextBoxStyle}"
                                 Text="{Binding SavesPath, Mode=TwoWay}"
-                                Grid.Column="1" Margin="0,0,0,0"/>
+                                Grid.Column="1" Margin="10,0,0,0"/>
 
                         <Button Grid.Column="2" Height="26" Width="30" 
-                                Style="{StaticResource ButtonStyle}" Margin="5,0,0,0"
+                                Style="{StaticResource ButtonStyle}" Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Content="..."
@@ -153,57 +157,58 @@
                 </StackPanel>
 
                 <StackPanel>
-                    <CheckBox x:Name="Startup" HorizontalAlignment="Left" FontSize="14" Click="AutoBackup_Click"
+                    <CheckBox x:Name="Startup" HorizontalAlignment="Left" FontSize="14"
                             IsChecked="{Binding IsStartup, Mode=TwoWay}" Height="20"
-                            Foreground="White" Margin="20,10,0,0" >
+                            Foreground="White" Margin="30,10,0,0" >
                         Iniciar com o Windows
                     </CheckBox>
                 </StackPanel>
-                
-                <StackPanel>
-                    <CheckBox x:Name="AutoBackup" HorizontalAlignment="Left" FontSize="14" Click="AutoBackup_Click"
-                                IsChecked="{Binding IsAutoSave, Mode=TwoWay}" Height="20"
-                                Foreground="White" Margin="20,10,0,0" >
-                        Habilitar criação de backups automáticos
-                    </CheckBox>
 
-                    <StackPanel x:Name="BackupConfigs" Visibility="Visible">
-                        <Label Style="{StaticResource LabelStyle}" FontSize="14"
-                                    HorizontalAlignment="Left" HorizontalContentAlignment="Left"
-                                    Margin="30,5,0,0">
-                            Criação de backups automáticos a cada:
+                <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource BorderColor}" Margin="0,15,0,0">
+                    <StackPanel>
+                        <Label Margin="20,5,0,0" Style="{StaticResource TitleLabelStyle}" HorizontalAlignment="Left"
+                               HorizontalContentAlignment="Left">
+                            Backups automáticos
                         </Label>
 
-                        <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                            <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
-                                    Minimum="0" Maximum="23" Value="{Binding AutoSaveHour, Mode=TwoWay}" />
-                            <Label Style="{StaticResource LabelStyle}" Content="Horas" />
+                        <StackPanel x:Name="BackupConfigs" Visibility="Visible">
+                            <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                                        HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                                        Margin="30,5,0,0">
+                                Criação de backups automáticos a cada:
+                            </Label>
 
-                            <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
-                                    Minimum="0" Maximum="59" Value="{Binding AutoSaveMinute, Mode=TwoWay}" />
-                            <Label Style="{StaticResource LabelStyle}" Content="Minutos" Margin="10,0,0,0"/>
-                        </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                                <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
+                                        Minimum="0" Maximum="23" Value="{Binding AutoSaveHour, Mode=TwoWay}" />
+                                <Label Style="{StaticResource LabelStyle}" Content="Horas" />
 
-                        <Label Style="{StaticResource LabelStyle}" FontSize="14"
-                                    HorizontalAlignment="Left" HorizontalContentAlignment="Left"
-                                    Margin="30,10,0,0">
-                            Número máximo de saves automáticos criados:
-                        </Label>
+                                <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
+                                        Minimum="0" Maximum="59" Value="{Binding AutoSaveMinute, Mode=TwoWay}" />
+                                <Label Style="{StaticResource LabelStyle}" Content="Minutos" Margin="10,0,0,0"/>
+                            </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                            <xctk:IntegerUpDown Height="24" Width="70" Background="Transparent" Foreground="White"
-                                    Minimum="0" Maximum="59" Value="{Binding MaxSaves, Mode=TwoWay}" HorizontalAlignment="Left"/>
+                            <Label Style="{StaticResource LabelStyle}" FontSize="14"
+                                        HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                                        Margin="30,10,0,0">
+                                Número máximo de saves automáticos criados:
+                            </Label>
 
-                            <Label Style="{StaticResource LabelStyle}" Margin="10,0,0,0">
-                                0 = Ilimitado
+                            <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                                <xctk:IntegerUpDown Height="24" Width="70" Background="Transparent" Foreground="White"
+                                        Minimum="0" Maximum="59" Value="{Binding MaxSaves, Mode=TwoWay}" HorizontalAlignment="Left"/>
+
+                                <Label Style="{StaticResource LabelStyle}" Margin="10,0,0,0">
+                                    0 = Ilimitado
+                                </Label>
+                            </StackPanel>
+
+                            <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0" HorizontalAlignment="Left">
+                                Caso o número máximo seja atingido, o Checkpoint automático mais antigo será apagado
                             </Label>
                         </StackPanel>
-
-                        <Label Style="{StaticResource LabelStyle}" Margin="20,0,0,0" HorizontalAlignment="Left">
-                            Caso o número máximo seja atingido, o Checkpoint automático mais antigo será apagado
-                        </Label>
                     </StackPanel>
-                </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
 
