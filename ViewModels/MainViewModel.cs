@@ -159,32 +159,99 @@ namespace Checkpoint_Manager.ViewModels {
             ConfigIsOpen = false;
         }
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e) {
-            if (SelectedBackupGame != null) {
-                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (SelectedBackupGame.ConfigsIsDefault) {
-                        if(SelectedBackupGame.AutoBackupQtd >= FileManager.Config.MaxSaves) {
-                            if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame));
-                                Debug.WriteLine("Último backup automático excluido");
-                        }
-                    } else {
-                        if (SelectedBackupGame.GameBackupConfigs != null &&
-                              SelectedBackupGame.AutoBackupQtd >= SelectedBackupGame.GameBackupConfigs.MaxSaves) {
-                            if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame))
-                                Debug.WriteLine("Último backup automático excluido");
-                        }
-                    }
+        //private void OnTimerElapsed(object sender, ElapsedEventArgs e) {
+        //    if (SelectedBackupGame != null) {
+        //        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+        //        {
+        //            try {
+        //                if (FileManager.IsFull) {
+        //                    if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame)) {
+        //                        Debug.WriteLine("Último backup automático excluido. " +
+        //                            "Limite de espaço ocupado atingido.");
+        //                    } else {
+        //                        throw new Exception("Erro ao tentar excluir o Checkpoint automático mais antigo. " +
+        //                            "Case: Limite de espaço ocupado atingido.");
+        //                    }
+        //                }else if (SelectedBackupGame.ConfigsIsDefault && FileManager.Config.MaxSaves != 0) {
+        //                    if (SelectedBackupGame.AutoBackupQtd >= FileManager.Config.MaxSaves) {
+        //                        if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame)) {
+        //                            Debug.WriteLine("Último backup automático excluido. " +
+        //                                "Limite geral de Checkpoints automáticos atingido.");
+        //                        } else {
+        //                            throw new Exception("Erro ao tentar excluir o Checkpoint automático mais antigo. " +
+        //                                "Case: Limite geral de Checkpoints automáticos atingido.");
+        //                        }
+        //                    }
+        //                } else if (SelectedBackupGame.GameBackupConfigs != null && SelectedBackupGame.GameBackupConfigs.MaxSaves != 0) {
+        //                    if (SelectedBackupGame.AutoBackupQtd >= SelectedBackupGame.GameBackupConfigs.MaxSaves) {
+        //                        if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame)) {
+        //                            Debug.WriteLine("Último backup automático excluido. " +
+        //                                "Limite espcífico de Checkpoints automáticos atingido.");
+        //                        } else {
+        //                            throw new Exception("Erro ao tentar excluir o Checkpoint automático mais antigo. " +
+        //                                "Case: Limite espcífico de Checkpoints automáticos atingido.");
+        //                        }
+        //                    }
+        //                }
+        //            }catch (Exception e) {
+        //                Debug.WriteLine(e.Message);
+        //            }
 
-                    if (!SelectedBackupGame.NewSave(true)) {
-                        Debug.WriteLine("Erro ao criar um backup automático");
-                    } else {
-                        FileManager.AttArquives(App.MainViewModelInstance.Games);
-                        Debug.WriteLine($"Backup automático feito.");
-                    }
-                });
+        //            if (!SelectedBackupGame.NewSave(true)) {
+        //                Debug.WriteLine("Erro ao criar um backup automático");
+        //            } else {
+        //                FileManager.AttArquives(App.MainViewModelInstance.Games);
+        //                Debug.WriteLine($"Backup automático feito.");
+        //            }
+        //        });
+        //    }
+        //}
+
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e) {
+            if (SelectedBackupGame == null)
+                return;
+
+            System.Windows.Application.Current.Dispatcher.Invoke(() => {
+                try {
+                    BackupDelete();
+                    CreateNewBackup();
+                } catch (Exception ex) {
+                    Debug.WriteLine(ex.Message);
+                }
+            });
+        }
+
+        private void BackupDelete() {
+            if (FileManager.IsFull) {
+                DeleteOldestAutoSave("Limite de espaço ocupado atingido.");
+            } else if (SelectedBackupGame.ConfigsIsDefault && FileManager.Config.MaxSaves != 0) {
+                if (SelectedBackupGame.AutoBackupQtd >= FileManager.Config.MaxSaves) {
+                    DeleteOldestAutoSave("Limite geral de Checkpoints automáticos atingido.");
+                }
+            } else if (SelectedBackupGame.GameBackupConfigs != null && SelectedBackupGame.GameBackupConfigs.MaxSaves != 0) {
+                if (SelectedBackupGame.AutoBackupQtd >= SelectedBackupGame.GameBackupConfigs.MaxSaves) {
+                    DeleteOldestAutoSave("Limite específico de Checkpoints automáticos atingido.");
+                }
             }
         }
+
+        private void DeleteOldestAutoSave(string message) {
+            if (SavesPageVM.DeleteLastAutoSave(SelectedBackupGame)) {
+                Debug.WriteLine($"Último backup automático excluído. {message}");
+            } else {
+                throw new Exception($"Erro ao tentar excluir o Checkpoint automático mais antigo. Case: {message}");
+            }
+        }
+
+        private void CreateNewBackup() {
+            if (SelectedBackupGame.NewSave(true)) {
+                FileManager.AttArquives(App.MainViewModelInstance.Games);
+                Debug.WriteLine("Backup automático feito.");
+            } else {
+                Debug.WriteLine("Erro ao criar um backup automático");
+            }
+        }
+
 
         private void ConfigureTimer() {
             if (SelectedBackupGame == null) {
