@@ -22,4 +22,20 @@ namespace Checkpoint_Manager.Models {
             return formattedDate;
         }
     }
+
+    internal class HourGetter {
+        public static void GetHourMinute(int? minutes, out int hours, out int mins) {
+            if (minutes == null) {
+                hours = 0;
+                mins = 0;
+            } else {
+                hours = (int)(minutes / 60);
+                mins = (int)(minutes % 60);
+            }
+        }
+
+        public static int GetTimeInMinute(int? hour, int? minutes) {
+            return (int)((hour.GetValueOrDefault() * 60) + minutes.GetValueOrDefault());
+        }
+    }
 }

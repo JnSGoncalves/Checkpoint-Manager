@@ -240,7 +240,7 @@ namespace Checkpoint_Manager.ViewModels {
 
                     case "GameConfig" when values[3] is bool gameConfigOpen && gameConfigOpen
                                           && values[0] is Game selectedGame && selectedGame != null:
-                        return new GameConfigPage { DataContext = selectedGame }; // Exige jogo selecionado;
+                        return new GameConfigPage { DataContext = new GameConfigViewModel(selectedGame) }; // Exige jogo selecionado;
 
                     case "Add" when values[2] is bool addOpen && addOpen:
                         return new AddGamePage();

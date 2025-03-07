@@ -103,26 +103,12 @@ namespace Checkpoint_Manager.ViewModels
             SavesPath = FileManager.Config.SavesPath;
             IsStartup = FileManager.Config.IsStartupEnable;
 
-            GetHourMinute(FileManager.Config.AutoSaveTime, 
+            HourGetter.GetHourMinute(FileManager.Config.AutoSaveTime, 
                 out int hour, out int min);
             AutoSaveHour = hour;
             AutoSaveMinute = min;
 
             MaxSaves = FileManager.Config.MaxSaves;
-        }
-
-        private void GetHourMinute(int? minutes, out int hours, out int mins) {
-            if(minutes == null) {
-                hours = 0;
-                mins = 0;
-            } else {
-                hours = (int)(minutes / 60);
-                mins = (int)(minutes % 60);
-            }
-        }
-
-        private int GetTimeInMinute() {
-            return (int)((AutoSaveHour.GetValueOrDefault() * 60) + AutoSaveMinute.GetValueOrDefault());
         }
 
         private void SaveConfig() {
@@ -142,7 +128,7 @@ namespace Checkpoint_Manager.ViewModels
             if (result == MessageBoxResult.Yes) {
                 FileManager.Config.CultureCountry = SelectedCountry;
                 FileManager.Config.MaxSpace = MaxSpace;
-                FileManager.Config.AutoSaveTime = GetTimeInMinute();
+                FileManager.Config.AutoSaveTime = HourGetter.GetTimeInMinute(AutoSaveHour, AutoSaveMinute);
                 FileManager.Config.MaxSaves = MaxSaves;
                 FileManager.Config.SavesPath = SavesPath;
                 FileManager.Config.IsStartupEnable = IsStartup;
