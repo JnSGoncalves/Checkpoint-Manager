@@ -12,11 +12,13 @@ namespace Checkpoint_Manager.ViewModels
         public RelayCommand<Save> DeleteSaveCommand { get; }
         public RelayCommand AddSaveCommand { get; }
         public RelayCommand<Save> SwapSaveCommand { get; }
+        public RelayCommand OpenGameConfigCommand { get; }
 
         public SavesPageViewModel() {
             DeleteSaveCommand = new RelayCommand<Save>(DelSave);
             AddSaveCommand = new RelayCommand(AddSave);
             SwapSaveCommand = new RelayCommand<Save>(SwapSave);
+            OpenGameConfigCommand = new RelayCommand(OpenGameConfig);
         }
 
         public bool AutoBackup(Game game, bool enable) {
@@ -158,6 +160,10 @@ namespace Checkpoint_Manager.ViewModels
             }
         }
 
+        private void OpenGameConfig() {
+            App.MainViewModelInstance.GameConfigIsOpen = true;
+        }
+
         public bool DeleteLastAutoSave(Game game) {
             Save save = game.GetLastAutoSave();
 
@@ -169,11 +175,6 @@ namespace Checkpoint_Manager.ViewModels
             }
 
             return false;
-        }
-
-        public void Rename(Game game, Save save) {
-            if (save.IsAutoBackup)
-                game.AutoBackupQtd -= 1;
         }
     }
 }

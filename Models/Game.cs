@@ -196,10 +196,10 @@ namespace Checkpoint_Manager.Models {
     }
 
     public class GameBackupConfigs { 
-        public double AutoSaveTime { get; set; }
+        public int AutoSaveTime { get; set; } // Em minutos
         public int MaxSaves { get; set; }
 
-        public GameBackupConfigs(double autoSaveTime, int maxSaves) {
+        public GameBackupConfigs(int autoSaveTime, int maxSaves) {
             AutoSaveTime = autoSaveTime;
             MaxSaves = maxSaves;
         }
