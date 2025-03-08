@@ -43,6 +43,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25103.5738" />
     <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+    <PackageReference Include="TAlex.WPF.Controls" Version="3.0.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -176,7 +176,6 @@ namespace Checkpoint_Manager.Models {
 
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 Config.SavesPath = Path.Combine(documentosPath, "Checkpoint Manager\\Saves");
-                Debug.WriteLine(Config.SavesPath);
 
                 var json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { 
                     WriteIndented = true,

@@ -121,10 +121,8 @@ namespace Checkpoint_Manager.Views {
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
             if (DataContext is Game game) {
-                Debug.WriteLine("1");
                 if (App.MainViewModelInstance.SelectedBackupGame == null ||
                     !App.MainViewModelInstance.SelectedBackupGame.Equals(game)) {
-                    Debug.WriteLine("2");
                     DisableLoading();
                 }
             }

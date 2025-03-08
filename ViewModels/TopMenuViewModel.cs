@@ -113,7 +113,6 @@ namespace Checkpoint_Manager.ViewModels {
                                     foreach (var actGame in App.MainViewModelInstance.Games) {
                                         if (actGame.Id.Equals(item.Id)) {
                                             encontrouDuplicado = true;
-                                            Debug.WriteLine("");
 
                                             int n = 1;
                                             int? oldN = null;

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Checkpoint_Manager.Views"
       xmlns:app="clr-namespace:Checkpoint_Manager"
-      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:ctrls="clr-namespace:TAlex.WPF.Controls;assembly=TAlex.WPF.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
       Title="ConfigPage">
@@ -106,8 +106,9 @@
                     </Label>
 
                     <StackPanel Orientation="Horizontal">
-                        <xctk:IntegerUpDown Height="24" Width="90" Background="Transparent" Foreground="White"
-                            Minimum="0" Value="{Binding MaxSpace, Mode=TwoWay}" HorizontalAlignment="Left"/>
+                        <ctrls:NumericUpDown Height="24" Width="90"
+                            Minimum="0" Maximum="2147483647" Value="{Binding MaxSpace, Mode=TwoWay}"
+                            HorizontalAlignment="Left"/>
 
                         <Label Style="{StaticResource LabelStyle}" Margin="0,0,0,0">
                             MB
@@ -179,12 +180,14 @@
                             </Label>
 
                             <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                                <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
-                                        Minimum="0" Maximum="23" Value="{Binding AutoSaveHour, Mode=TwoWay}" />
-                                <Label Style="{StaticResource LabelStyle}" Content="Horas" />
+                                <ctrls:NumericUpDown Height="24" Width="50" Minimum="0" Maximum="23"
+                                                     Value="{Binding AutoSaveHour, Mode=TwoWay}"/>
 
-                                <xctk:IntegerUpDown Height="24" Width="50" Background="Transparent" Foreground="White"
-                                        Minimum="0" Maximum="59" Value="{Binding AutoSaveMinute, Mode=TwoWay}" />
+                                <Label Style="{StaticResource LabelStyle}" Content="Horas e" />
+
+                                <ctrls:NumericUpDown Height="24" Width="50" Minimum="0" Maximum="59"
+                                        Value="{Binding AutoSaveMinute, Mode=TwoWay}"/>
+                                
                                 <Label Style="{StaticResource LabelStyle}" Content="Minutos" Margin="10,0,0,0"/>
                             </StackPanel>
 
@@ -195,9 +198,9 @@
                             </Label>
 
                             <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                                <xctk:IntegerUpDown Height="24" Width="70" Background="Transparent" Foreground="White"
-                                        Minimum="0" Maximum="59" Value="{Binding MaxSaves, Mode=TwoWay}" HorizontalAlignment="Left"/>
-
+                                <ctrls:NumericUpDown Height="24" Width="50" Minimum="0" Maximum="50"
+                                        Value="{Binding MaxSaves, Mode=TwoWay}" HorizontalAlignment="Left"/>
+                                
                                 <Label Style="{StaticResource LabelStyle}" Margin="10,0,0,0">
                                     0 = Ilimitado
                                 </Label>
