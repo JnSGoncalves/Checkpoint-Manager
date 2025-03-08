@@ -35,7 +35,6 @@ namespace Checkpoint_Manager.Models {
         [JsonIgnore]
         private CultureInfo? _culture;
         private int? maxSpace;
-        private int? autoSaveTime;
 
         [JsonIgnore]
         public CultureInfo? Culture {
