@@ -60,7 +60,7 @@ Para contribuir com o Checkpoint Manager, siga estas etapas:
 > Preferêncialmente utilize como IDE o Visual Studio 2022
 
 1. Bifurque este repositório.
-2. Instale os pacotes NuGet listados anteriormente
+2. Instale no projeto os pacotes NuGet listados anteriormente.
 3. Crie um branch: `git checkout -b <nome_branch>`.
 4. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
 5. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
